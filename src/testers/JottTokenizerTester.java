@@ -11,6 +11,8 @@ package testers;
  * @author Scott C Johnson (scj@cs.rit.edu)
  */
 
+import provided.*;
+
 import java.util.ArrayList;
 
 public class JottTokenizerTester {
