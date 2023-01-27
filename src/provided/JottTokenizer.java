@@ -12,37 +12,36 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class JottTokenizer {
-	// Receives a char and will return a TokenType based on Which type it falls under. We only do this
-	// If curr TokenType == Null
-	private TokenType getTokenType(char currChar) { return null;}
 
-	private void handleComment() { }
+	private static void handleComment() { }
 
-	private void addCommaToken() { }
+	private static int addCommaToken() { return 0; }
 
-	private void addLBracketToken() { }
+	private static int addLBracketToken() { return 0; }
 
-	private void addRBracketToken() { }
+	private static int addRBracketToken() { return 0; }
 
-	private void addLBraceToken() { }
+	private static int addLBraceToken() { return 0; }
 
-	private void addRBraceToken() { }
+	private static int addRBraceToken() { return 0; }
 
-	private void addSemiColonToken() { }
+	private static int addSemiColonToken() { return 0; }
 
-	private void addColonToken() { }
+	private static int addColonToken() { return 0; }
 
-	private void addMathOpToken() { }
+	private static int addMathOpToken() { return 0; }
 
-	private void handleAssignmentToken() { }
+	private static int handleAssignmentToken() { return 0; }
 
-	private void handleRelOpToken() {	}
+	private static int handleRelOpToken() { return 0;	}
 
-	private void handleNumberToken() { }
+	private static int handleDecimal() { return 0; }
 
-	private void handleIdKeywordToken() {	}
+	private static int handleNumberToken() { return 0; }
 
-	private void handleStringToken() {	}
+	private static int handleIdKeywordToken() { return 0; }
+
+	private static int handleStringToken() { return 0;	}
 
 	/**
      * Takes in a filename and tokenizes that file into Tokens
@@ -61,12 +60,51 @@ public class JottTokenizer {
 			}
 
 			ArrayList<Token> tokenList = new ArrayList<>();
-			String currToken = "";
-			TokenType currTokenType = null;
+			StringBuilder currToken = new StringBuilder();
 			String currLine;
 			while (inputScan.hasNextLine()) {
 				currLine = inputScan.nextLine();
-				// Loop through chars of line
+				char currChar;
+				for (int i=0; i<currLine.length();i++) {
+					currChar = currLine.charAt(i);
+
+					currToken.append(currChar);
+					if (currChar == '#') {
+						handleComment();
+					} else if (currChar == ',') {
+						i = addCommaToken();
+					} else if (currChar == ']') {
+						i = addRBracketToken();
+					} else if (currChar == '[') {
+						i = addLBracketToken();
+					} else if (currChar == '}') {
+						i = addRBraceToken();
+					} else if (currChar == '{') {
+						i = addLBraceToken();
+					} else if (currChar == '=') {
+						i = handleAssignmentToken();
+					} else if (currChar == '<' || currChar == '>') {
+						i = handleRelOpToken();
+					} else if (currChar == '/' || currChar == '+'
+					 				|| currChar == '-' ||currChar == '*') {
+						i = addMathOpToken();
+					} else if (currChar == ';') {
+						i = addSemiColonToken();
+					} else if (currChar == '.') {
+						i = handleDecimal();
+					} else if (currChar >= '0' && currChar <= '9') {
+						i = handleNumberToken();
+					} else if (Character.toLowerCase(currChar) >= 'a'
+							    && Character.toLowerCase(currChar) <= 'z') {
+					  i = handleIdKeywordToken();
+					} else if (currChar == ':') {
+						i = addColonToken();
+					} else if (currChar == '!') {
+						i = handleRelOpToken();
+					} else if (currChar == '"') {
+						i = handleStringToken();
+					}
+				}
 			}
 
 
