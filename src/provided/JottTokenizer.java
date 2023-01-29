@@ -3,7 +3,7 @@ package provided;
 /**
  * This class is responsible for tokenizing Jott code.
  * 
- * @author 
+ * @author Derek Garcia
  **/
 
 import java.io.File;
@@ -14,22 +14,6 @@ import java.util.Scanner;
 public class JottTokenizer {
 
 	private static void handleComment() { }
-
-	private static int addCommaToken() { return 0; }
-
-	private static int addLBracketToken() { return 0; }
-
-	private static int addRBracketToken() { return 0; }
-
-	private static int addLBraceToken() { return 0; }
-
-	private static int addRBraceToken() { return 0; }
-
-	private static int addSemiColonToken() { return 0; }
-
-	private static int addColonToken() { return 0; }
-
-	private static int addMathOpToken() { return 0; }
 
 	private static int handleAssignmentToken() { return 0; }
 
@@ -46,68 +30,79 @@ public class JottTokenizer {
 	/**
      * Takes in a filename and tokenizes that file into Tokens
      * based on the rules of the Jott Language
-     * @param filename the name of the file to tokenize; can be relative or absolute path
+     * @param fileName the name of the file to tokenize; can be relative or absolute path
      * @return an ArrayList of Jott Tokens
      */
-    public static ArrayList<Token> tokenize(String filename){
+    public static ArrayList<Token> tokenize(String fileName){
 
 		// Attempt to read file
 		Scanner inputScan;
 		try {
-			File inputFile = new File(filename);
+			File inputFile = new File(fileName);
 			inputScan = new Scanner(inputFile);
 		} catch (FileNotFoundException fileNotFoundException) {
-			System.err.println("File not found: " + filename);
+			System.err.println("File not found: " + fileName);
 			return null;
 		}
 
 		// init tokenization variables
 		ArrayList<Token> tokenList = new ArrayList<>();
-		StringBuilder currToken = new StringBuilder();
+		StringBuilder currTokenString = new StringBuilder();
+		int lineNum = 0;	// Needed for Token
 
 		// Parse file until EOF
-		String currLine;
 		while (inputScan.hasNextLine()) {
-			currLine = inputScan.nextLine();
+			String currLine = inputScan.nextLine();
+			lineNum++;
 
 			// Parse each character of the current line
 			for (int i = 0; i < currLine.length(); i++) {
 				char currChar = currLine.charAt(i);
-				currToken.append(currChar);		// todo Append immediately? ie a1 -> a1 token instead of a and 1
+				currTokenString.append(currChar);
 				if (currChar == '#') {
+					// break?
 					handleComment();
-				} else if (currChar == ',') {
-					i = addCommaToken();
-				} else if (currChar == ']') {
-					i = addRBracketToken();
-				} else if (currChar == '[') {
-					i = addLBracketToken();
-				} else if (currChar == '}') {
-					i = addRBraceToken();
-				} else if (currChar == '{') {
-					i = addLBraceToken();
-				} else if (currChar == '=') {
-					i = handleAssignmentToken();
+				}
+
+				// Check if simple token only if current token string is 1 character
+				if(currTokenString.length() == 1){
+					TokenType tokenType = switch (currChar) {
+						case ',' -> TokenType.COMMA;
+						case ']' -> TokenType.L_BRACKET;
+						case '[' -> TokenType.R_BRACKET;
+						case '}' -> TokenType.L_BRACE;
+						case '{' -> TokenType.R_BRACE;
+						case ';' -> TokenType.SEMICOLON;
+						case ':' -> TokenType.COLON;
+						// All math tokens are 'mathOp' tokens
+						case '/', '+', '-', '*' -> TokenType.MATH_OP;
+						default -> null;
+					};
+
+					// Add to token list if token was found
+					if(tokenType != null){
+						tokenList.add(new Token(currTokenString.toString(), fileName, lineNum, tokenType));
+						currTokenString = new StringBuilder();	// reset token string
+						continue;
+					}
+				}
+
+
+				if (currChar == '=') {
+//					i = handleAssignmentToken();
 				} else if (currChar == '<' || currChar == '>') {
-					i = handleRelOpToken();
-				} else if (currChar == '/' || currChar == '+'
-								|| currChar == '-' ||currChar == '*') {
-					i = addMathOpToken();
-				} else if (currChar == ';') {
-					i = addSemiColonToken();
+//					i = handleRelOpToken();
 				} else if (currChar == '.') {
-					i = handleDecimal();
+//					i = handleDecimal();
 				} else if (currChar >= '0' && currChar <= '9') {
-					i = handleNumberToken();
+//					i = handleNumberToken();
 				} else if (Character.toLowerCase(currChar) >= 'a'
 							&& Character.toLowerCase(currChar) <= 'z') {
-				  i = handleIdKeywordToken();
-				} else if (currChar == ':') {
-					i = addColonToken();
+//				  i = handleIdKeywordToken();
 				} else if (currChar == '!') {
-					i = handleRelOpToken();
+//					i = handleRelOpToken();
 				} else if (currChar == '"') {
-					i = handleStringToken();
+//					i = handleStringToken();
 				}
 			}
 		}
