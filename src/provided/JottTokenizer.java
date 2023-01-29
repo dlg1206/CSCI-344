@@ -50,65 +50,69 @@ public class JottTokenizer {
      * @return an ArrayList of Jott Tokens
      */
     public static ArrayList<Token> tokenize(String filename){
-			Scanner inputScan;
-			try {
-				File inputFile = new File(filename);
-				inputScan = new Scanner(inputFile);
-			} catch (FileNotFoundException fileNotFoundException) {
-				System.err.println(fileNotFoundException);
-				return null;
-			}
 
-			ArrayList<Token> tokenList = new ArrayList<>();
-			StringBuilder currToken = new StringBuilder();
-			String currLine;
-			while (inputScan.hasNextLine()) {
-				currLine = inputScan.nextLine();
-				char currChar;
-				for (int i=0; i<currLine.length();i++) {
-					currChar = currLine.charAt(i);
+		// Attempt to read file
+		Scanner inputScan;
+		try {
+			File inputFile = new File(filename);
+			inputScan = new Scanner(inputFile);
+		} catch (FileNotFoundException fileNotFoundException) {
+			System.err.println("File not found: " + filename);
+			return null;
+		}
 
-					currToken.append(currChar);
-					if (currChar == '#') {
-						handleComment();
-					} else if (currChar == ',') {
-						i = addCommaToken();
-					} else if (currChar == ']') {
-						i = addRBracketToken();
-					} else if (currChar == '[') {
-						i = addLBracketToken();
-					} else if (currChar == '}') {
-						i = addRBraceToken();
-					} else if (currChar == '{') {
-						i = addLBraceToken();
-					} else if (currChar == '=') {
-						i = handleAssignmentToken();
-					} else if (currChar == '<' || currChar == '>') {
-						i = handleRelOpToken();
-					} else if (currChar == '/' || currChar == '+'
-					 				|| currChar == '-' ||currChar == '*') {
-						i = addMathOpToken();
-					} else if (currChar == ';') {
-						i = addSemiColonToken();
-					} else if (currChar == '.') {
-						i = handleDecimal();
-					} else if (currChar >= '0' && currChar <= '9') {
-						i = handleNumberToken();
-					} else if (Character.toLowerCase(currChar) >= 'a'
-							    && Character.toLowerCase(currChar) <= 'z') {
-					  i = handleIdKeywordToken();
-					} else if (currChar == ':') {
-						i = addColonToken();
-					} else if (currChar == '!') {
-						i = handleRelOpToken();
-					} else if (currChar == '"') {
-						i = handleStringToken();
-					}
+		// init tokenization variables
+		ArrayList<Token> tokenList = new ArrayList<>();
+		StringBuilder currToken = new StringBuilder();
+
+		// Parse file until EOF
+		String currLine;
+		while (inputScan.hasNextLine()) {
+			currLine = inputScan.nextLine();
+
+			// Parse each character of the current line
+			for (int i = 0; i < currLine.length(); i++) {
+				char currChar = currLine.charAt(i);
+				currToken.append(currChar);		// todo Append immediately? ie a1 -> a1 token instead of a and 1
+				if (currChar == '#') {
+					handleComment();
+				} else if (currChar == ',') {
+					i = addCommaToken();
+				} else if (currChar == ']') {
+					i = addRBracketToken();
+				} else if (currChar == '[') {
+					i = addLBracketToken();
+				} else if (currChar == '}') {
+					i = addRBraceToken();
+				} else if (currChar == '{') {
+					i = addLBraceToken();
+				} else if (currChar == '=') {
+					i = handleAssignmentToken();
+				} else if (currChar == '<' || currChar == '>') {
+					i = handleRelOpToken();
+				} else if (currChar == '/' || currChar == '+'
+								|| currChar == '-' ||currChar == '*') {
+					i = addMathOpToken();
+				} else if (currChar == ';') {
+					i = addSemiColonToken();
+				} else if (currChar == '.') {
+					i = handleDecimal();
+				} else if (currChar >= '0' && currChar <= '9') {
+					i = handleNumberToken();
+				} else if (Character.toLowerCase(currChar) >= 'a'
+							&& Character.toLowerCase(currChar) <= 'z') {
+				  i = handleIdKeywordToken();
+				} else if (currChar == ':') {
+					i = addColonToken();
+				} else if (currChar == '!') {
+					i = handleRelOpToken();
+				} else if (currChar == '"') {
+					i = handleStringToken();
 				}
 			}
+		}
 
-
-
-			return null;
+		// return list of tokens found
+		return tokenList;
 	}
 }
