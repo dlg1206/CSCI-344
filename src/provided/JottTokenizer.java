@@ -1,3 +1,4 @@
+
 package provided;
 
 /**
@@ -110,4 +111,3 @@ public class JottTokenizer {
 		// return list of tokens found
 		return tokenList;
 	}
-}
