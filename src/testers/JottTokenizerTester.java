@@ -11,8 +11,6 @@ package testers;
  * @author Scott C Johnson (scj@cs.rit.edu)
  */
 
-import provided.*;
-
 import java.util.ArrayList;
 
 public class JottTokenizerTester {
@@ -113,11 +111,12 @@ public class JottTokenizerTester {
 
         ArrayList<Token> phase1ExampleTokens = new ArrayList<>();
         filename = "tokenizerTestCases/phase1Example.jott";
+        phase1ExampleTokens.add(new Token("def", filename, 2, TokenType.ID_KEYWORD));
         phase1ExampleTokens.add(new Token("main", filename, 2, TokenType.ID_KEYWORD));
         phase1ExampleTokens.add(new Token("[", filename, 2, TokenType.L_BRACKET));
         phase1ExampleTokens.add(new Token("]", filename, 2, TokenType.R_BRACKET));
         phase1ExampleTokens.add(new Token(":", filename, 2, TokenType.COLON));
-        phase1ExampleTokens.add(new Token("Integer", filename, 2, TokenType.ID_KEYWORD));
+        phase1ExampleTokens.add(new Token("Void", filename, 2, TokenType.ID_KEYWORD));
         phase1ExampleTokens.add(new Token("{", filename, 2, TokenType.L_BRACE));
         phase1ExampleTokens.add(new Token("print", filename, 3, TokenType.ID_KEYWORD));
         phase1ExampleTokens.add(new Token("[", filename, 3, TokenType.L_BRACKET));
