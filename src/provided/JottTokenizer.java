@@ -14,6 +14,27 @@ import java.util.Scanner;
 public class JottTokenizer {
 
 	/**
+	 * Test to see if character is a single character token
+	 *
+	 * @param c character to test
+	 * @return TokenType if found, null otherwise
+	 */
+	private static TokenType getSingleCharToken(char c){
+		return switch (c) {
+			case ',' ->  TokenType.COMMA;
+			case ']' ->  TokenType.L_BRACKET;
+			case '[' ->  TokenType.R_BRACKET;
+			case '}' ->  TokenType.L_BRACE;
+			case '{' ->  TokenType.R_BRACE;
+			case ';' ->  TokenType.SEMICOLON;
+			case ':' ->  TokenType.COLON;
+			// All math tokens are 'mathOp' tokens
+			case '/', '+', '-', '*' ->  TokenType.MATH_OP;
+			default -> null;
+		};
+	}
+
+	/**
 	 * Takes in a filename and tokenizes that file into Tokens
 	 * based on the rules of the Jott Language
 	 *
@@ -56,26 +77,21 @@ public class JottTokenizer {
 				// else start building token
 				tokenString.append(currChar);
 
-				// test if basic type
-				TokenType type = switch (currChar) {
-					case ',' ->  TokenType.COMMA;
-					case ']' ->  TokenType.L_BRACKET;
-					case '[' ->  TokenType.R_BRACKET;
-					case '}' ->  TokenType.L_BRACE;
-					case '{' ->  TokenType.R_BRACE;
-					case ';' ->  TokenType.SEMICOLON;
-					case ':' ->  TokenType.COLON;
-					// All math tokens are 'mathOp' tokens
-					case '/', '+', '-', '*' ->  TokenType.MATH_OP;
-					default -> null;
-				};
-
-				// If basic type, add to token list
-				if(type != null){
-					tokenList.add(new Token(tokenString.toString(), fileName, lineNum, type));
-					tokenString = new StringBuilder();	// reset token sting
-					continue;
+				// if single char, test if it's a token
+				if(tokenString.length() == 1){
+					TokenType type = getSingleCharToken(currChar);
+					// if it is a token, add to list and continue
+					if(type != null){
+						tokenList.add(new Token(tokenString.toString(), fileName, lineNum, type));
+						tokenString = new StringBuilder();	// reset token sting
+						continue;
+					}
 				}
+
+
+
+
+
 
 			}
 		}
