@@ -100,7 +100,22 @@ public class JottTokenizer {
 					continue;
 				}
 
+				// test for assign
+				// todo can probably merge into one if
+				if(currChar == '='){
+					// if at EOL and can't check next char
+					if(i == currLine.length() - 1){
+						tokenList.add(new Token(String.valueOf(currChar), fileName, lineNum, TokenType.ASSIGN));
+						continue;
+					}
 
+					// check next char isn't '='
+					if(currLine.charAt(i + 1) != '='){
+						tokenList.add(new Token(String.valueOf(currChar), fileName, lineNum, TokenType.ASSIGN));
+						continue;
+					}
+
+				}
 
 				// if digit or can lead to digit, get tokenString
 				if(Character.isDigit(currChar) || currChar == '.'){
