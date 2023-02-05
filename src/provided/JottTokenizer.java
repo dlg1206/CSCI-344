@@ -117,6 +117,24 @@ public class JottTokenizer {
 
 				}
 
+				// test for string
+				if(currChar == '"'){
+
+					try{
+						StringBuilder str = new StringBuilder("\"");
+						while (currLine.charAt(i++) != '"')
+							str.append(currLine.charAt(i));
+						str.append("\"");	// close string
+						tokenList.add(new Token(str.toString(), fileName, lineNum, TokenType.STRING));
+						continue;
+					} catch (IndexOutOfBoundsException e){
+						// string was never closed
+						return null;
+					}
+
+				}
+
+
 				// if digit or can lead to digit, get tokenString
 				if(Character.isDigit(currChar) || currChar == '.'){
 					int endIndex = getNumberTokenEndIndex(currLine, i);
