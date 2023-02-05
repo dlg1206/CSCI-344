@@ -134,7 +134,6 @@ public class JottTokenizer {
 
 				}
 
-
 				// if digit or can lead to digit, get tokenString
 				if(Character.isDigit(currChar) || currChar == '.'){
 					int endIndex = getNumberTokenEndIndex(currLine, i);
@@ -142,6 +141,7 @@ public class JottTokenizer {
 					if(endIndex == -1)
 						return null;
 					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.NUMBER));
+					i = endIndex;	// update new location
 					continue;
 				}
 
@@ -152,7 +152,18 @@ public class JottTokenizer {
 					if(endIndex == -1)
 						return null;
 					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.ID_KEYWORD));
+					i = endIndex;	// update new location
 					continue;
+				}
+
+				// if relop, get token string
+				if(currChar == '=' || currChar == '>' || currChar == '<' || currChar == '!'){
+					int endIndex = getRelOPEndIndex(currLine, i);
+					// -1 indicates error
+					if(endIndex == -1)
+						return null;
+					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.REL_OP));
+					i = endIndex;	// update new location
 				}
 
 			}
