@@ -14,46 +14,44 @@ import java.util.Scanner;
 
 public class JottTokenizer {
 
-	//line currently processing, allows you to look ahead because you can access the current line from token handling funcs
-	private static String currLine = "";
+	private static String globalFileName;
 
 
 	private static TokenType getTokenType(char currChar) {
 
 		TokenType type = switch (currChar) {
-			case ',' ->  TokenType.COMMA;
-			case ']' ->  TokenType.L_BRACKET;
-			case '[' ->  TokenType.R_BRACKET;
-			case '}' ->  TokenType.L_BRACE;
-			case '{' ->  TokenType.R_BRACE;
-			case ';' ->  TokenType.SEMICOLON;
-			case ':' ->  TokenType.COLON;
+			case ',' -> TokenType.COMMA;
+			case ']' -> TokenType.L_BRACKET;
+			case '[' -> TokenType.R_BRACKET;
+			case '}' -> TokenType.L_BRACE;
+			case '{' -> TokenType.R_BRACE;
+			case ';' -> TokenType.SEMICOLON;
+			case ':' -> TokenType.COLON;
 			// All math tokens are 'mathOp' tokens
-			case '/', '+', '-', '*' ->  TokenType.MATH_OP;
+			case '/', '+', '-', '*' -> TokenType.MATH_OP;
 			default -> null;
 		};
-
 		if (type == null) {
 			if (currChar == '=') {
-				return TokenType.ASSIGN;
+				type = TokenType.ASSIGN;
 			} else if (currChar == '<' || currChar == '>') {
-				return TokenType.REL_OP;
+				type = TokenType.REL_OP;
 			} else if (currChar == '.') {
-				return TokenType.NUMBER;
+				type = TokenType.NUMBER;
 			} else if (currChar >= '0' && currChar <= '9') {
-				return TokenType.NUMBER;
+				type = TokenType.NUMBER;
 			} else if (Character.toLowerCase(currChar) >= 'a'
 					&& Character.toLowerCase(currChar) <= 'z') {
-				return TokenType.ID_KEYWORD;
+				type = TokenType.ID_KEYWORD;
 			} else if (currChar == '!') {
-				return TokenType.REL_OP;
+				type = TokenType.REL_OP;
 			} else if (currChar == '"') {
-				return TokenType.STRING;
+				type = TokenType.STRING;
 			} else {
 				// throw error
 			}
 		}
-		return null; //shouldn't get here
+		return type; //shouldn't get here
 	}
 
 	//TOKEN HANDLER FUNCTIONS
@@ -78,12 +76,31 @@ public class JottTokenizer {
 		return 0;
 	}
 
-	private static int handleIdKeywordToken() {
-		return 0;
+	private static boolean isLetterOrDigit(char c) {
+		return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) >= 'z'
+				|| (c >= '0' && c <= '9'));
+	}
+
+
+	private static int handleIdKeywordToken(int i, char[] currLine,
+																					ArrayList<Token> tokenList, int lineNum) {
+		StringBuilder currLexeme = new StringBuilder();
+		char currChar = currLine[i];
+		while (isLetterOrDigit(currChar)) {
+			currLexeme.append(currChar);
+			i++;
+			currChar = currLine[i];
+		}
+		tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ID_KEYWORD));
+		return i;
 	}
 
 	private static int handleStringToken() {
 		return 0;
+	}
+
+	private static void handleMathOp(char symbol, ArrayList<Token> tokenList, int lineNum) {
+		tokenList.add(new Token(Character.toString(symbol), globalFileName, lineNum, TokenType.MATH_OP));
 	}
 
 	/**
@@ -96,6 +113,7 @@ public class JottTokenizer {
 	public static ArrayList<Token> tokenize(String fileName) {
 
 		// Attempt to read file
+		globalFileName = fileName;
 		Scanner inputScan;
 		try {
 			File inputFile = new File(fileName);
@@ -112,7 +130,8 @@ public class JottTokenizer {
 
 		// Parse file until EOF
 		while (inputScan.hasNextLine()) {
-			currLine = inputScan.nextLine();
+			//line currently processing, allows you to look ahead because you can access the current line from token handling funcs
+			String currLine = inputScan.nextLine();
 			lineNum++;
 
 			// Parse each character of the current line
@@ -129,11 +148,12 @@ public class JottTokenizer {
 				//call your token handling function in here
 				switch (tokenType) {
 					// Call method based on type	
+					case MATH_OP -> handleMathOp(currChar, tokenList, lineNum);
+					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
 
 				}
 			}
 		}
-
 		// return list of tokens found
 		return tokenList;
 	}
