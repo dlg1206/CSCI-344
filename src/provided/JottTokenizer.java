@@ -1,55 +1,144 @@
+
 package provided;
+
+/**
+ * This class is responsible for tokenizing Jott code.
+ * 
+ * @author Derek Garcia
+ **/
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/**
- * This class is responsible for tokenizing Jott code.
- *
- * @author Derek Garcia
- **/
-
 public class JottTokenizer {
 
-	/**
-	 * Test to see if character is a single character token
-	 *
-	 * @param c character to test
-	 * @return TokenType if found, null otherwise
-	 */
-	private static TokenType getSingleCharToken(char c){
-		return switch (c) {
-			case ',' ->  TokenType.COMMA;
-			case ']' ->  TokenType.L_BRACKET;
-			case '[' ->  TokenType.R_BRACKET;
-			case '}' ->  TokenType.L_BRACE;
-			case '{' ->  TokenType.R_BRACE;
-			case ';' ->  TokenType.SEMICOLON;
-			case ':' ->  TokenType.COLON;
+	private static String globalFileName;
+
+
+	private static TokenType getTokenType(char currChar) {
+
+		TokenType type = switch (currChar) {
+			case ',' -> TokenType.COMMA;
+			case ']' -> TokenType.L_BRACKET;
+			case '[' -> TokenType.R_BRACKET;
+			case '}' -> TokenType.L_BRACE;
+			case '{' -> TokenType.R_BRACE;
+			case ';' -> TokenType.SEMICOLON;
+			case ':' -> TokenType.COLON;
 			// All math tokens are 'mathOp' tokens
-			case '/', '+', '-', '*' ->  TokenType.MATH_OP;
+			case '/', '+', '-', '*' -> TokenType.MATH_OP;
 			default -> null;
 		};
+		if (type == null) {
+			if (currChar == '=') {
+				type = TokenType.ASSIGN;
+			} else if (currChar == '<' || currChar == '>') {
+				type = TokenType.REL_OP;
+			} else if (currChar == '.') {
+				type = TokenType.NUMBER;
+			} else if (currChar >= '0' && currChar <= '9') {
+				type = TokenType.NUMBER;
+			} else if (Character.toLowerCase(currChar) >= 'a'
+					&& Character.toLowerCase(currChar) <= 'z') {
+				type = TokenType.ID_KEYWORD;
+			} else if (currChar == '!') {
+				type = TokenType.REL_OP;
+			} else if (currChar == '"') {
+				type = TokenType.STRING;
+			} else {
+				// throw error
+			}
+		}
+		return type; //shouldn't get here
+	}
+
+	//TOKEN HANDLER FUNCTIONS
+	//each function should return an int of how many characters it looked ahead
+	//gl lad
+
+	private static void handleSingleCharToken(String symbol, int lineNum,
+																					 ArrayList<Token> tokenList, TokenType type) {
+		tokenList.add(new Token(symbol, globalFileName, lineNum, type));
 	}
 
 	// line: current line, i: current index. Return -1 to indicate err
-	private static int getNumberTokenEndIndex(String line, int i){
+	private static int getNumberTokenEndIndex(int i, char[] currLine){
 		// todo follow number DFA to find the index where the number token ends
 		return i;
 	}
 
 	// line: current line, i: current index. Return -1 to indicate err
-	private static int getIDKeywordTokenEndIndex(String line, int i){
-		// todo follow number DFA to find the index where the IDKeyword token ends
+	private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		int currChar = currLine[i];
+		StringBuilder currLexeme = new StringBuilder();
+//		todo Inc i and check the next char to find out what type/symbol the rel op will be
+		// if relop, get token string
+//		if(currChar == '=' || currChar == '>' || currChar == '<' || currChar == '!'){
+//			int endIndex = getRelOPEndIndex(currLine, i);
+//			// -1 indicates error
+//			if(endIndex == -1)
+//				return null;
+//			tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.REL_OP));
+//			i = endIndex;	// update new location
+//		}
+		return i;
+	}
+// May not need depending on if
+	private static int handleDecimal() {
+		return 0;
+	}
+
+	private static int handleNumberToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		char currChar = currLine[i];
+		// if digit or can lead to digit, get tokenString
+		// todo: Inc i and check the next char to find out what the full num is. When you get to
+		// todo: the end of the number then you can add the token
+//		if(Character.isDigit(currChar) || currChar == '.'){
+//			int endIndex = getNumberTokenEndIndex(currLine, i);
+//			// -1 indicates error
+//			if(endIndex == -1)
+//				return null;
+//			tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.NUMBER));
+//			i = endIndex;	// update new location
+//			continue;
+//		}
 		return i;
 	}
 
-	// line: current line, i: current index. Return -1 to indicate err
-	private static int getRelOPEndIndex(String line, int i){
-		// todo follow number DFA to find the index where the RelOP token ends
+	private static boolean isLetterOrDigit(char c) {
+		return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) >= 'z'
+				|| (c >= '0' && c <= '9'));
+	}
+
+	private static int handleIdKeywordToken(int i, char[] currLine,
+																					ArrayList<Token> tokenList, int lineNum) {
+		StringBuilder currLexeme = new StringBuilder();
+		char currChar = currLine[i];
+		while (isLetterOrDigit(currChar)) {
+			currLexeme.append(currChar);
+			i++;
+			currChar = currLine[i];
+		}
+		tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ID_KEYWORD));
 		return i;
+	}
+
+	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+
+		return i;
+	}
+
+	private static int handleAssignToken(int i, char[] currLine, int lineNum,
+															ArrayList<Token> tokenList, TokenType type) {
+		// todo inc i to check if Assign turns into relop. If it does then add rel op instead of Assign
+
+		return i;
+	}
+
+	private static void handleMathOp(char symbol, ArrayList<Token> tokenList, int lineNum) {
+		tokenList.add(new Token(Character.toString(symbol), globalFileName, lineNum, TokenType.MATH_OP));
 	}
 
 	/**
@@ -62,6 +151,7 @@ public class JottTokenizer {
 	public static ArrayList<Token> tokenize(String fileName) {
 
 		// Attempt to read file
+		globalFileName = fileName;
 		Scanner inputScan;
 		try {
 			File inputFile = new File(fileName);
@@ -73,12 +163,13 @@ public class JottTokenizer {
 
 		// init tokenization variables
 		ArrayList<Token> tokenList = new ArrayList<>();
-
+		StringBuilder currTokenString = new StringBuilder();
 		int lineNum = 0;    // Needed for Token
-
+		String currLine;
 		// Parse file until EOF
 		while (inputScan.hasNextLine()) {
-			String currLine = inputScan.nextLine();
+			//line currently processing, allows you to look ahead because you can access the current line from token handling funcs
+			currLine = inputScan.nextLine();
 			lineNum++;
 
 			// Parse each character of the current line
@@ -92,80 +183,25 @@ public class JottTokenizer {
 				if(currChar == '#')
 					break;
 
-				// Test if single char token
-				TokenType type = getSingleCharToken(currChar);
-				// if it is a token, add to list and continue
-				if(type != null){
-					tokenList.add(new Token(String.valueOf(currChar), fileName, lineNum, type));
-					continue;
+				// Check if simple token only if current token string is 1 character
+				TokenType tokenType = getTokenType(currChar);
+
+				//call your token handling function in here
+				switch (tokenType) {
+					case MATH_OP -> handleMathOp(currChar, tokenList, lineNum);
+					case COMMA -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COMMA);
+					case R_BRACKET -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACKET);
+					case L_BRACKET -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACKET);
+					case R_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACE);
+					case L_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACE);
+					case ASSIGN -> handleAssignToken(i, currLine.toCharArray(), lineNum, tokenList, TokenType.ASSIGN);
+					case REL_OP -> i = handleRelOpToken(i, currLine.toCharArray(), tokenList, lineNum);
+					case SEMICOLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.SEMICOLON);
+					case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
+					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
+					case COLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
+					case STRING -> handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
 				}
-
-				// test for assign
-				// todo can probably merge into one if
-				if(currChar == '='){
-					// if at EOL and can't check next char
-					if(i == currLine.length() - 1){
-						tokenList.add(new Token(String.valueOf(currChar), fileName, lineNum, TokenType.ASSIGN));
-						continue;
-					}
-
-					// check next char isn't '='
-					if(currLine.charAt(i + 1) != '='){
-						tokenList.add(new Token(String.valueOf(currChar), fileName, lineNum, TokenType.ASSIGN));
-						continue;
-					}
-
-				}
-
-				// test for string
-				if(currChar == '"'){
-
-					try{
-						StringBuilder str = new StringBuilder("\"");
-						while (currLine.charAt(i++) != '"')
-							str.append(currLine.charAt(i));
-						str.append("\"");	// close string
-						tokenList.add(new Token(str.toString(), fileName, lineNum, TokenType.STRING));
-						continue;
-					} catch (IndexOutOfBoundsException e){
-						// string was never closed
-						return null;
-					}
-
-				}
-
-				// if digit or can lead to digit, get tokenString
-				if(Character.isDigit(currChar) || currChar == '.'){
-					int endIndex = getNumberTokenEndIndex(currLine, i);
-					// -1 indicates error
-					if(endIndex == -1)
-						return null;
-					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.NUMBER));
-					i = endIndex;	// update new location
-					continue;
-				}
-
-				// if letter, get tokenString
-				if(Character.isLetter(currChar)){
-					int endIndex = getIDKeywordTokenEndIndex(currLine, i);
-					// -1 indicates error
-					if(endIndex == -1)
-						return null;
-					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.ID_KEYWORD));
-					i = endIndex;	// update new location
-					continue;
-				}
-
-				// if relop, get token string
-				if(currChar == '=' || currChar == '>' || currChar == '<' || currChar == '!'){
-					int endIndex = getRelOPEndIndex(currLine, i);
-					// -1 indicates error
-					if(endIndex == -1)
-						return null;
-					tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.REL_OP));
-					i = endIndex;	// update new location
-				}
-
 			}
 		}
 
