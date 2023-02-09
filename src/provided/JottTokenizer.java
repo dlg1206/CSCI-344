@@ -159,7 +159,15 @@ public class JottTokenizer {
 	private static int handleAssignToken(int i, char[] currLine, int lineNum,
 															ArrayList<Token> tokenList, TokenType type) {
 		// todo inc i to check if Assign turns into relop. If it does then add rel op instead of Assign
-
+		StringBuilder currLexeme = new StringBuilder();
+		currLexeme.append(currLine[i]);
+		if (currLine[i+1] == '='){
+			currLexeme.append(currLine[i+1]);
+			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
+		}
+		else{
+			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
+		}
 		return i;
 	}
 
