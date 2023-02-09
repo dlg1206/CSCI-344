@@ -180,11 +180,12 @@ public class JottTokenizer {
 		StringBuilder currLexeme = new StringBuilder();
 		currLexeme.append(currLine[i]);
 		if(i == currLine.length - 1){
-			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));; //invalid token
+			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
 		}
 		else if (currLine[i+1] == '='){
 			currLexeme.append(currLine[i+1]);
 			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
+			return i+1;
 		}
 		else{
 			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
