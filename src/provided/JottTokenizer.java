@@ -105,7 +105,7 @@ public class JottTokenizer {
 			}
 		}
 		tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-		return i;
+		return i-1;
 
 	}
 
@@ -129,14 +129,14 @@ public class JottTokenizer {
 					else{
 						//got a decimal before, token is now done
 						tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-						return i;
+						return i-1;
 					}
 				}
 				tokString = new String(tokString + currLine[i]);
 				i+= 1;
 			}
 			tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-			return i;
+			return i-1;
 		}
 	}
 
@@ -236,6 +236,9 @@ public class JottTokenizer {
 					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case COLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
 					case STRING -> handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
+				}
+				if(i == -1){
+					return null;
 				}
 			}
 		}
