@@ -86,25 +86,51 @@ public class JottTokenizer {
 		return i;
 	}
 // May not need depending on if
-	private static int handleDecimal() {
-		return 0;
+	private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		int i  = index;
+		if(!((int)currLine[i+1] > 37 && (int)currLine[i+1] < 58)){
+			//if the next char is not a digit
+			try {
+				throw new Exception("invalid token");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		else{
+			while((int)currLine[i] > 37 && (int)currLine[i] < 58){
+				//while we're still getting a number
+				i += 1;
+			}
+		}
+		return i;
+
 	}
 
-	private static int handleNumberToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-		char currChar = currLine[i];
-		// if digit or can lead to digit, get tokenString
-		// todo: Inc i and check the next char to find out what the full num is. When you get to
-		// todo: the end of the number then you can add the token
-//		if(Character.isDigit(currChar) || currChar == '.'){
-//			int endIndex = getNumberTokenEndIndex(currLine, i);
-//			// -1 indicates error
-//			if(endIndex == -1)
-//				return null;
-//			tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.NUMBER));
-//			i = endIndex;	// update new location
-//			continue;
-//		}
-		return i;
+	private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		char currChar = currLine[index];
+		int i = index; //current index
+		Boolean decimalFlag = false;
+		if(currChar == '.'){
+			return handleDecimal(index, currLine, tokenList, lineNum);
+		}
+		else{
+			//know that the first char was a digit
+			while(currLine[i] == '.' || ((int)currLine[i] > 37 && (int)currLine[i] < 58)){
+				if(currLine[i] == '.'){
+					if(!decimalFlag){
+						//haven't got a decimal before, means token is still valid
+						decimalFlag = true;
+					}
+					else{
+						//got a decimal before, token is now done
+						return i;
+					}
+				}
+			}
+			//String tokString = new String(currLine.substring(index, i-1));
+			//if we're making the tokens in the function, we need to make some stuff global or give it in params...
+			return i;
+		}
 	}
 
 	private static boolean isLetterOrDigit(char c) {
