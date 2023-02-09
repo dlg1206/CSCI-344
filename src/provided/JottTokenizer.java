@@ -63,11 +63,6 @@ public class JottTokenizer {
 		tokenList.add(new Token(symbol, globalFileName, lineNum, type));
 	}
 
-	// line: current line, i: current index. Return -1 to indicate err
-	private static int getNumberTokenEndIndex(int i, char[] currLine){
-		// todo follow number DFA to find the index where the number token ends
-		return i;
-	}
 
 	// line: current line, i: current index. Return -1 to indicate err
 	private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
