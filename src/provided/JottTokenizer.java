@@ -162,20 +162,31 @@ public class JottTokenizer {
 		return idx - 1;
 	}
 
+	/**
+	 * Handles getting a full string token
+	 *
+	 * @param i current index in string
+	 * @param currLine char array representing of the current line
+	 * @param tokenList list of tokens
+	 * @param lineNum current line number of input file
+	 * @return Index of last character in a token, -1 if error parsing
+	 */
 	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-
-
+		// Attempt to parse entire string
 		try{
 			StringBuilder string = new StringBuilder("\"");
+			// Get all characters until reach closing quotations
 			while(currLine[++i] != '\"')
 				string.append(currLine[i]);
-			string.append("\"");
+			string.append("\"");	// append closing quotations
+
+			// Add to token list
 			tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
-			return i;
+			return i;	// index of last character in the string token
 		} catch (IndexOutOfBoundsException e){
+			// ie didn't find closing quotation
 			return -1;
 		}
-
 	}
 
 	private static int handleAssignToken(int i, char[] currLine, int lineNum,
