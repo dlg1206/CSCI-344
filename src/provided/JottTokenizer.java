@@ -21,10 +21,10 @@ public class JottTokenizer {
 
 		TokenType type = switch (currChar) {
 			case ',' -> TokenType.COMMA;
-			case ']' -> TokenType.L_BRACKET;
-			case '[' -> TokenType.R_BRACKET;
-			case '}' -> TokenType.L_BRACE;
-			case '{' -> TokenType.R_BRACE;
+			case ']' -> TokenType.R_BRACKET;
+			case '[' -> TokenType.L_BRACKET;
+			case '}' -> TokenType.R_BRACE;
+			case '{' -> TokenType.L_BRACE;
 			case ';' -> TokenType.SEMICOLON;
 			case ':' -> TokenType.COLON;
 			// All math tokens are 'mathOp' tokens
@@ -141,21 +141,25 @@ public class JottTokenizer {
 	}
 
 	private static boolean isLetterOrDigit(char c) {
-		return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) >= 'z'
+//		System.out.println(globalFileName + " - " + c);
+		return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) <= 'z'
 				|| (c >= '0' && c <= '9'));
 	}
 
 	private static int handleIdKeywordToken(int i, char[] currLine,
 																					ArrayList<Token> tokenList, int lineNum) {
 		StringBuilder currLexeme = new StringBuilder();
-		char currChar = currLine[i];
-		while (isLetterOrDigit(currChar)) {
+		char currChar;
+		int idx;
+		for (idx = i; idx<currLine.length; idx++) {
+			currChar = currLine[idx];
+			if (!isLetterOrDigit(currChar)) {
+				break;
+			}
 			currLexeme.append(currChar);
-			i++;
-			currChar = currLine[i];
 		}
 		tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ID_KEYWORD));
-		return i;
+		return idx - 1;
 	}
 
 	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
