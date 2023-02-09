@@ -91,19 +91,11 @@ public class JottTokenizer {
 		int i  = index;
 		String tokString = "";
 		if(i == currLine.length - 1){
-			try {
-				throw new Exception("invalid token");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			return -1; //invalid token
 		}
 		if(!((int)currLine[i+1] > 37 && (int)currLine[i+1] < 58)){
 			//if the next char is not a digit
-			try {
-				throw new Exception("invalid token");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			return -1;
 		}
 		else{
 			while(i < currLine.length && (int)currLine[i] > 37 && (int)currLine[i] < 58){
