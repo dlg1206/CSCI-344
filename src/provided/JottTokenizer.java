@@ -4,7 +4,7 @@ package provided;
 /**
  * This class is responsible for tokenizing Jott code.
  * 
- * @author Derek Garcia
+ * @author Derek Garcia, Zoe Wheatcroft, Celeste Gambardella
  **/
 
 import java.io.File;
@@ -87,27 +87,32 @@ public class JottTokenizer {
 	}
 // May not need depending on if
 	private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		//need to go through and replace all checks for token type w/ getTokenType()
 		int i  = index;
+		String tokString = "";
+		if(i == currLine.length - 1){
+			return -1; //invalid token
+		}
 		if(!((int)currLine[i+1] > 37 && (int)currLine[i+1] < 58)){
 			//if the next char is not a digit
-			try {
-				throw new Exception("invalid token");
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			return -1;
 		}
 		else{
-			while((int)currLine[i] > 37 && (int)currLine[i] < 58){
+			while(i < currLine.length && (int)currLine[i] > 37 && (int)currLine[i] < 58){
 				//while we're still getting a number
+				tokString = new String(tokString + currLine[i]);
 				i += 1;
 			}
 		}
-		return i;
+		tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+		return i-1;
 
 	}
 
 	private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+		//need to go through and replace all checks for token type w/ getTokenType()
 		char currChar = currLine[index];
+		String tokString = "";
 		int i = index; //current index
 		Boolean decimalFlag = false;
 		if(currChar == '.'){
@@ -115,7 +120,7 @@ public class JottTokenizer {
 		}
 		else{
 			//know that the first char was a digit
-			while(currLine[i] == '.' || ((int)currLine[i] > 37 && (int)currLine[i] < 58)){
+			while(i < currLine.length && (currLine[i] == '.' || ((int)currLine[i] > 37 && (int)currLine[i] < 58))){
 				if(currLine[i] == '.'){
 					if(!decimalFlag){
 						//haven't got a decimal before, means token is still valid
@@ -123,13 +128,15 @@ public class JottTokenizer {
 					}
 					else{
 						//got a decimal before, token is now done
-						return i;
+						tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+						return i-1;
 					}
 				}
+				tokString = new String(tokString + currLine[i]);
+				i+= 1;
 			}
-			//String tokString = new String(currLine.substring(index, i-1));
-			//if we're making the tokens in the function, we need to make some stuff global or give it in params...
-			return i;
+			tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+			return i-1;
 		}
 	}
 
@@ -153,7 +160,18 @@ public class JottTokenizer {
 
 	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
 
-		return i;
+
+		try{
+			StringBuilder string = new StringBuilder("\"");
+			while(currLine[++i] != '\"')
+				string.append(currLine[i]);
+			string.append("\"");
+			tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
+			return i;
+		} catch (IndexOutOfBoundsException e){
+			return -1;
+		}
+
 	}
 
 	private static int handleAssignToken(int i, char[] currLine, int lineNum,
@@ -208,6 +226,8 @@ public class JottTokenizer {
 
 			// Parse each character of the current line
 			for (int i = 0; i < currLine.length(); i++) {
+				//should be the for loop actually be incrementing?
+				//the functions *should* be doing the increases, increment might cause char skipping... -zoe
 				char currChar = currLine.charAt(i);
 				// skip if whitespace
 				if(currChar == ' ')
@@ -234,7 +254,10 @@ public class JottTokenizer {
 					case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case COLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
-					case STRING -> handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
+					case STRING -> i = handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
+				}
+				if(i == -1){
+					return null;
 				}
 			}
 		}
