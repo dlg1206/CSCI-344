@@ -4,7 +4,7 @@ package provided;
 /**
  * This class is responsible for tokenizing Jott code.
  * 
- * @author Derek Garcia, Zoe Wheatcroft
+ * @author Derek Garcia, Zoe Wheatcroft, Celeste Gambardella
  **/
 
 import java.io.File;
