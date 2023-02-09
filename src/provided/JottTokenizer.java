@@ -168,7 +168,18 @@ public class JottTokenizer {
 
 	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
 
-		return i;
+
+		try{
+			StringBuilder string = new StringBuilder("\"");
+			while(currLine[++i] != '\"')
+				string.append(currLine[i]);
+			string.append("\"");
+			tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
+			return i;
+		} catch (IndexOutOfBoundsException e){
+			return -1;
+		}
+
 	}
 
 	private static int handleAssignToken(int i, char[] currLine, int lineNum,
@@ -243,7 +254,7 @@ public class JottTokenizer {
 					case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case COLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
-					case STRING -> handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
+					case STRING -> i = handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
 				}
 			}
 		}
