@@ -64,10 +64,18 @@ public class JottTokenizer {
 	}
 
 
-	// line: current line, i: current index. Return -1 to indicate err
+	/**
+	 * Handles a relop Token
+	 *
+	 * @param i current index in string
+	 * @param currLine char array representing of the current line
+	 * @param tokenList list of tokens
+	 * @param lineNum current line number of input file
+	 * @return Index of last character in a token, -1 if error parsing
+	 */
 	private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
 
-//		todo Inc i and check the next char to find out what type/symbol the rel op will be
+		// Attempt to index array successfully
 		try{
 			// quick check that this isn't an assign
 			if(currLine[i] == '=' && currLine[i + 1] == ' '){
@@ -79,27 +87,25 @@ public class JottTokenizer {
 			if(currLine[i] == '!' && currLine[i + 1] != '=')
 				return -1;
 
-
+			// Else test for valid relop
 			String tokenString;
-			// if relop, get token string
-			switch (currLine[i + 1]){
+			switch (currLine[i + 1]) {
 				// >, <
-				case ' ':
-					tokenString = String.valueOf(currLine[i]);
-					break;
+				case ' ' -> tokenString = String.valueOf(currLine[i]);
 				// ==, >=, <=, !=
-				case '=':
-					tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
-					break;
+				case '=' -> tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
 				// illegal char following
-				default:
+				default -> {
 					return -1;
+				}
 			}
 
+			// Add to token list
 			tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
 			return i + tokenString.length() - 1;	// +0 or +1 to get to last index
 
 		} catch (IndexOutOfBoundsException e){
+			// ie attempted to look ahead and couldn't
 			return -1;
 		}
 
