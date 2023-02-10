@@ -66,19 +66,32 @@ public class JottTokenizer {
 
 	// line: current line, i: current index. Return -1 to indicate err
 	private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-		int currChar = currLine[i];
-		StringBuilder currLexeme = new StringBuilder();
+
 //		todo Inc i and check the next char to find out what type/symbol the rel op will be
-		// if relop, get token string
-//		if(currChar == '=' || currChar == '>' || currChar == '<' || currChar == '!'){
-//			int endIndex = getRelOPEndIndex(currLine, i);
-//			// -1 indicates error
-//			if(endIndex == -1)
-//				return null;
-//			tokenList.add(new Token(currLine.substring(i, endIndex), fileName, lineNum, TokenType.REL_OP));
-//			i = endIndex;	// update new location
-//		}
-		return i;
+		try{
+			String tokenString;
+			// if relop, get token string
+			switch (currLine[i + 1]){
+				// >, <
+				case ' ':
+					tokenString = String.valueOf(currLine[i]);
+					break;
+				// ==, >=, <=, !=
+				case '=':
+					tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
+					break;
+				// illegal char following
+				default:
+					return -1;
+			}
+
+			tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
+			return i + tokenString.length() - 1;	// + 0 or + 1 to get to last index
+
+		} catch (IndexOutOfBoundsException e){
+			return -1;
+		}
+
 	}
 // May not need depending on if
 	private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
