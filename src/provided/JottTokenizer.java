@@ -75,6 +75,11 @@ public class JottTokenizer {
 				return i;
 			}
 
+			// Check valid !=
+			if(currLine[i] == '!' && currLine[i + 1] != '=')
+				return -1;
+
+
 			String tokenString;
 			// if relop, get token string
 			switch (currLine[i + 1]){
