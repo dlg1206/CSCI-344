@@ -69,6 +69,12 @@ public class JottTokenizer {
 
 //		todo Inc i and check the next char to find out what type/symbol the rel op will be
 		try{
+			// quick check that this isn't an assign
+			if(currLine[i] == '=' && currLine[i + 1] == ' '){
+				tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
+				return i;
+			}
+
 			String tokenString;
 			// if relop, get token string
 			switch (currLine[i + 1]){
@@ -86,7 +92,7 @@ public class JottTokenizer {
 			}
 
 			tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
-			return i + tokenString.length() - 1;	// + 0 or + 1 to get to last index
+			return i + tokenString.length() - 1;	// +0 or +1 to get to last index
 
 		} catch (IndexOutOfBoundsException e){
 			return -1;
@@ -208,7 +214,7 @@ public class JottTokenizer {
 		else if (currLine[i+1] == '='){
 			currLexeme.append(currLine[i+1]);
 			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
-			return i+1;
+			return i + 1;
 		}
 		else{
 			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
@@ -275,7 +281,7 @@ public class JottTokenizer {
 					case L_BRACKET -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACKET);
 					case R_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACE);
 					case L_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACE);
-					case ASSIGN -> handleAssignToken(i, currLine.toCharArray(), lineNum, tokenList, TokenType.ASSIGN);
+					case ASSIGN -> i =handleAssignToken(i, currLine.toCharArray(), lineNum, tokenList, TokenType.ASSIGN);
 					case REL_OP -> i = handleRelOpToken(i, currLine.toCharArray(), tokenList, lineNum);
 					case SEMICOLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.SEMICOLON);
 					case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
