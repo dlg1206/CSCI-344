@@ -4,7 +4,7 @@ package provided;
 /**
  * This class is responsible for tokenizing Jott code.
  *
- * @author Derek Garcia, Zoe Wheatcroft, Celeste Gambardella, Nick Hunt, Josh Cain
+ * @author Derek Garcia (dlg1206), Zoe Wheatcroft (zjw1614), Celeste Gambardella (cg7346), Nick Hunt (nrh9573), Josh Cain (jbc2758)
  **/
 
 import java.io.File;
@@ -111,7 +111,14 @@ public class JottTokenizer {
 
     }
 
-    // May not need depending on if
+    /**
+     * Handles index token
+     * @param index     current index in string
+     * @param currLine  char array representing of the current line
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     * @return  Index of last character in a token, -1 if error parsing
+     */
     private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
         //need to go through and replace all checks for token type w/ getTokenType()
         int i = index;
@@ -134,6 +141,14 @@ public class JottTokenizer {
 
     }
 
+    /**
+     * Handles number token
+     * @param index     current index in string
+     * @param currLine  char array representing of the current line
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     * @return  Index of last character in a token, -1 if error parsing
+     */
     private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
         //need to go through and replace all checks for token type w/ getTokenType()
         char currChar = currLine[index];
@@ -163,12 +178,25 @@ public class JottTokenizer {
         }
     }
 
+    /**
+     * Handles checking if character is a letter or a digit.
+     * @param c character
+     * @return true if c is a letter or digit otherwise false
+     */
     private static boolean isLetterOrDigit(char c) {
-//		System.out.println(globalFileName + " - " + c);
         return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) <= 'z'
                 || (c >= '0' && c <= '9'));
     }
 
+    /**
+     * Handles getting id/keyword token
+     *
+     * @param i         current index in string
+     * @param currLine  char array representing of the current line
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     * @return   Index of last character in a token, -1 if error parsing
+     */
     private static int handleIdKeywordToken(int i, char[] currLine,
                                             ArrayList<Token> tokenList, int lineNum) {
         StringBuilder currLexeme = new StringBuilder();
@@ -212,6 +240,17 @@ public class JottTokenizer {
         }
     }
 
+    /**
+     * Handles getting assign token
+     *
+     * @param i         current index in string
+     * @param currLine  char array representing of the current line
+     * @param lineNum   current line number of input file
+     * @param tokenList list of tokens
+     * @param type      the Token type
+     *
+     * @return  Index of last character in a token, -1 if error parsing
+     */
     private static int handleAssignToken(int i, char[] currLine, int lineNum,
                                          ArrayList<Token> tokenList, TokenType type) {
         // todo inc i to check if Assign turns into relop. If it does then add rel op instead of Assign
@@ -229,6 +268,13 @@ public class JottTokenizer {
         return i;
     }
 
+    /**
+     * Handles getting math op
+     *
+     * @param symbol    '/', '+', '-', '*' character
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     */
     private static void handleMathOp(char symbol, ArrayList<Token> tokenList, int lineNum) {
         tokenList.add(new Token(Character.toString(symbol), globalFileName, lineNum, TokenType.MATH_OP));
     }
