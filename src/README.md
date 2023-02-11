@@ -1,4 +1,3 @@
-
 # Jott Translator Group Project
 ## CSCI 344 Programming Language Concepts
 ## Group 2 Team Members
