@@ -3,8 +3,8 @@ package provided;
 
 /**
  * This class is responsible for tokenizing Jott code.
- * 
- * @author Derek Garcia, Zoe Wheatcroft, Celeste Gambardella
+ *
+ * @author Derek Garcia, Zoe Wheatcroft, Celeste Gambardella, Nick Hunt, Josh Cain
  **/
 
 import java.io.File;
@@ -14,300 +14,304 @@ import java.util.Scanner;
 
 public class JottTokenizer {
 
-	private static String globalFileName;
+    private static String globalFileName;
 
 
-	private static TokenType getTokenType(char currChar) {
+    private static TokenType getTokenType(char currChar) {
 
-		TokenType type = switch (currChar) {
-			case ',' -> TokenType.COMMA;
-			case ']' -> TokenType.R_BRACKET;
-			case '[' -> TokenType.L_BRACKET;
-			case '}' -> TokenType.R_BRACE;
-			case '{' -> TokenType.L_BRACE;
-			case ';' -> TokenType.SEMICOLON;
-			case ':' -> TokenType.COLON;
-			// All math tokens are 'mathOp' tokens
-			case '/', '+', '-', '*' -> TokenType.MATH_OP;
-			default -> null;
-		};
-		if (type == null) {
-			if (currChar == '=') {
-				type = TokenType.ASSIGN;
-			} else if (currChar == '<' || currChar == '>') {
-				type = TokenType.REL_OP;
-			} else if (currChar == '.') {
-				type = TokenType.NUMBER;
-			} else if (currChar >= '0' && currChar <= '9') {
-				type = TokenType.NUMBER;
-			} else if (Character.toLowerCase(currChar) >= 'a'
-					&& Character.toLowerCase(currChar) <= 'z') {
-				type = TokenType.ID_KEYWORD;
-			} else if (currChar == '!') {
-				type = TokenType.REL_OP;
-			} else if (currChar == '"') {
-				type = TokenType.STRING;
-			} else {
-				// throw error
-			}
-		}
-		return type; //shouldn't get here
-	}
+        TokenType type = switch (currChar) {
+            case ',' -> TokenType.COMMA;
+            case ']' -> TokenType.R_BRACKET;
+            case '[' -> TokenType.L_BRACKET;
+            case '}' -> TokenType.R_BRACE;
+            case '{' -> TokenType.L_BRACE;
+            case ';' -> TokenType.SEMICOLON;
+            case ':' -> TokenType.COLON;
+            // All math tokens are 'mathOp' tokens
+            case '/', '+', '-', '*' -> TokenType.MATH_OP;
+            default -> null;
+        };
+        if (type == null) {
+            if (currChar == '=') {
+                type = TokenType.ASSIGN;
+            } else if (currChar == '<' || currChar == '>') {
+                type = TokenType.REL_OP;
+            } else if (currChar == '.') {
+                type = TokenType.NUMBER;
+            } else if (currChar >= '0' && currChar <= '9') {
+                type = TokenType.NUMBER;
+            } else if (Character.toLowerCase(currChar) >= 'a'
+                    && Character.toLowerCase(currChar) <= 'z') {
+                type = TokenType.ID_KEYWORD;
+            } else if (currChar == '!') {
+                type = TokenType.REL_OP;
+            } else if (currChar == '"') {
+                type = TokenType.STRING;
+            } else {
+                // throw error
+            }
+        }
+        return type; //shouldn't get here
+    }
 
-	//TOKEN HANDLER FUNCTIONS
-	//each function should return an int of how many characters it looked ahead
-	//gl lad
+    //TOKEN HANDLER FUNCTIONS
+    //each function should return an int of how many characters it looked ahead
+    //gl lad
 
-	private static void handleSingleCharToken(String symbol, int lineNum,
-																					 ArrayList<Token> tokenList, TokenType type) {
-		tokenList.add(new Token(symbol, globalFileName, lineNum, type));
-	}
+    private static void handleSingleCharToken(String symbol, int lineNum,
+                                              ArrayList<Token> tokenList, TokenType type) {
+        tokenList.add(new Token(symbol, globalFileName, lineNum, type));
+    }
 
 
-	/**
-	 * Handles a relop Token
-	 *
-	 * @param i current index in string
-	 * @param currLine char array representing of the current line
-	 * @param tokenList list of tokens
-	 * @param lineNum current line number of input file
-	 * @return Index of last character in a token, -1 if error parsing
-	 */
-	private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+    /**
+     * Handles a relop Token
+     *
+     * @param i         current index in string
+     * @param currLine  char array representing of the current line
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     * @return Index of last character in a token, -1 if error parsing
+     */
+    private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
 
-		// Attempt to index array successfully
-		try{
-			// quick check that this isn't an assign
-			if(currLine[i] == '=' && currLine[i + 1] == ' '){
-				tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
-				return i;
-			}
+        // Attempt to index array successfully
+        try {
+            // quick check that this isn't an assign
+            if (currLine[i] == '=' && currLine[i + 1] == ' ') {
+                tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
+                return i;
+            }
 
-			// Check valid !=
-			if(currLine[i] == '!' && currLine[i + 1] != '=')
-				return -1;
+            // Check valid !=
+            if (currLine[i] == '!' && currLine[i + 1] != '=')
+                return -1;
 
-			// Else test for valid relop
-			String tokenString;
-			switch (currLine[i + 1]) {
-				// >, <
-				case ' ' -> tokenString = String.valueOf(currLine[i]);
-				// ==, >=, <=, !=
-				case '=' -> tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
-				// illegal char following
-				default -> {
-					return -1;
-				}
-			}
+            // Else test for valid relop
+            String tokenString;
+            switch (currLine[i + 1]) {
+                // >, <
+                case ' ' -> tokenString = String.valueOf(currLine[i]);
+                // ==, >=, <=, !=
+                case '=' -> tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
+                // illegal char following
+                default -> {
+                    return -1;
+                }
+            }
 
-			// Add to token list
-			tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
-			return i + tokenString.length() - 1;	// +0 or +1 to get to last index
+            // Add to token list
+            tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
+            return i + tokenString.length() - 1;    // +0 or +1 to get to last index
 
-		} catch (IndexOutOfBoundsException e){
-			// ie attempted to look ahead and couldn't
-			return -1;
-		}
+        } catch (IndexOutOfBoundsException e) {
+            // ie attempted to look ahead and couldn't
+            return -1;
+        }
 
-	}
-// May not need depending on if
-	private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-		//need to go through and replace all checks for token type w/ getTokenType()
-		int i  = index;
-		String tokString = "";
-		if(i == currLine.length - 1){
-			return -1; //invalid token
-		}
-		if(!((int)currLine[i+1] > 37 && (int)currLine[i+1] < 58)){
-			//if the next char is not a digit
-			return -1;
-		}
-		else{
-			while(i < currLine.length && (int)currLine[i] > 37 && (int)currLine[i] < 58){
-				//while we're still getting a number
-				tokString = new String(tokString + currLine[i]);
-				i += 1;
-			}
-		}
-		tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-		return i-1;
+    }
 
-	}
+    // May not need depending on if
+    private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+        //need to go through and replace all checks for token type w/ getTokenType()
+        int i = index;
+        String tokString = "";
+        if (i == currLine.length - 1) {
+            return -1; //invalid token
+        }
+        if (!((int) currLine[i + 1] > 37 && (int) currLine[i + 1] < 58)) {
+            //if the next char is not a digit
+            return -1;
+        } else {
+            while (i < currLine.length && (int) currLine[i] > 37 && (int) currLine[i] < 58) {
+                //while we're still getting a number
+                tokString = new String(tokString + currLine[i]);
+                i += 1;
+            }
+        }
+        tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+        return i - 1;
 
-	private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-		//need to go through and replace all checks for token type w/ getTokenType()
-		char currChar = currLine[index];
-		String tokString = "";
-		int i = index; //current index
-		Boolean decimalFlag = false;
-		if(currChar == '.'){
-			return handleDecimal(index, currLine, tokenList, lineNum);
-		}
-		else{
-			//know that the first char was a digit
-			while(i < currLine.length && (currLine[i] == '.' || ((int)currLine[i] > 37 && (int)currLine[i] < 58))){
-				if(currLine[i] == '.'){
-					if(!decimalFlag){
-						//haven't got a decimal before, means token is still valid
-						decimalFlag = true;
-					}
-					else{
-						//got a decimal before, token is now done
-						tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-						return i-1;
-					}
-				}
-				tokString = new String(tokString + currLine[i]);
-				i+= 1;
-			}
-			tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-			return i-1;
-		}
-	}
+    }
 
-	private static boolean isLetterOrDigit(char c) {
+    private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+        //need to go through and replace all checks for token type w/ getTokenType()
+        char currChar = currLine[index];
+        String tokString = "";
+        int i = index; //current index
+        Boolean decimalFlag = false;
+        if (currChar == '.') {
+            return handleDecimal(index, currLine, tokenList, lineNum);
+        } else {
+            //know that the first char was a digit
+            while (i < currLine.length && (currLine[i] == '.' || ((int) currLine[i] > 37 && (int) currLine[i] < 58))) {
+                if (currLine[i] == '.') {
+                    if (!decimalFlag) {
+                        //haven't got a decimal before, means token is still valid
+                        decimalFlag = true;
+                    } else {
+                        //got a decimal before, token is now done
+                        tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+                        return i - 1;
+                    }
+                }
+                tokString = new String(tokString + currLine[i]);
+                i += 1;
+            }
+            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
+            return i - 1;
+        }
+    }
+
+    private static boolean isLetterOrDigit(char c) {
 //		System.out.println(globalFileName + " - " + c);
-		return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) <= 'z'
-				|| (c >= '0' && c <= '9'));
-	}
+        return (Character.toLowerCase(c) >= 'a' && Character.toLowerCase(c) <= 'z'
+                || (c >= '0' && c <= '9'));
+    }
 
-	private static int handleIdKeywordToken(int i, char[] currLine,
-																					ArrayList<Token> tokenList, int lineNum) {
-		StringBuilder currLexeme = new StringBuilder();
-		char currChar;
-		int idx;
-		for (idx = i; idx<currLine.length; idx++) {
-			currChar = currLine[idx];
-			if (!isLetterOrDigit(currChar)) {
-				break;
-			}
-			currLexeme.append(currChar);
-		}
-		tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ID_KEYWORD));
-		return idx - 1;
-	}
+    private static int handleIdKeywordToken(int i, char[] currLine,
+                                            ArrayList<Token> tokenList, int lineNum) {
+        StringBuilder currLexeme = new StringBuilder();
+        char currChar;
+        int idx;
+        for (idx = i; idx < currLine.length; idx++) {
+            currChar = currLine[idx];
+            if (!isLetterOrDigit(currChar)) {
+                break;
+            }
+            currLexeme.append(currChar);
+        }
+        tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ID_KEYWORD));
+        return idx - 1;
+    }
 
-	/**
-	 * Handles getting a full string token
-	 *
-	 * @param i current index in string
-	 * @param currLine char array representing of the current line
-	 * @param tokenList list of tokens
-	 * @param lineNum current line number of input file
-	 * @return Index of last character in a token, -1 if error parsing
-	 */
-	private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-		// Attempt to parse entire string
-		try{
-			StringBuilder string = new StringBuilder("\"");
-			// Get all characters until reach closing quotations
-			while(currLine[++i] != '\"')
-				string.append(currLine[i]);
-			string.append("\"");	// append closing quotations
+    /**
+     * Handles getting a full string token
+     *
+     * @param i         current index in string
+     * @param currLine  char array representing of the current line
+     * @param tokenList list of tokens
+     * @param lineNum   current line number of input file
+     * @return Index of last character in a token, -1 if error parsing
+     */
+    private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+        // Attempt to parse entire string
+        try {
+            StringBuilder string = new StringBuilder("\"");
+            // Get all characters until reach closing quotations
+            while (currLine[++i] != '\"')
+                string.append(currLine[i]);
+            string.append("\"");    // append closing quotations
 
-			// Add to token list
-			tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
-			return i;	// index of last character in the string token
-		} catch (IndexOutOfBoundsException e){
-			// ie didn't find closing quotation
-			return -1;
-		}
-	}
+            // Add to token list
+            tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
+            return i;    // index of last character in the string token
+        } catch (IndexOutOfBoundsException e) {
+            // ie didn't find closing quotation
+            return -1;
+        }
+    }
 
-	private static int handleAssignToken(int i, char[] currLine, int lineNum,
-															ArrayList<Token> tokenList, TokenType type) {
-		// todo inc i to check if Assign turns into relop. If it does then add rel op instead of Assign
-		StringBuilder currLexeme = new StringBuilder();
-		currLexeme.append(currLine[i]);
-		if(i == currLine.length - 1){
-			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
-		}
-		else if (currLine[i+1] == '='){
-			currLexeme.append(currLine[i+1]);
-			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
-			return i + 1;
-		}
-		else{
-			tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
-		}
-		return i;
-	}
+    private static int handleAssignToken(int i, char[] currLine, int lineNum,
+                                         ArrayList<Token> tokenList, TokenType type) {
+        // todo inc i to check if Assign turns into relop. If it does then add rel op instead of Assign
+        StringBuilder currLexeme = new StringBuilder();
+        currLexeme.append(currLine[i]);
+        if (i == currLine.length - 1) {
+            tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
+        } else if (currLine[i + 1] == '=') {
+            currLexeme.append(currLine[i + 1]);
+            tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
+            return i + 1;
+        } else {
+            tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
+        }
+        return i;
+    }
 
-	private static void handleMathOp(char symbol, ArrayList<Token> tokenList, int lineNum) {
-		tokenList.add(new Token(Character.toString(symbol), globalFileName, lineNum, TokenType.MATH_OP));
-	}
+    private static void handleMathOp(char symbol, ArrayList<Token> tokenList, int lineNum) {
+        tokenList.add(new Token(Character.toString(symbol), globalFileName, lineNum, TokenType.MATH_OP));
+    }
 
-	/**
-	 * Takes in a filename and tokenizes that file into Tokens
-	 * based on the rules of the Jott Language
-	 *
-	 * @param fileName the name of the file to tokenize; can be relative or absolute path
-	 * @return an ArrayList of Jott Tokens
-	 */
-	public static ArrayList<Token> tokenize(String fileName) {
+    /**
+     * Takes in a filename and tokenizes that file into Tokens
+     * based on the rules of the Jott Language
+     *
+     * @param fileName the name of the file to tokenize; can be relative or absolute path
+     * @return an ArrayList of Jott Tokens
+     */
+    public static ArrayList<Token> tokenize(String fileName) {
 
-		// Attempt to read file
-		globalFileName = fileName;
-		Scanner inputScan;
-		try {
-			File inputFile = new File(fileName);
-			inputScan = new Scanner(inputFile);
-		} catch (FileNotFoundException fileNotFoundException) {
-			System.err.println("File not found: " + fileName);
-			return null;
-		}
+        // Attempt to read file
+        globalFileName = fileName;
+        Scanner inputScan;
+        try {
+            File inputFile = new File(fileName);
+            inputScan = new Scanner(inputFile);
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("File not found: " + fileName);
+            return null;
+        }
 
-		// init tokenization variables
-		ArrayList<Token> tokenList = new ArrayList<>();
-		StringBuilder currTokenString = new StringBuilder();
-		int lineNum = 0;    // Needed for Token
-		String currLine;
-		// Parse file until EOF
-		while (inputScan.hasNextLine()) {
-			//line currently processing, allows you to look ahead because you can access the current line from token handling funcs
-			currLine = inputScan.nextLine();
-			lineNum++;
+        // init tokenization variables
+        ArrayList<Token> tokenList = new ArrayList<>();
+        StringBuilder currTokenString = new StringBuilder();
+        int lineNum = 0;    // Needed for Token
+        String currLine;
+        // Parse file until EOF
+        while (inputScan.hasNextLine()) {
+            //line currently processing, allows you to look ahead because you can access the current line from token handling funcs
+            currLine = inputScan.nextLine();
+            lineNum++;
 
-			// Parse each character of the current line
-			for (int i = 0; i < currLine.length(); i++) {
-				//should be the for loop actually be incrementing?
-				//the functions *should* be doing the increases, increment might cause char skipping... -zoe
-				char currChar = currLine.charAt(i);
-				// skip if whitespace
-				if(currChar == ' ')
-					continue;
+            // Parse each character of the current line
+            for (int i = 0; i < currLine.length(); i++) {
+                //should be the for loop actually be incrementing?
+                //the functions *should* be doing the increases, increment might cause char skipping... -zoe
+                char currChar = currLine.charAt(i);
+                // skip if whitespace
+                if (currChar == ' ')
+                    continue;
 
-				// if a comment, trash rest of line
-				if(currChar == '#')
-					break;
+                // if a comment, trash rest of line
+                if (currChar == '#')
+                    break;
 
-				// Check if simple token only if current token string is 1 character
-				TokenType tokenType = getTokenType(currChar);
+                // Check if simple token only if current token string is 1 character
+                TokenType tokenType = getTokenType(currChar);
 
-				//call your token handling function in here
-				switch (tokenType) {
-					case MATH_OP -> handleMathOp(currChar, tokenList, lineNum);
-					case COMMA -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COMMA);
-					case R_BRACKET -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACKET);
-					case L_BRACKET -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACKET);
-					case R_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACE);
-					case L_BRACE -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACE);
-					case ASSIGN -> i =handleAssignToken(i, currLine.toCharArray(), lineNum, tokenList, TokenType.ASSIGN);
-					case REL_OP -> i = handleRelOpToken(i, currLine.toCharArray(), tokenList, lineNum);
-					case SEMICOLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.SEMICOLON);
-					case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
-					case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
-					case COLON -> handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
-					case STRING -> i = handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
-				}
-				if(i == -1){
-					return null;
-				}
-			}
-		}
+                //call your token handling function in here
+                switch (tokenType) {
+                    case MATH_OP -> handleMathOp(currChar, tokenList, lineNum);
+                    case COMMA ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COMMA);
+                    case R_BRACKET ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACKET);
+                    case L_BRACKET ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACKET);
+                    case R_BRACE ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.R_BRACE);
+                    case L_BRACE ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.L_BRACE);
+                    case ASSIGN ->
+                            i = handleAssignToken(i, currLine.toCharArray(), lineNum, tokenList, TokenType.ASSIGN);
+                    case REL_OP -> i = handleRelOpToken(i, currLine.toCharArray(), tokenList, lineNum);
+                    case SEMICOLON ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.SEMICOLON);
+                    case NUMBER -> i = handleNumberToken(i, currLine.toCharArray(), tokenList, lineNum);
+                    case ID_KEYWORD -> i = handleIdKeywordToken(i, currLine.toCharArray(), tokenList, lineNum);
+                    case COLON ->
+                            handleSingleCharToken(Character.toString(currChar), lineNum, tokenList, TokenType.COLON);
+                    case STRING -> i = handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
+                }
+                if (i == -1) {
+                    return null;
+                }
+            }
+        }
 
-		// return list of tokens found
-		return tokenList;
-	}
+        // return list of tokens found
+        return tokenList;
+    }
 
 }
