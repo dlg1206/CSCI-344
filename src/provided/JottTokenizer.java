@@ -84,8 +84,10 @@ public class JottTokenizer {
             }
 
             // Check valid !=
-            if (currLine[i] == '!' && currLine[i + 1] != '=')
+            if (currLine[i] == '!' && currLine[i + 1] != '='){
+                tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
                 return -1;
+            }
 
             // Else test for valid relop
             String tokenString;
@@ -96,6 +98,7 @@ public class JottTokenizer {
                 case '=' -> tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
                 // illegal char following
                 default -> {
+                    tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
                     return -1;
                 }
             }
@@ -106,6 +109,7 @@ public class JottTokenizer {
 
         } catch (IndexOutOfBoundsException e) {
             // ie attempted to look ahead and couldn't
+            tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
             return -1;
         }
 
@@ -124,10 +128,14 @@ public class JottTokenizer {
         int i = index;
         String tokString = "";
         if (i == currLine.length - 1) {
+            tokString = new String(tokString + currLine[i]);
+            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
             return -1; //invalid token
         }
         if (!((int) currLine[i + 1] > 37 && (int) currLine[i + 1] < 58)) {
             //if the next char is not a digit
+            tokString = new String(tokString + currLine[i]);
+            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
             return -1;
         } else {
             while (i < currLine.length && (int) currLine[i] > 37 && (int) currLine[i] < 58) {
@@ -224,8 +232,9 @@ public class JottTokenizer {
      */
     private static int handleStringToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
         // Attempt to parse entire string
+        StringBuilder string = new StringBuilder("\"");
         try {
-            StringBuilder string = new StringBuilder("\"");
+
             // Get all characters until reach closing quotations
             while (currLine[++i] != '\"')
                 string.append(currLine[i]);
@@ -236,6 +245,7 @@ public class JottTokenizer {
             return i;    // index of last character in the string token
         } catch (IndexOutOfBoundsException e) {
             // ie didn't find closing quotation
+            tokenList.add(new Token(string.toString(), globalFileName, lineNum, TokenType.STRING));
             return -1;
         }
     }
@@ -351,6 +361,7 @@ public class JottTokenizer {
                     case STRING -> i = handleStringToken(i, currLine.toCharArray(), tokenList, lineNum);
                 }
                 if (i == -1) {
+                    System.out.println("Syntax Error: \nInvalid token \"" + tokenList.get(tokenList.size() - 1).getToken() + "\" \n" + fileName.split("/")[1] + ":" + lineNum);
                     return null;
                 }
             }
