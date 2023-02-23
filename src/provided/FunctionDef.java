@@ -1,6 +1,13 @@
 implements FunctionDef extends JottTree {
   
   static public ArrayList<FunctionDefParams> paramsList;
+  static public ArrayList<BodyStmt> bodyList;
+  static public ReturnRef returnRef;
+  
+  
+  public FunctionDef() {
+    
+  }
   
   static public parseFunctionDef(ArrayList<Token> tokens) {
     // Check def
@@ -24,7 +31,7 @@ implements FunctionDef extends JottTree {
     }
     tokens.remove(0);
     // Check Function_def_params
-    paramsList = parseFunctionDefParams(tokens);
+    paramsList = FunctionDefParams(tokens);
     // Check ]
     currToken = tokens.get(0);
     if (!currToken.getToken().equals("[")) {
@@ -38,7 +45,7 @@ implements FunctionDef extends JottTree {
     }
     tokens.remove(0);
     // Check FunctionReturn
-    parseFunctionReturn();
+    returnRef = parseFunctionReturn();
     // Check {
     currToken = tokens.get(0);
     if (!currToken.getToken().equals("{")) {
@@ -46,7 +53,7 @@ implements FunctionDef extends JottTree {
     }
     tokens.remove(0);
     // Check Body
-    bodyList = parseBody(tokens);
+    bodyList = Body(tokens);
     // Check }
     currToken = tokens.get(0);
     if (!currToken.getToken().equals("}")) {
@@ -54,5 +61,5 @@ implements FunctionDef extends JottTree {
     }
     tokens.remove(0);
   {
-
+  return new FunctionDef();
 }
