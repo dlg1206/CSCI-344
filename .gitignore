@@ -1,12 +1,11 @@
 /out/
 /.idea/
+/.vscode/
 
 .idea/misc.xml
 .idea/modules.xml
 *.xml
+.vscode/settings.json
 
-
-.idea/misc.xml
 src/.DS_Store
 .DS_Store
-.vscode/settings.json
