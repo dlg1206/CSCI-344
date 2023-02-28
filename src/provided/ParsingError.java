@@ -1,17 +1,19 @@
 package provided;
 
+import provided.Token;
+
 public class ParsingError {
 
   /**
    * ParsingError is used to print out an error message to std error.
    * @param expected: What was expected at this stage of parsing.
-   * @param actual: What was received.
+   * @param actual: The token at the current stage was received.
    */
-  public ParsingError(String expected, String actual) {
+  public ParsingError(String expected, Token actual) {
     String errorMessage = "Syntax Error:\n"
-        + "Error with parsing file, expected: " + expected + " received: " + actual;
-
+        + "Error with parsing file, expected: " + expected + " received: " + actual.getToken() + "\n"
+        + actual.getFilename() + ":" + actual.getLineNum();
+    
     System.err.println(errorMessage);
   }
-
 }
