@@ -1,9 +1,19 @@
-package provided.ops;
+package provided.variables.basics;
 
 import provided.JottTree;
+import provided.Token;
 
-public enum RelOp implements JottTree {
-    ;
+import java.util.ArrayList;
+
+public class StringLiteral implements JottTree {
+
+    private StringLiteral() {
+
+    }
+
+    public static StringLiteral createStringLiteral(ArrayList<Token> tokens) {
+        return null;
+    }
 
 
     /**

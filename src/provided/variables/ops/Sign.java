@@ -1,10 +1,8 @@
-package provided.basics;
+package provided.variables.ops;
 
 import provided.JottTree;
 
-public enum Bool implements JottTree {
-    ;
-
+public class Sign implements JottTree {
 
     /**
      * Will output a string of this tree in Jott
@@ -24,11 +22,6 @@ public enum Bool implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
-        return null;
-    }
-
-    @Override
-    public String convertToJava() {
         return null;
     }
 

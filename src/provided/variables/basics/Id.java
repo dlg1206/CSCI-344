@@ -1,19 +1,46 @@
-package provided.basics;
-
-import provided.JottTree;
-import provided.Token;
+package provided.variables.basics;
 
 import java.util.ArrayList;
 
-public class Str implements JottTree {
+import provided.JottTree;
+import provided.Token;
+import provided.ParsingError;
 
-    private Str() {
+public class Id implements JottTree {
+    Token id;
+
+    public Id() {
 
     }
 
-    public static Str createString(ArrayList<Token> tokens) {
-        return null;
+    public static Id createId(ArrayList<Token> tokens) {
+        Id id = new Id();
+        Token token = tokens.remove(0);
+
+        if (Character.isUpperCase(token.getToken().charAt(0))) {
+            new ParsingError("id", token.getToken());
+            return null;
+        }
+
+        if (token.getToken().equals("elseif")) {
+            new ParsingError("id", token.getToken());
+            return null;
+        }
+
+        if (token.getToken().equals("else")) {
+            new ParsingError("id", token.getToken());
+            return null;
+        }
+        id.id = token;
+        return id;
+
+
     }
+
+    public Token getToken() {
+        return id;
+    }
+
 
     /**
      * Will output a string of this tree in Jott
@@ -22,7 +49,7 @@ public class Str implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return null;
+        return id.getToken();
     }
 
     /**

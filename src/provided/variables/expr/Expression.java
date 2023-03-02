@@ -1,12 +1,12 @@
-package provided.expr;
+package provided.variables.expr;
 
 import java.util.ArrayList;
 
 import provided.ParsingError;
 import provided.JottTree;
-import provided.FunctionCall;
-import provided.basics.Constant;
-import provided.basics.Id;
+import provided.variables.FunctionCall;
+import provided.variables.basics.Constant;
+import provided.variables.basics.Id;
 import provided.Token;
 import provided.TokenType;
 
@@ -24,29 +24,29 @@ public class Expression implements JottTree {
         isTail = false;
     }
 
-    public static Expression createExpression(ArrayList<Token> tokens) throws ParsingError {
+    public static Expression createExpression(ArrayList<Token> tokens) {
         Expression expr = new Expression();
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
             if (tokens.get(1).getTokenType() == TokenType.L_BRACKET) {
                 expr.lnode = FunctionCall.createFunctionCall(tokens);
             } else if (Character.isUpperCase(tokens.get(0).getToken().charAt(0))) {
-                expr.lnode = Constant.CreateConstant(tokens);
+                expr.lnode = Constant.createConstant(tokens);
             } else {
-                expr.lnode = Id.CreateId(tokens);
+                expr.lnode = Id.createId(tokens);
             }
         } else if (tokens.get(0).getTokenType() == TokenType.NUMBER) {
-            expr.lnode = Constant.CreateConstant(tokens);
+            expr.lnode = Constant.createConstant(tokens);
         } else if (tokens.get(0).getTokenType() == TokenType.STRING) {
-            expr.lnode = Constant.CreateConstant(tokens);
+            expr.lnode = Constant.createConstant(tokens);
         } else {
-            new ParsingError(tokens.get(0).getToken(), tokens.get(0).toString());
+            new ParsingError(tokens.get(0).toString(), tokens.get(0).getToken());
             return null;
         }
         if (tokens.get(0).getTokenType() == TokenType.MATH_OP || tokens.get(0).getTokenType() == TokenType.REL_OP) {
             if (!(tokens.get(1).getTokenType() == TokenType.ID_KEYWORD ||
                     tokens.get(1).getTokenType() == TokenType.NUMBER ||
                     tokens.get(1).getTokenType() == TokenType.STRING)) {
-                new ParsingError(tokens.get(1).toString(), tokens.get(1).toString());
+                new ParsingError(tokens.get(1).getTokenType().toString(), tokens.get(1).getToken());
                 return null;
             }
             expr.operator = tokens.remove(0);
@@ -54,7 +54,6 @@ public class Expression implements JottTree {
         } else {
             expr.isTail = true;
         }
-
 
         return expr;
     }

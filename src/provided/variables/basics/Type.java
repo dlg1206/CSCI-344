@@ -1,4 +1,4 @@
-package provided.basics;
+package provided.variables.basics;
 
 import provided.Token;
 

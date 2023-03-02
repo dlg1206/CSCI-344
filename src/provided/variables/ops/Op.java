@@ -1,8 +1,10 @@
-package provided.ops;
+package provided.variables.ops;
 
 import provided.JottTree;
 
-public class Sign implements JottTree {
+public enum Op implements JottTree {
+    ;
+
 
     /**
      * Will output a string of this tree in Jott

@@ -1,17 +1,17 @@
-package provided.basics;
+package provided.variables.basics;
 
 import provided.JottTree;
 import provided.Token;
 
 import java.util.ArrayList;
 
-public class StringLiteral implements JottTree {
+public class Int implements JottTree {
 
-    private StringLiteral() {
+    private Int() {
 
     }
 
-    public static StringLiteral createStringLiteral(ArrayList<Token> tokens) {
+    public static Int createInt(ArrayList<Token> tokens) {
         return null;
     }
 

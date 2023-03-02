@@ -1,41 +1,9 @@
-package provided.basics;
-
-import java.util.ArrayList;
+package provided.variables.ops;
 
 import provided.JottTree;
-import provided.Token;
 
-public class Id implements JottTree {
-    Token id;
-
-    public Id() {
-
-    }
-
-    public static Id CreateId(ArrayList<Token> tokens) {
-        Id id = new Id();
-        Token token = tokens.remove(0);
-
-        if (Character.isUpperCase(token.getToken().charAt(0))) {
-//            throw new ParsingError(, token);
-        }
-
-        if (token.getToken().equals("elseif")) {
-//            throw new ParsingError(, token);
-        }
-
-        if (token.getToken().equals("else")) {
-//            throw new ParsingError(, token);
-        }
-        id.id = token;
-        return id;
-
-
-    }
-
-    public Token getToken() {
-        return id;
-    }
+public enum RelOp implements JottTree {
+    ;
 
 
     /**
@@ -45,7 +13,7 @@ public class Id implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return id.getToken();
+        return null;
     }
 
     /**

@@ -1,8 +1,8 @@
-package provided.ops;
+package provided.variables.basics;
 
 import provided.JottTree;
 
-public enum Op implements JottTree {
+public enum Bool implements JottTree {
     ;
 
 
@@ -24,6 +24,11 @@ public enum Op implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
+        return null;
+    }
+
+    @Override
+    public String convertToJava() {
         return null;
     }
 
