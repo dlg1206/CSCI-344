@@ -27,11 +27,6 @@ public enum Bool implements JottTree {
         return null;
     }
 
-    @Override
-    public String convertToJava() {
-        return null;
-    }
-
     /**
      * Will output a string of this tree in C
      *

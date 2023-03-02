@@ -17,7 +17,7 @@ public class Id implements JottTree {
         Id id = new Id();
         Token token = tokens.remove(0);
 
-        if (Character.isUpperCase(token.getToken().charAt(0))) {
+        if (token.getToken().equals("if")) {
             new ParsingError("id", token.getToken());
             return null;
         }
@@ -33,8 +33,6 @@ public class Id implements JottTree {
         }
         id.id = token;
         return id;
-
-
     }
 
     public Token getToken() {
