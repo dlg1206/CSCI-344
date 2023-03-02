@@ -9,8 +9,8 @@ public class ParsingError {
    * @param expected: What was expected at this stage of parsing.
    * @param actual: The token at the current stage was received.
    */
-  public ParsingError(String expected, Token actual) {
-    String errorMessage = "Syntax Error:\n"
+  public ParsingError(String errorType, String expected, Token actual) {
+    String errorMessage = errorType + ":\n"
         + "Error with parsing file, expected: " + expected + " received: " + actual.getToken() + "\n"
         + actual.getFilename() + ":" + actual.getLineNum();
     
