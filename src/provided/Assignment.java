@@ -3,10 +3,12 @@ package provided;
 import java.util.ArrayList;
 
 /**
+ * File: Assignment.java
+ * Implementation of Assignment of the Jott Grammar
+ *
  * @author Derek Garcia
  **/
-
-public class Assignment implements JottTree{
+public class Assignment implements JottTree {
 
     private final Type type;
     // todo add w/ Celeste's implementation
@@ -17,16 +19,27 @@ public class Assignment implements JottTree{
     // private final EndStatement end_statement
 
 
+    /**
+     * Creates new asmt object
+     *
+     * @param type variable type
+     */
     // todo replace with correct
     // private Assignment(Type type, Id id, Expression expr, EndStatement end_statement)
-    private Assignment(Type type){
+    private Assignment(Type type) {
         this.type = type;
         // this.id = id;
         // this.expr = expr;
         // this.end_statement = end_statement;
     }
 
-    public static Assignment parseAsmt(ArrayList<Token> tokens){
+    /**
+     * Parse asmt
+     *
+     * @param tokens Tokens to parse
+     * @return new asmt object
+     */
+    public static Assignment parseAsmt(ArrayList<Token> tokens) {
         Type type = Type.parseType(tokens);
         // Id id = Id.createId(tokens);
         tokens.remove(0);   // pop '='
@@ -35,6 +48,12 @@ public class Assignment implements JottTree{
         // return new Assignment(type, id, expr, end_statement);
         return new Assignment(type);
     }
+
+    /**
+     * Will output a string of this tree in Jott
+     *
+     * @return a string representing the Jott code of this tree
+     */
     @Override
     public String convertToJott() {
         return null;
