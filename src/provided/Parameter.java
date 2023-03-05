@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * @author Derek Garcia
  **/
 
-public class params implements JottTree{
+public class Parameter implements JottTree{
 
 
     // Temp testing funct
@@ -17,30 +17,29 @@ public class params implements JottTree{
         params.add(new Token(",", "foo", 0, TokenType.COMMA));
         params.add(new Token("7", "foo", 0, TokenType.NUMBER));
         params.add(new Token("]", "foo", 0, TokenType.R_BRACKET));
-
         parseParams(params);
 
     }
-    public static ArrayList<Token> parseParams(ArrayList<Token> tokens) throws Exception {
-        try {
-            tokens.remove(0);   // pop "["
+    // todo add w/ Celeste's implementation
+    // private final Expression expr;
+    private final ParameterTail params_t;
 
-            tokens = expr.parseExpr(tokens);
-            tokens = params_t.parseParams_t(tokens);
 
-            tokens.remove(0);   // pop "]"
-            return tokens;
+    // todo add w/ Celeste's implementation
+    // private Parameter createParameter(Expression expr, ParameterTail params_t)
+    private Parameter(ParameterTail params_t){
+        // this.expr = createExpression
+        this.params_t = params_t;
 
-        } catch (IndexOutOfBoundsException e){
-            /*
-            todo err msgs
-            Syntax Error:
-            <Message>
-            <filename>:<line_number>
-            */
-            throw new Exception("Failed to parse params");
-        }
+    }
 
+    public static Parameter parseParams(ArrayList<Token> tokens){
+        tokens.remove(0);   // pop "["
+        // Expression expr = Expression.createExpression(tokens);
+        ParameterTail params_t = ParameterTail.parseParams_t(tokens);
+        tokens.remove(0);   // pop "]"
+        // return new Parameter(expr, params_t)
+        return new Parameter(params_t);
     }
 
     @Override
