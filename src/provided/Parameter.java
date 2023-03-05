@@ -3,36 +3,37 @@ package provided;
 import java.util.ArrayList;
 
 /**
+ * File: Parameter.java
+ * Implementation of the Parameter of the Jott Grammar
+ *
  * @author Derek Garcia
  **/
+public class Parameter implements JottTree {
 
-public class Parameter implements JottTree{
-
-
-    // Temp testing funct
-    public static void main(String[] args) throws Exception {
-        ArrayList<Token> params = new ArrayList<>();
-        params.add(new Token("[", "foo", 0, TokenType.L_BRACKET));
-        params.add(new Token("5", "foo", 0, TokenType.NUMBER));
-        params.add(new Token(",", "foo", 0, TokenType.COMMA));
-        params.add(new Token("7", "foo", 0, TokenType.NUMBER));
-        params.add(new Token("]", "foo", 0, TokenType.R_BRACKET));
-        parseParams(params);
-    }
     // todo add w/ Celeste's implementation
     // private final Expression expr;
     private final ParameterTail params_t;
 
 
+    /**
+     * Creates a new params object
+     *
+     * @param params_t Tail of the params object
+     */
     // todo add w/ Celeste's implementation
     // private Parameter createParameter(Expression expr, ParameterTail params_t)
-    private Parameter(ParameterTail params_t){
-        // this.expr = createExpression
+    private Parameter(ParameterTail params_t) {
+        // this.expr = expr;
         this.params_t = params_t;
-
     }
 
-    public static Parameter parseParams(ArrayList<Token> tokens){
+    /**
+     * Parse params
+     *
+     * @param tokens Tokens to parse
+     * @return new params object
+     */
+    public static Parameter parseParams(ArrayList<Token> tokens) {
         tokens.remove(0);   // pop "["
         // Expression expr = Expression.createExpression(tokens);
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);
@@ -41,6 +42,11 @@ public class Parameter implements JottTree{
         return new Parameter(params_t);
     }
 
+    /**
+     * Will output a string of this tree in Jott
+     *
+     * @return a string representing the Jott code of this tree
+     */
     @Override
     public String convertToJott() {
         return null;
