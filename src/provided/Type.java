@@ -39,9 +39,12 @@ public class Type implements JottTree {
             case "Void" -> {
                 return new Type(TYPE.VOID);
             }
+            // Push back onto list
+            default -> {
+                tokens.add(0, token);
+                return null;
+            }
         }
-        // todo error?
-        return null;
     }
 
     @Override
