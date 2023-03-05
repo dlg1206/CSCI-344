@@ -53,7 +53,11 @@ public class ParameterTail implements JottTree{
      */
     @Override
     public String convertToJott() {
-        return null;
+        // base case
+        if (this.params_t == null)
+            return  "";
+        // else get rest of tail
+        return ", " + this.params_t.convertToJott();
     }
 
     @Override
