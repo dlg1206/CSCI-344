@@ -56,6 +56,8 @@ public class Assignment implements JottTree {
      */
     @Override
     public String convertToJott() {
+        // return this.type.convertToJott() + " " + this.id.convertToJott() + " = "
+        // + this.expr.convertToJott() + this.end_statement.convertToJott();
         return null;
     }
 

@@ -36,7 +36,7 @@ public class FunctionReturn implements JottTree{
      */
     @Override
     public String convertToJott() {
-        return null;
+        return this.type.convertToJott();
     }
 
     @Override

@@ -73,7 +73,11 @@ public class Type implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return null;
+        // Nothing if no type
+        if(this.type == null)
+            return "";
+        // DOUBLE -> "Double"
+        return this.type.toString().substring(1).toLowerCase();
     }
 
     @Override
