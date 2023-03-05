@@ -8,15 +8,40 @@ import java.util.ArrayList;
 
 public class Type implements JottTree {
 
-    public enum TYPE {
+    private enum TYPE {
         DOUBLE,
         INTEGER,
         STRING,
-        BOOLEAN
+        BOOLEAN,
+        VOID
     }
-    private final TYPE type;
-    public Type(TYPE type){
+    // default to void
+    private TYPE type;
+    private Type(TYPE type){
         this.type = type;
+    }
+
+    public static Type parseType(ArrayList<Token> tokens){
+        Token token = tokens.remove(0); // pop list
+        switch (token.getToken()){
+            case "Double" -> {
+                return new Type(TYPE.DOUBLE);
+            }
+            case "Integer" -> {
+                return new Type(TYPE.INTEGER);
+            }
+            case "String" -> {
+                return new Type(TYPE.STRING);
+            }
+            case "Boolean" -> {
+                return new Type(TYPE.BOOLEAN);
+            }
+            case "Void" -> {
+                return new Type(TYPE.VOID);
+            }
+        }
+        // todo error?
+        return null;
     }
 
     @Override
