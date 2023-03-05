@@ -15,7 +15,6 @@ public class ParameterTail implements JottTree{
     // todo add w/ Celeste's implementation
     // private ParameterTail createParameter(Expression expr, ParameterTail params_t)
     private ParameterTail(ParameterTail params_t){
-
         // this.expr = expr;
         this.params_t = params_t;
     }

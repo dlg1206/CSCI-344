@@ -18,7 +18,6 @@ public class Parameter implements JottTree{
         params.add(new Token("7", "foo", 0, TokenType.NUMBER));
         params.add(new Token("]", "foo", 0, TokenType.R_BRACKET));
         parseParams(params);
-
     }
     // todo add w/ Celeste's implementation
     // private final Expression expr;
