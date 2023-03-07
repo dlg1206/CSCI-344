@@ -18,7 +18,7 @@ class FunctionList implements JottTree {
 		} 
     if (tokens.size() > 0) {
       // Throw error
-      new ParsingError("eof", tokens.get(0).getToken());
+      new ParsingError("Syntax Error", "eof", tokens.get(0).getToken());
       return null;
     }
 

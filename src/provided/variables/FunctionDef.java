@@ -22,21 +22,21 @@ class FunctionDef extends JottTree {
     Token currToken=tokens.get(0);
     if(!currToken.getToken().equals("def")) {
       // Throw error
-      new ParsingError("def", currToken.getToken());
+      new ParsingError("Syntax Error", "def", currToken.getToken());
       return null;
     }
     tokens.remove(0);
     // Check <id>
     currToken=tokens.get(0);
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
-      new ParsingError("Id or Keyword", currToken.getToken());
+      new ParsingError("Syntax Error", "Id or Keyword", currToken.getToken());
       return null;
     }
     tokens.remove(0);
     // Check [
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("[")){
-      new ParsingError("[", currToken.getToken());
+      new ParsingError("Syntax Error", "[", currToken.getToken());
       return null;
     }
     tokens.remove(0);
@@ -48,14 +48,14 @@ class FunctionDef extends JottTree {
     // Check ]
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("]")){
-      new ParsingError("]", currToken.getToken());
+      new ParsingError("Syntax Error", "]", currToken.getToken());
       return null;
     }
     tokens.remove(0);
     // Check :
     currToken=tokens.get(0);
     if(!currToken.getToken().equals(":")){
-      new ParsingError(":", currToken.getToken());
+      new ParsingError("Syntax Error", ":", currToken.getToken());
       return null;
     }
     tokens.remove(0);
@@ -67,7 +67,7 @@ class FunctionDef extends JottTree {
     // Check {
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("{")){
-      new ParsingError("{", currToken.getToken());
+      new ParsingError("Syntax Error", "{", currToken.getToken());
       return null;
     }
     tokens.remove(0);
@@ -79,7 +79,7 @@ class FunctionDef extends JottTree {
     // Check }
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("}")){
-      new ParsingError("}", currToken.getToken());
+      new ParsingError("Syntax Error", "}", currToken.getToken());
       return null;
     }
     tokens.remove(0);
