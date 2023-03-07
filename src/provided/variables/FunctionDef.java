@@ -1,7 +1,7 @@
 package provided.variables;
 
 import java.util.ArrayList;
-import provided.Bodystmt;
+import provided.BodyStmt;
 import provided.FunctionReturn;
 import provided.JottTree;
 import provided.ParsingError;
