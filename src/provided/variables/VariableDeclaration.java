@@ -1,4 +1,8 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
+import provided.Type;
 
 import java.util.ArrayList;
 
@@ -8,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class VariableDeclaration implements JottTree{
+public class VariableDeclaration implements JottTree {
     private final Type type;
     // todo add w/ Celeste's implementation
     // private final Id id;

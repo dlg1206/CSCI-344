@@ -1,4 +1,7 @@
-package provided;
+package provided.variables.parameter;
+
+import provided.JottTree;
+import provided.Token;
 
 import java.util.ArrayList;
 
@@ -8,7 +11,7 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class ParameterTail implements JottTree{
+public class ParameterTail implements JottTree {
     // todo add w/ Celeste's implementation
     // private final Expression expr;
     private final ParameterTail params_t;

@@ -1,4 +1,8 @@
-package provided;
+package provided.variables.function;
+
+import provided.JottTree;
+import provided.Token;
+import provided.Type;
 
 import java.util.ArrayList;
 
@@ -8,7 +12,7 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class FunctionReturn implements JottTree{
+public class FunctionReturn implements JottTree {
     private final Type type;
 
     /**

@@ -3,6 +3,7 @@ package provided.variables;
 import java.util.ArrayList;
 import provided.JottTree;
 import provided.Token;
+import provided.variables.function.FunctionList;
 
 class Program implements JottTree {
 

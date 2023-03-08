@@ -1,4 +1,7 @@
-package provided;
+package provided.variables.parameter;
+
+import provided.JottTree;
+import provided.Token;
 
 import java.util.ArrayList;
 
