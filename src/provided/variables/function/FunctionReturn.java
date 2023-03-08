@@ -2,7 +2,7 @@ package provided.variables.function;
 
 import provided.JottTree;
 import provided.Token;
-import provided.Type;
+import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 
@@ -31,7 +31,7 @@ public class FunctionReturn implements JottTree {
      * @return new function_return object
      */
     public static FunctionReturn parseFunction_return(ArrayList<Token> tokens){
-        return new FunctionReturn(Type.parseType(tokens));
+        return new FunctionReturn(Type.getType(tokens.remove(0)));
     }
 
     /**
