@@ -23,7 +23,7 @@ public class ParameterTail implements JottTree {
      * @param params_t Tail of the params_t object
      */
     // todo add w/ Celeste's implementation
-     private ParameterTail(Expression expr, ParameterTail params_t){
+    private ParameterTail(Expression expr, ParameterTail params_t){
          this.expr = expr;
          this.params_t = params_t;
     }
@@ -42,7 +42,7 @@ public class ParameterTail implements JottTree {
 
         tokens.remove(0);   // pop ","
 
-        // Expression expr = Expression.createExpression(ArrayList<Token> tokens);
+        Expression expr = Expression.createExpression(tokens);
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);
 
         return new ParameterTail(expr, params_t);
