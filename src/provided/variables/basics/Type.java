@@ -1,8 +1,9 @@
 package provided.variables.basics;
 
+import provided.JottTree;
 import provided.Token;
 
-public enum Type {
+public enum Type implements JottTree {
     INT("Integer"),
     BOOL("Boolean"),
     DOUBLE("Double"),
@@ -30,6 +31,31 @@ public enum Type {
             case "Double" -> DOUBLE;
             default -> null;
         };
+    }
+
+    @Override
+    public String convertToJott() {
+        return this.label;
+    }
+
+    @Override
+    public String convertToJava(String className) {
+        return null;
+    }
+
+    @Override
+    public String convertToC() {
+        return null;
+    }
+
+    @Override
+    public String convertToPython() {
+        return null;
+    }
+
+    @Override
+    public boolean validateTree() {
+        return false;
     }
 }
 
