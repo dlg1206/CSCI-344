@@ -5,36 +5,36 @@ import provided.*;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-public class EndStmt extends JottTree{
+public class EndStmt implements JottTree{
 
     public EndStmt(){
 
     }
 
-    public ArrayList<Token> parseEndStmt(ArrayList<Token> tokens){
+    public static EndStmt parseEndStmt(ArrayList<Token> tokens){
 
         tokens.remove(0);
-        return tokens;
+        return new EndStmt();
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToC() {
-        return null;
+        return ";";
     }
 
     @Override
     public String convertToPython() {
-        return null;
+        return "";
     }
 
     @Override

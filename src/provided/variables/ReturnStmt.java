@@ -6,18 +6,35 @@ import java.util.ArrayList;
 
 public class ReturnStmt implements JottTree{
 
+    private EndStmt endStmt;
+    private Expression expression;
 
-    public ReturnStmt(){
-
+    public ReturnStmt(Expression expression, EndStmt endStmt){
+        this.endStmt = endStmt;
+        this.expression = expression;
     }
 
-    public ReturnStmt parseReturnStmt(ArrayList<Token> tokens){
-        return null;
+    public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens){
+        if(tokens.get(0).getToken() == "return"){
+            tokens.remove(0);
+            //start feeding in the token string as an expression till we get ;
+            expression = expression.createExpression(tokens);
+            if(tokens.get(0).getToken() == ";"){
+                endStmt = endStmt.parseEndStmt(tokens);
+            }
+            else{
+                //error, missing semicolon
+            }
+        }
+        else{
+            return null;
+            //error, no return
+        }
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        return "return" + expression.convertToJott() + endStmt.convertToJott();
     }
 
     @Override

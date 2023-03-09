@@ -9,31 +9,34 @@ import java.util.ArrayList;
 
 public class BodyStmt implements provided.JottTree {
 
-    public BodyStmt(){
 
+    //not sure if this is a functional way to deal w/ this and casting is ok
+    private final JottTree stmt;
+
+    public BodyStmt(JottTree stmt){
+        this.stmt = stmt;
     }
 
-    public ArrayList<JottTree> parseBodyStmt(ArrayList<Token> tokens){
-        ArrayList<JottTree> bodyStmts = new ArrayList<JottTree>();
-        while(tokens.size() != 0){
+    public static BodyStmt parseBodyStmt(ArrayList<Token> tokens){
+        //ArrayList<JottTree> bodyStmts = new ArrayList<JottTree>();
+
             Token currToken = tokens.get(0);
             //process while token
             if(currToken.getToken().equals("while") | currToken.getToken().equals("While")){
-                bodyStmts.add(whileLoop.parseWhileLoop(tokens));
+                return new BodyStmt((JottTree) WhileStmt.parseWhileStmt(tokens));
             }
             else if(currToken.getToken().equals("if") | currToken.getToken().equals("If")){
-                bodyStmts.add(ifStmt.parseIfStmt(tokens));
+                return new BodyStmt((JottTree) IfStmt.parseIfStmt(tokens));
             }
             else{
-                bodyStmts.add(Stmt.parseIfStmt(tokens));
+                return new BodyStmt((JottTree) Stmt.parseStmt(tokens));
             }
-        }
-        return bodyStmts;
+
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        return stmt.convertToJott();
     }
 
     @Override

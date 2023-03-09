@@ -7,26 +7,41 @@ import java.util.ArrayList;
 
 public class Body implements JottTree{
 
-    public Body(){
+    BodyStmt bodyStmt;
+    Body nextBody;
+    ReturnStmt returnStmt;
 
+    public Body(BodyStmt bodyStmt, Body nexBody, ReturnStmt returnStmt){
+        this.bodyStmt = bodyStmt;
+        this.nextBody = nexBody;
+        this.returnStmt = returnStmt;
     }
 
-    public Body parseBody(ArrayList<Token> tokens){
-        
-        while(true){
-            if(tokens.size() == 0){
-                return new Body();
-            }
-            if(tokens.get(0).getToken().equals("return")){
-                
-            }
+    public static Body parseBody(ArrayList<Token> tokens){
+        if(tokens.size() == 0){
+            return new Body(null, null, null);
+        }
+        if(tokens.get(0).getToken() == "return"){
+            return new Body(null, null, ReturnStmt.parseReturnStmt(tokens));
+        }
+        else{
+            return new Body(BodyStmt.parseBodyStmt(tokens), Body.parseBody(tokens), null);
         }
 
     }
 
     @Override
     public String convertToJott() {
-        return null;
+        if(bodyStmt == null && nextBody == null && returnStmt == null){
+            return "";
+        }
+        else if(returnStmt != null){
+            return returnStmt.convertToJott();
+        }
+        else{
+            return bodyStmt.convertToJott() + nextBody.convertToJott();
+        }
+    
     }
 
     @Override
