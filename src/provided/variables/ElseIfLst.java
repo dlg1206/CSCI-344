@@ -20,6 +20,7 @@ public class ElseIfLst implements JottTree {
         while (moreElIfs){
 
             elifLst.ifLst.add(ifStmt.parseIfStmt(tokens));
+
             if (tokens.get(0).toString().equals("elseif")){
                 tokens.remove(0);
             }

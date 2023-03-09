@@ -22,11 +22,15 @@ public class ifStmt implements JottTree { // will need to extend body statement
 
     public static ifStmt parseIfStmt(ArrayList<Token> tokens) {
         ifStmt IfStmt = new ifStmt();
-
+        boolean elif = false;
         if (tokens.get(0).toString().equals("if") | tokens.get(0).toString().equals("If")){
             tokens.remove(0);
+            elif = false;
         }
-
+        else if (tokens.get(0).toString().equals("Elif") | tokens.get(0).toString().equals("elif")){
+            tokens.remove(0);
+            elif = true;
+        }
         if (tokens.get(0).toString().equals("(")){
             tokens.remove(0);
             while (!tokens.get(0).toString().equals(")")){
@@ -48,14 +52,16 @@ public class ifStmt implements JottTree { // will need to extend body statement
             return null;
         }
 
-        if (tokens.get(0).toString().equals("elseif")){
-            tokens.remove(0);
-            IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens);
-        }
+        if (!elif) {
+            if (tokens.get(0).toString().equals("elseif")) {
+                tokens.remove(0);
+                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens);
+            }
 
-        if (tokens.get(0).toString().equals("else")){
-            tokens.remove(0);
-            IfStmt.elseStmt = Else.ParseElse(tokens);
+            if (tokens.get(0).toString().equals("else")) {
+                tokens.remove(0);
+                IfStmt.elseStmt = Else.ParseElse(tokens);
+            }
         }
         // check token after the end of the body, check for an else/else if loop until no more or an else
         return IfStmt; // return a new instance of ifstmt with all parts added to it

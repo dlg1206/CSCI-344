@@ -6,7 +6,7 @@ import provided.variables.ifStmt;
 
 import java.util.ArrayList;
 
-public class stmt implements JottTree {
+public class Stmt implements JottTree {
 
     static ifStmt parseStmt(ArrayList<Token> tokens){
         return null;
