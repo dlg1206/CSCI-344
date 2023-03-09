@@ -1,4 +1,8 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
+import provided.variables.ifStmt;
 
 import java.util.ArrayList;
 

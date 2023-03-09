@@ -1,4 +1,8 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
+import provided.TokenType;
 
 import java.util.ArrayList;
 
@@ -22,6 +26,7 @@ public class funcCall implements JottTree {
 
         if (tokens.get(0).toString().equals("(")) {
             tokens.remove(0);
+            // might need to change this to use the parameters class?
             while (!tokens.get(0).toString().equals(")")) {
                 func.parameters.add(tokens.get(0));
                 tokens.remove(0);

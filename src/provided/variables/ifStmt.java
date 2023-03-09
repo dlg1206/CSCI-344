@@ -1,7 +1,7 @@
-package provided;
+package provided.variables;
 
-import provided.variables.Body;
-import provided.variables.Else;
+import provided.JottTree;
+import provided.Token;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,16 @@ public class ifStmt implements JottTree { // will need to extend body statement
         else {
             // error, no open bracket after if
             return null;
+        }
+
+        if (tokens.get(0).toString().equals("elseif")){
+            tokens.remove(0);
+            IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens);
+        }
+
+        if (tokens.get(0).toString().equals("else")){
+            tokens.remove(0);
+            IfStmt.elseStmt = Else.ParseElse(tokens);
         }
         // check token after the end of the body, check for an else/else if loop until no more or an else
         return IfStmt; // return a new instance of ifstmt with all parts added to it

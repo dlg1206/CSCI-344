@@ -1,36 +1,33 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
 
 import java.util.ArrayList;
 
 public class ElseIfLst implements JottTree {
 
-    public ElseIfLst(){
+    ArrayList<ifStmt> ifLst;
 
+    public ElseIfLst(){
+        ifLst = null;
     }
 
     static ElseIfLst ParseElseIfLst(ArrayList<Token> tokens){
+
+        ElseIfLst elifLst = new ElseIfLst();
         boolean moreElIfs = true;
         while (moreElIfs){
 
-            if (tokens.get(0).toString().equals("(")){
-               tokens.remove(0);
-               // parse the boolean list
-            }
-
-            if (tokens.get(0).toString().equals("{")){
+            elifLst.ifLst.add(ifStmt.parseIfStmt(tokens));
+            if (tokens.get(0).toString().equals("elseif")){
                 tokens.remove(0);
-                //parse the body
-            }
-            if (tokens.get(0).toString().equals("elif")){
-                tokens.remove(0);
-                // could perhaps remove while loop and instead recursively call this method,
-                // loop should replicate the recursion though
             }
             else {
                 moreElIfs = false;
             }
         }
-        return new ElseIfLst(); // return the ElseIfLst as an object list of bodies (?)
+        return new ElseIfLst(); // return the ElseIfLst as an object list of if statements
     }
 
     @Override
