@@ -16,6 +16,7 @@ public class EndStmt implements JottTree{
             tokens.remove(0);
             return new EndStmt();
         }
+        new ParsingError("Missing return", "return", tokens.get(0));
         return null;
     }
 

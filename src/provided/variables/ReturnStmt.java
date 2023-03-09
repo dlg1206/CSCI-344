@@ -24,11 +24,14 @@ public class ReturnStmt implements JottTree{
                 endStmt = endStmt.parseEndStmt(tokens);
             }
             else{
+                new ParsingError("Semicolon expected", ";", tokens.get(0));
+                return null;
                 //error, missing semicolon
             }
             return new ReturnStmt(expression, endStmt);
         }
         else{
+            new ParsingError("Missing return", "return", tokens.get(0));
             return null;
             //error, no return
         }
