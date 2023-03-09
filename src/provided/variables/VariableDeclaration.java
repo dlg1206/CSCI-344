@@ -1,4 +1,9 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
+import provided.variables.basics.Id;
+import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 
@@ -8,10 +13,9 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class VariableDeclaration implements JottTree{
+public class VariableDeclaration implements JottTree {
     private final Type type;
-    // todo add w/ Celeste's implementation
-    // private final Id id;
+     private final Id id;
     // todo add w/ future implementation
     // private final EndStatement end_statement
 
@@ -22,9 +26,9 @@ public class VariableDeclaration implements JottTree{
      */
     // todo replace with correct
     // private VariableDeclaration(Type type, Id id, EndStatement end_statement)
-    private VariableDeclaration(Type type){
+    private VariableDeclaration(Type type, Id id){
         this.type = type;
-        // this.id = id;
+         this.id = id;
         // this.end_statement = end_statement;
     }
 
@@ -35,11 +39,11 @@ public class VariableDeclaration implements JottTree{
      * @return new var_dec object
      */
     public static VariableDeclaration parseVar_dec(ArrayList<Token> tokens){
-        // Id id = Id.createId(tokens);
-        Type type = Type.parseType(tokens);
+         Id id = Id.createId(tokens);
+        Type type = Type.getType(tokens.remove(0));
         // EndStatement end_statement = EndStatement.parseEnd_statement(tokens);
         // return new VariableDeclaration(type, id, end_statement);
-        return new VariableDeclaration(type);
+        return new VariableDeclaration(type, id);
     }
 
     /**

@@ -1,4 +1,8 @@
-package provided;
+package provided.variables.parameter;
+
+import provided.JottTree;
+import provided.Token;
+import provided.variables.expr.Expression;
 
 import java.util.ArrayList;
 
@@ -10,8 +14,7 @@ import java.util.ArrayList;
  **/
 public class Parameter implements JottTree {
 
-    // todo add w/ Celeste's implementation
-    // private final Expression expr;
+    private final Expression expr;
     private final ParameterTail params_t;
 
 
@@ -20,10 +23,8 @@ public class Parameter implements JottTree {
      *
      * @param params_t Tail of the params object
      */
-    // todo add w/ Celeste's implementation
-    // private Parameter createParameter(Expression expr, ParameterTail params_t)
-    private Parameter(ParameterTail params_t) {
-        // this.expr = expr;
+    private Parameter(Expression expr, ParameterTail params_t){
+        this.expr = expr;
         this.params_t = params_t;
     }
 
@@ -35,11 +36,10 @@ public class Parameter implements JottTree {
      */
     public static Parameter parseParams(ArrayList<Token> tokens) {
         tokens.remove(0);   // pop "["
-        // Expression expr = Expression.createExpression(tokens);
+        Expression expr = Expression.createExpression(tokens);
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);
         tokens.remove(0);   // pop "]"
-        // return new Parameter(expr, params_t)
-        return new Parameter(params_t);
+        return new Parameter(expr, params_t);
     }
 
     /**
@@ -49,8 +49,7 @@ public class Parameter implements JottTree {
      */
     @Override
     public String convertToJott() {
-        // return "[ " + this.expr.convertToJott() + this.params_t.convertToJott() + " ]"
-        return null;
+        return "[ " + this.expr.convertToJott() + this.params_t.convertToJott() + " ]";
     }
 
     @Override

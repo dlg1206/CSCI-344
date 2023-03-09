@@ -1,4 +1,4 @@
-package provided.variables;
+package provided.variables.function;
 
 import java.util.ArrayList;
 import provided.JottTree;
