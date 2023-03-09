@@ -12,9 +12,11 @@ public class EndStmt implements JottTree{
     }
 
     public static EndStmt parseEndStmt(ArrayList<Token> tokens){
-
-        tokens.remove(0);
-        return new EndStmt();
+        if(tokens.get(0).getToken() == ";"){
+            tokens.remove(0);
+            return new EndStmt();
+        }
+        return null;
     }
 
     @Override
