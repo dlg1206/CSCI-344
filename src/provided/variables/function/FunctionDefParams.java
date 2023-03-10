@@ -6,7 +6,6 @@ import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
-import provided.Type;
 import provided.variables.basics.Type;
 
 public class FunctionDefParams implements JottTree {
@@ -38,9 +37,9 @@ public class FunctionDefParams implements JottTree {
       return null;
     }
     tokens.remove(0);
-
+    currToken = tokens.get(0);
     // Check for type:
-    Type type = Type.parseType(tokens);
+    Type type = Type.getType(currToken);
     if (type == null) {
       return null;
     }

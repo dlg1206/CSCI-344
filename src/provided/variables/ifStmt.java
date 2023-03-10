@@ -1,6 +1,7 @@
 package provided.variables;
 
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
             tokens.remove(0);
         }
         else {
+            new ParsingError("Syntax", "(", tokens.get(0));
             // error, no open parenthesis after if
             return null;
         }
@@ -46,9 +48,15 @@ public class IfStmt implements JottTree { // will need to extend body statement
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
             IfStmt.body = Body.parseBody(tokens);
-            tokens.remove(0);
+            if (tokens.get(0).getToken().equals("}")) {
+                tokens.remove(0);
+            }
+            else{
+                new ParsingError("Syntax", "}", tokens.get(0));
+            }
         }
         else {
+            new ParsingError("Syntax", "{", tokens.get(0));
             // error, no open bracket after if
             return null;
         }

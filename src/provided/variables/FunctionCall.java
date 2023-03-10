@@ -15,7 +15,7 @@ public class FunctionCall extends Stmt {
         parameters = new ArrayList<Token>();
     }
 
-    static FunctionCall parseFuncCall(ArrayList<Token>tokens){
+    public static FunctionCall parseFuncCall(ArrayList<Token> tokens){
         FunctionCall func = new FunctionCall();
 
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){

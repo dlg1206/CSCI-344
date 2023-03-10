@@ -61,7 +61,7 @@ class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check FunctionReturn
-    returnRef = FunctionReturn.parseFunctionReturn();
+    returnRef = FunctionReturn.parseFunctionReturn(tokens); // I changed this, not sure if it's correct - Josh
     if (returnRef == null) {
       return null;
     }
