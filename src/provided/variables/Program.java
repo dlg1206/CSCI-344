@@ -5,12 +5,12 @@ import provided.JottTree;
 import provided.Token;
 import provided.variables.function.FunctionList;
 
-class Program implements JottTree {
+public class Program implements JottTree {
 
-
+  private FunctionList funcList;
 
   public Program(FunctionList funcDef) {
-
+    funcList = funcDef;
   }
 
 
@@ -20,7 +20,7 @@ class Program implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    return funcList.convertToJott();
   }
 
   @Override
