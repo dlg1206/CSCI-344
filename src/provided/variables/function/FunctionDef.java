@@ -1,6 +1,9 @@
 package provided.variables.function;
 
 import java.util.ArrayList;
+import provided.BodyStmt;
+import provided.FunctionReturn;
+import provided.Bodystmt;
 import provided.variables.BodyStmt;
 import provided.variables.function.FunctionReturn;
 import provided.JottTree;
