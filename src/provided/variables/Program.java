@@ -6,13 +6,14 @@ import provided.Token;
 // TODO uncomment w/ implementation
 //import provided.variables.function.FunctionList;
 
-class Program implements JottTree {
+public class Program implements JottTree {
 
 
-// TODO uncomment w/ implementation
-//  public Program(FunctionList funcDef) {
-//
-//  }
+  private FunctionList funcList;
+
+  public Program(FunctionList funcDef) {
+    funcList = funcDef;
+  }
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
@@ -23,7 +24,7 @@ class Program implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    return funcList.convertToJott();
   }
 
   @Override

@@ -2,6 +2,7 @@ package provided.variables.function;
 
 import java.util.ArrayList;
 import provided.variables.BodyStmt;
+import provided.variables.basics.Id;
 import provided.variables.function.FunctionReturn;
 import provided.JottTree;
 import provided.ParsingError;
@@ -10,6 +11,8 @@ import provided.TokenType;
 import provided.variables.Body;
 
 class FunctionDef implements JottTree {
+
+  //missing the func name id? 
   static public FunctionDefParams params;
   static public Body body;
   static public FunctionReturn returnRef;
@@ -90,7 +93,10 @@ class FunctionDef implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    //missing func name id?? 
+    return "def "
+    //missing function name
+     + "[" + params.convertToJott() + "]:" + returnRef.convertToJott() + "{" + body.convertToJott() + "}";
   }
 
   @Override

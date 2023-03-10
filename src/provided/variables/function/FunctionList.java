@@ -5,7 +5,7 @@ import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
 
-class FunctionList implements JottTree {
+public class FunctionList implements JottTree {
   static ArrayList<FunctionDef> funcList = new ArrayList<>();
 
   public FunctionList() {
@@ -18,7 +18,7 @@ class FunctionList implements JottTree {
 		} 
     if (tokens.size() > 0) {
       // Throw error
-      new ParsingError("Syntax Error", "eof", tokens.get(0));
+      new ParsingError("Syntax Error", "EOF", tokens.get(0));
       return null;
     }
 
@@ -27,7 +27,11 @@ class FunctionList implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    String s = "";
+    for (FunctionDef func : funcList) {
+      s = s + func.convertToJott();
+    }
+    return s;
   }
 
   @Override

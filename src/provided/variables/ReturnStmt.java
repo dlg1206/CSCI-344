@@ -1,4 +1,4 @@
-package provided.variables;
+ package provided.variables;
 
 import provided.*;
 import provided.variables.expr.Expression;
@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class ReturnStmt implements JottTree{
 
-    private EndStmt endStmt;
-    private Expression expression;
+    private static EndStmt endStmt;
+    private static  Expression expression;
 
     public ReturnStmt(Expression expression, EndStmt endStmt){
         this.endStmt = endStmt;
@@ -24,14 +24,15 @@ public class ReturnStmt implements JottTree{
                 EndStmt endStmt = EndStmt.parseEndStmt(tokens);
             }
             else{
+                new ParsingError("Semicolon expected", ";", tokens.get(0));
+                return null;
                 //error, missing semicolon
             }
-            // todo return new Returnstatement object
-            return null;
+            return new ReturnStmt(expression, endStmt);
         }
         else{
+            new ParsingError("Missing return", "return", tokens.get(0));
             return null;
-            //error, no return
         }
     }
 

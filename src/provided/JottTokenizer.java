@@ -326,7 +326,7 @@ public class JottTokenizer {
                 //the functions *should* be doing the increases, increment might cause char skipping... -zoe
                 char currChar = currLine.charAt(i);
                 // skip if whitespace
-                if (currChar == ' ')
+                if (currChar == ' ' || currChar == '\t')
                     continue;
 
                 // if a comment, trash rest of line
