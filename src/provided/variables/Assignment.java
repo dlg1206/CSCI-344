@@ -1,4 +1,11 @@
-package provided;
+package provided.variables;
+
+import provided.JottTree;
+import provided.Token;
+import provided.variables.basics.Id;
+import provided.variables.basics.Type;
+import provided.variables.expr.Expression;
+
 
 import provided.variables.Stmt;
 
@@ -13,10 +20,8 @@ import java.util.ArrayList;
 public class Assignment extends Stmt {
 
     private final Type type;
-    // todo add w/ Celeste's implementation
-    // private final Id id;
-    // todo add w/ Celeste's implementation
-    // private final Expression expr;
+     private final Id id;
+     private final Expression expr;
     // todo add w/ future implementation
     // private final EndStatement end_statement
 
@@ -28,10 +33,10 @@ public class Assignment extends Stmt {
      */
     // todo replace with correct
     // private Assignment(Type type, Id id, Expression expr, EndStatement end_statement)
-    private Assignment(Type type) {
+    private Assignment(Type type, Id id, Expression expr) {
         this.type = type;
-        // this.id = id;
-        // this.expr = expr;
+         this.id = id;
+         this.expr = expr;
         // this.end_statement = end_statement;
     }
 
@@ -42,13 +47,13 @@ public class Assignment extends Stmt {
      * @return new asmt object
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
-        Type type = Type.parseType(tokens);
-        // Id id = Id.createId(tokens);
+        Type type = Type.getType(tokens.remove(0));
+         Id id = Id.createId(tokens);
         tokens.remove(0);   // pop '='
-        // Expression expr = Expression.createExpression(tokens);
+         Expression expr = Expression.createExpression(tokens);
         // EndStatement end_statement = EndStatement.parseEnd_statement(tokens);
         // return new Assignment(type, id, expr, end_statement);
-        return new Assignment(type);
+        return new Assignment(type, id, expr);
     }
 
     /**

@@ -1,4 +1,4 @@
-package provided.variables;
+package provided.variables.function;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,6 +7,7 @@ import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
 import provided.Type;
+import provided.variables.basics.Type;
 
 public class FunctionDefParams implements JottTree {
 
@@ -25,7 +26,7 @@ public class FunctionDefParams implements JottTree {
     // Check for Keyword
     currToken=tokens.get(0);
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
-      new ParsingError("Syntax Error", "Id or Keyword", currToken.getToken());
+      new ParsingError("Syntax Error", "Id or Keyword", currToken);
       return null;
     }
     currKey = currToken.getToken();
@@ -33,7 +34,7 @@ public class FunctionDefParams implements JottTree {
     // Check for :
     currToken=tokens.get(0);
     if (!currToken.getToken().equals(":")) {
-      new ParsingError("Syntax Error", ":", currToken.getToken());
+      new ParsingError("Syntax Error", ":", currToken);
       return null;
     }
     tokens.remove(0);
