@@ -1,5 +1,7 @@
 package provided;
 
+import provided.variables.Stmt;
+
 import java.util.ArrayList;
 
 /**
@@ -8,7 +10,7 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class VariableDeclaration implements JottTree{
+public class VariableDeclaration extends Stmt {
     private final Type type;
     // todo add w/ Celeste's implementation
     // private final Id id;

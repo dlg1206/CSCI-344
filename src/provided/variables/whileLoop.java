@@ -18,13 +18,13 @@ public class whileLoop implements JottTree {
 
         whileLoop wloop = new whileLoop();
 
-        if (tokens.get(0).toString().equals("while") | tokens.get(0).toString().equals("While")){
+        if (tokens.get(0).getToken().equals("while") | tokens.get(0).getToken().equals("While")){
             tokens.remove(0);
         }
 
-        if (tokens.get(0).toString().equals("(")){
+        if (tokens.get(0).getToken().equals("(")){
             tokens.remove(0);
-            while (!tokens.get(0).toString().equals(")")){
+            while (!tokens.get(0).getToken().equals(")")){
                 wloop.boolstmts.add(bExpr.parseBExpr(tokens));
             }
             tokens.remove(0);

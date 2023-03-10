@@ -23,17 +23,17 @@ public class ifStmt implements JottTree { // will need to extend body statement
     public static ifStmt parseIfStmt(ArrayList<Token> tokens) {
         ifStmt IfStmt = new ifStmt();
         boolean elif = false;
-        if (tokens.get(0).toString().equals("if") | tokens.get(0).toString().equals("If")){
+        if (tokens.get(0).getToken().equals("if") | tokens.get(0).getToken().equals("If")){
             tokens.remove(0);
             elif = false;
         }
-        else if (tokens.get(0).toString().equals("Elif") | tokens.get(0).toString().equals("elif")){
+        else if (tokens.get(0).getToken().equals("Elif") | tokens.get(0).getToken().equals("elif")){
             tokens.remove(0);
             elif = true;
         }
-        if (tokens.get(0).toString().equals("(")){
+        if (tokens.get(0).getToken().equals("(")){
             tokens.remove(0);
-            while (!tokens.get(0).toString().equals(")")){
+            while (!tokens.get(0).getToken().equals(")")){
                 IfStmt.boolstmts.add(bExpr.parseBExpr(tokens));
             }
             tokens.remove(0);
@@ -43,9 +43,10 @@ public class ifStmt implements JottTree { // will need to extend body statement
             return null;
         }
 
-        if (tokens.get(0).toString().equals("{")){
+        if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
             IfStmt.body = Body.parseBody(tokens);
+            tokens.remove(0);
         }
         else {
             // error, no open bracket after if
@@ -53,12 +54,12 @@ public class ifStmt implements JottTree { // will need to extend body statement
         }
 
         if (!elif) {
-            if (tokens.get(0).toString().equals("elseif")) {
+            if (tokens.get(0).getToken().equals("elseif")) {
                 tokens.remove(0);
                 IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens);
             }
 
-            if (tokens.get(0).toString().equals("else")) {
+            if (tokens.get(0).getToken().equals("else")) {
                 tokens.remove(0);
                 IfStmt.elseStmt = Else.ParseElse(tokens);
             }

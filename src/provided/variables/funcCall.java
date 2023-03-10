@@ -6,8 +6,8 @@ import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class funcCall implements JottTree {
-
+public class funcCall extends Stmt {
+    //TODO Need to change ID to the id class
     Token funcName;
     ArrayList<Token> parameters;
 
@@ -24,10 +24,10 @@ public class funcCall implements JottTree {
             tokens.remove(0);
         }
 
-        if (tokens.get(0).toString().equals("(")) {
+        if (tokens.get(0).getToken().equals("(")) {
             tokens.remove(0);
             // might need to change this to use the parameters class?
-            while (!tokens.get(0).toString().equals(")")) {
+            while (!tokens.get(0).getToken().equals(")")) {
                 func.parameters.add(tokens.get(0));
                 tokens.remove(0);
             }

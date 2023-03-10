@@ -16,7 +16,7 @@ public class Else implements JottTree {
     static Else ParseElse(ArrayList<Token> tokens){
 
         Else elseStmt = new Else();
-        if (tokens.get(0).toString().equals("{")){
+        if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
             elseStmt.body = Body.parseBody(tokens);
             // may need to remove an additional token if } was left in by body parse
