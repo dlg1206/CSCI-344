@@ -1,11 +1,8 @@
 package provided.variables;
 
-import provided.JottTree;
 import provided.Token;
 import provided.variables.basics.Id;
 import provided.variables.basics.Type;
-
-import provided.variables.Stmt;
 
 import java.util.ArrayList;
 
@@ -21,19 +18,17 @@ public class VariableDeclaration extends Stmt {
     private final Type type;
      private final Id id;
     // todo add w/ future implementation
-    // private final EndStatement end_statement
+     private final EndStmt end_statement;
 
     /**
      * Creates new var_dec object
      *
      * @param type variable type
      */
-    // todo replace with correct
-    // private VariableDeclaration(Type type, Id id, EndStatement end_statement)
-    private VariableDeclaration(Type type, Id id){
+    private VariableDeclaration(Type type, Id id, EndStmt end_statement){
         this.type = type;
          this.id = id;
-        // this.end_statement = end_statement;
+         this.end_statement = end_statement;
     }
 
     /**
@@ -44,10 +39,9 @@ public class VariableDeclaration extends Stmt {
      */
     public static VariableDeclaration parseVar_dec(ArrayList<Token> tokens){
          Id id = Id.createId(tokens);
-        Type type = Type.getType(tokens.remove(0));
-        // EndStatement end_statement = EndStatement.parseEnd_statement(tokens);
-        // return new VariableDeclaration(type, id, end_statement);
-        return new VariableDeclaration(type, id);
+         Type type = Type.getType(tokens.remove(0));
+         EndStmt end_statement = EndStmt.parseEndStmt(tokens);
+         return new VariableDeclaration(type, id, end_statement);
     }
 
     /**
@@ -56,8 +50,7 @@ public class VariableDeclaration extends Stmt {
      */
     @Override
     public String convertToJott() {
-        // return this.type.convertToJott() + " " + this.id.convertToJott() + this.end_statement.convertToJott();
-        return null;
+        return this.type.convertToJott() + " " + this.id.convertToJott() + this.end_statement.convertToJott();
     }
 
     @Override
