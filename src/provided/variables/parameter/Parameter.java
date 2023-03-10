@@ -1,6 +1,7 @@
 package provided.variables.parameter;
 
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.variables.expr.Expression;
 
@@ -35,11 +36,32 @@ public class Parameter implements JottTree {
      * @return new params object
      */
     public static Parameter parseParams(ArrayList<Token> tokens) {
-        tokens.remove(0);   // pop "["
-        Expression expr = Expression.createExpression(tokens);
-        ParameterTail params_t = ParameterTail.parseParams_t(tokens);
-        tokens.remove(0);   // pop "]"
-        return new Parameter(expr, params_t);
+        try{
+            // Validate '['
+            if(!tokens.get(0).getToken().equals("["))
+                throw new ParsingError("Syntax Error", "[", tokens.get(0));
+            tokens.remove(0);   // pop "["
+
+            // parse expression
+            Expression expr = Expression.createExpression(tokens);
+            if(expr == null)
+                return null;
+
+            // parse params_t
+            ParameterTail params_t = ParameterTail.parseParams_t(tokens);
+            if(params_t == null)
+                return null;
+
+            // Validate ']'
+            if(!tokens.get(0).getToken().equals("["))
+                throw new ParsingError("Syntax Error", "]", tokens.get(0));
+            tokens.remove(0);   // pop "]"
+
+            // Success
+            return new Parameter(expr, params_t);
+        } catch (ParsingError e) {
+            return null;
+        }
     }
 
     /**
