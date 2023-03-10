@@ -1,8 +1,8 @@
 package provided;
 
-import provided.Token;
 
-public class ParsingError {
+
+public class ParsingError extends Error{
 
   /**
    * ParsingError is used to print out an error message to std error.

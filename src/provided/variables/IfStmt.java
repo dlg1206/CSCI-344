@@ -8,13 +8,15 @@ import java.util.ArrayList;
 
 public class IfStmt implements JottTree { // will need to extend body statement
 
-    ArrayList<bExpr> boolstmts;
+    // TODO uncomment w/ implementation
+    //ArrayList<bExpr> boolstmts;
     Body body;
     ElseIfLst elifLst;
     Else elseStmt;
 
     public IfStmt(){
-        boolstmts = new ArrayList<bExpr>();
+        // TODO uncomment w/ implementation
+        //boolstmts = new ArrayList<bExpr>();
         body = null;
         elifLst = null;
         elseStmt = null;
@@ -34,9 +36,10 @@ public class IfStmt implements JottTree { // will need to extend body statement
         }
         if (tokens.get(0).getToken().equals("(")){
             tokens.remove(0);
-            while (!tokens.get(0).getToken().equals(")")){
-                IfStmt.boolstmts.add(bExpr.parseBExpr(tokens));
-            }
+            // TODO uncomment w/ implementation
+//            while (!tokens.get(0).getToken().equals(")")){
+//                IfStmt.boolstmts.add(bExpr.parseBExpr(tokens));
+//            }
             tokens.remove(0);
         }
         else {

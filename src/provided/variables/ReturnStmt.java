@@ -19,9 +19,9 @@ public class ReturnStmt implements JottTree{
         if(tokens.get(0).getToken() == "return"){
             tokens.remove(0);
             //start feeding in the token string as an expression till we get ;
-            expression = expression.createExpression(tokens);
+            Expression expression = Expression.createExpression(tokens);
             if(tokens.get(0).getToken() == ";"){
-                endStmt = endStmt.parseEndStmt(tokens);
+                EndStmt endStmt = EndStmt.parseEndStmt(tokens);
             }
             else{
                 new ParsingError("Semicolon expected", ";", tokens.get(0));

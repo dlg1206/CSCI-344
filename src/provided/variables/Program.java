@@ -3,9 +3,11 @@ package provided.variables;
 import java.util.ArrayList;
 import provided.JottTree;
 import provided.Token;
-import provided.variables.function.FunctionList;
+// TODO uncomment w/ implementation
+//import provided.variables.function.FunctionList;
 
 public class Program implements JottTree {
+
 
   private FunctionList funcList;
 
@@ -15,7 +17,9 @@ public class Program implements JottTree {
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
-    return new Program(FunctionList.parseFunctionList(tokens));
+    // TODO uncomment w/ implementation
+//    return new Program(FunctionList.parseFunctionList(tokens));
+    return null;
   }
 
   @Override
