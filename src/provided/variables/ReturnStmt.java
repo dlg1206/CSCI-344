@@ -1,4 +1,4 @@
-package provided.variables;
+ package provided.variables;
 
 import provided.*;
 import provided.variables.expr.Expression;
@@ -32,7 +32,7 @@ public class ReturnStmt implements JottTree{
         }
         else{
             new ParsingError("Missing return", "return", tokens.get(0));
-            
+            return null;
         }
     }
 
