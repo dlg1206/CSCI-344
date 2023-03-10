@@ -18,17 +18,17 @@ public class Id implements JottTree {
         Token token = tokens.remove(0);
 
         if (token.getToken().equals("if")) {
-            new ParsingError("id", token.getToken());
+            new ParsingError("id", "Something else",token);
             return null;
         }
 
         if (token.getToken().equals("elseif")) {
-            new ParsingError("id", token.getToken());
+            new ParsingError("id", "Something else",token);
             return null;
         }
 
         if (token.getToken().equals("else")) {
-            new ParsingError("id", token.getToken());
+            new ParsingError("id", "Something else",token);
             return null;
         }
         id.id = token;

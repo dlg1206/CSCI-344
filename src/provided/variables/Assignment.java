@@ -7,6 +7,8 @@ import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 
 
+import provided.variables.Stmt;
+
 import java.util.ArrayList;
 
 /**
@@ -15,7 +17,7 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class Assignment implements JottTree {
+public class Assignment extends Stmt {
 
     private final Type type;
      private final Id id;

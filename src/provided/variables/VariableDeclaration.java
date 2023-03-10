@@ -5,6 +5,8 @@ import provided.Token;
 import provided.variables.basics.Id;
 import provided.variables.basics.Type;
 
+import provided.variables.Stmt;
+
 import java.util.ArrayList;
 
 /**
@@ -13,7 +15,9 @@ import java.util.ArrayList;
  *
  * @author Derek Garcia
  **/
-public class VariableDeclaration implements JottTree {
+
+public class VariableDeclaration extends Stmt {
+
     private final Type type;
      private final Id id;
     // todo add w/ future implementation

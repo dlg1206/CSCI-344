@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import provided.BodyStmt;
 import provided.FunctionReturn;
 import provided.Bodystmt;
+import provided.variables.BodyStmt;
+import provided.variables.function.FunctionReturn;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
+import provided.variables.Body;
 
-class FunctionDef extends JottTree {
+class FunctionDef implements JottTree {
   static public FunctionDefParams params;
   static public Body body;
   static public FunctionReturn returnRef;
@@ -23,21 +26,21 @@ class FunctionDef extends JottTree {
     Token currToken=tokens.get(0);
     if(!currToken.getToken().equals("def")) {
       // Throw error
-      new ParsingError("Syntax Error", "def", currToken.getToken());
+      new ParsingError("Syntax Error", "def", currToken);
       return null;
     }
     tokens.remove(0);
     // Check <id>
     currToken=tokens.get(0);
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
-      new ParsingError("Syntax Error", "Id or Keyword", currToken.getToken());
+      new ParsingError("Syntax Error", "Id or Keyword", currToken);
       return null;
     }
     tokens.remove(0);
     // Check [
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("[")){
-      new ParsingError("Syntax Error", "[", currToken.getToken());
+      new ParsingError("Syntax Error", "[", currToken);
       return null;
     }
     tokens.remove(0);
@@ -49,26 +52,26 @@ class FunctionDef extends JottTree {
     // Check ]
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("]")){
-      new ParsingError("Syntax Error", "]", currToken.getToken());
+      new ParsingError("Syntax Error", "]", currToken);
       return null;
     }
     tokens.remove(0);
     // Check :
     currToken=tokens.get(0);
     if(!currToken.getToken().equals(":")){
-      new ParsingError("Syntax Error", ":", currToken.getToken());
+      new ParsingError("Syntax Error", ":", currToken);
       return null;
     }
     tokens.remove(0);
     // Check FunctionReturn
-    returnRef = FunctionReturn.parseFunctionReturn();
+    returnRef = FunctionReturn.parseFunctionReturn(tokens); // I changed this, not sure if it's correct - Josh
     if (returnRef == null) {
       return null;
     }
     // Check {
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("{")){
-      new ParsingError("Syntax Error", "{", currToken.getToken());
+      new ParsingError("Syntax Error", "{", currToken);
       return null;
     }
     tokens.remove(0);
@@ -80,11 +83,36 @@ class FunctionDef extends JottTree {
     // Check }
     currToken=tokens.get(0);
     if(!currToken.getToken().equals("}")){
-      new ParsingError("Syntax Error", "}", currToken.getToken());
+      new ParsingError("Syntax Error", "}", currToken);
       return null;
     }
     tokens.remove(0);
 
     return new FunctionDef();
+  }
+
+  @Override
+  public String convertToJott() {
+    return null;
+  }
+
+  @Override
+  public String convertToJava(String className) {
+    return null;
+  }
+
+  @Override
+  public String convertToC() {
+    return null;
+  }
+
+  @Override
+  public String convertToPython() {
+    return null;
+  }
+
+  @Override
+  public boolean validateTree() {
+    return false;
   }
 }
