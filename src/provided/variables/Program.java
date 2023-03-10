@@ -7,10 +7,10 @@ import provided.variables.function.FunctionList;
 
 public class Program implements JottTree {
 
-
+  private FunctionList funcList;
 
   public Program(FunctionList funcDef) {
-
+    funcList = funcDef;
   }
 
 
@@ -20,7 +20,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    return funcList.convertToJott();
   }
 
   @Override

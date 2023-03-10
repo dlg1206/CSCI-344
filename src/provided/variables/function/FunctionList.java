@@ -27,7 +27,11 @@ public class FunctionList implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    String s = "";
+    for (FunctionDef func : funcList) {
+      s = s + func.convertToJott();
+    }
+    return s;
   }
 
   @Override
