@@ -44,13 +44,8 @@ public class Parameter implements JottTree {
 
             // parse expression
             Expression expr = Expression.createExpression(tokens);
-            if(expr == null)
-                return null;
-
             // parse params_t
-            ParameterTail params_t = ParameterTail.parseParams_t(tokens);
-            if(params_t == null)
-                return null;
+            ParameterTail params_t = ParameterTail.parseParams_t(tokens);   // will throw error if missing ","
 
             // Validate ']'
             if(!tokens.get(0).getToken().equals("["))

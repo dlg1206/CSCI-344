@@ -1,6 +1,7 @@
 package provided.variables.parameter;
 
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.variables.expr.Expression;
 
@@ -22,7 +23,6 @@ public class ParameterTail implements JottTree {
      *
      * @param params_t Tail of the params_t object
      */
-    // todo add w/ Celeste's implementation
     private ParameterTail(Expression expr, ParameterTail params_t){
          this.expr = expr;
          this.params_t = params_t;
@@ -36,16 +36,22 @@ public class ParameterTail implements JottTree {
      */
     public static ParameterTail parseParams_t(ArrayList<Token> tokens){
 
+
         // base case
         if(tokens.get(0).getToken().equals("]"))
             return null;
 
+        // Validate
+        if(!tokens.get(0).getToken().equals(","))
+            throw new ParsingError("Syntax Error", ",", tokens.get(0));
         tokens.remove(0);   // pop ","
 
         Expression expr = Expression.createExpression(tokens);
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);
 
         return new ParameterTail(expr, params_t);
+
+
     }
 
     /**
