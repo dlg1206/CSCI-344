@@ -5,7 +5,7 @@ import provided.JottTree;
 import provided.Token;
 import provided.variables.function.FunctionList;
 
-class Program implements JottTree {
+public class Program implements JottTree {
 
 
 
