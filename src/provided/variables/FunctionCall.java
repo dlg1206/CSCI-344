@@ -1,23 +1,22 @@
 package provided.variables;
 
-import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
 
 import java.util.ArrayList;
 
-public class funcCall extends Stmt {
+public class FunctionCall extends Stmt {
     //TODO Need to change ID to the id class
     Token funcName;
     ArrayList<Token> parameters;
 
-    public funcCall(){
+    public FunctionCall(){
         funcName = null;
         parameters = new ArrayList<Token>();
     }
 
-    static funcCall parseFuncCall(ArrayList<Token>tokens){
-        funcCall func = new funcCall();
+    static FunctionCall parseFuncCall(ArrayList<Token>tokens){
+        FunctionCall func = new FunctionCall();
 
         if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             func.funcName = tokens.get(0);

@@ -5,14 +5,14 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class ifStmt implements JottTree { // will need to extend body statement
+public class IfStmt implements JottTree { // will need to extend body statement
 
     ArrayList<bExpr> boolstmts;
     Body body;
     ElseIfLst elifLst;
     Else elseStmt;
 
-    public ifStmt(){
+    public IfStmt(){
         boolstmts = new ArrayList<bExpr>();
         body = null;
         elifLst = null;
@@ -20,8 +20,8 @@ public class ifStmt implements JottTree { // will need to extend body statement
     }
 
 
-    public static ifStmt parseIfStmt(ArrayList<Token> tokens) {
-        ifStmt IfStmt = new ifStmt();
+    public static IfStmt parseIfStmt(ArrayList<Token> tokens) {
+        IfStmt IfStmt = new IfStmt();
         boolean elif = false;
         if (tokens.get(0).getToken().equals("if") | tokens.get(0).getToken().equals("If")){
             tokens.remove(0);

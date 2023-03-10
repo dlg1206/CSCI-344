@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class ElseIfLst implements JottTree {
 
-    ArrayList<ifStmt> ifLst;
+    ArrayList<IfStmt> ifLst;
 
     public ElseIfLst(){
         ifLst = null;
@@ -19,7 +19,7 @@ public class ElseIfLst implements JottTree {
         boolean moreElIfs = true;
         while (moreElIfs){
 
-            elifLst.ifLst.add(ifStmt.parseIfStmt(tokens));
+            elifLst.ifLst.add(IfStmt.parseIfStmt(tokens));
 
             if (tokens.get(0).getToken().equals("elseif")){
                 tokens.remove(0);

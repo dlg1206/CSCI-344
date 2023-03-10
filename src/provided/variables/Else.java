@@ -19,6 +19,7 @@ public class Else implements JottTree {
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
             elseStmt.body = Body.parseBody(tokens);
+            tokens.remove(0);
             // may need to remove an additional token if } was left in by body parse
         }
         return elseStmt;

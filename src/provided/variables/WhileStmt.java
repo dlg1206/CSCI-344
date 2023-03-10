@@ -5,18 +5,18 @@ import provided.Token;
 
 import java.util.ArrayList;
 
-public class whileLoop implements JottTree {
+public class WhileStmt implements JottTree {
 
     ArrayList<bExpr> boolstmts;
     JottTree body;
 
-    public whileLoop(){
+    public WhileStmt(){
         boolstmts = new ArrayList<bExpr>();
     }
 
-    public static whileLoop parseWhileLoop(ArrayList<Token> tokens){
+    public static WhileStmt parseWhileStmt(ArrayList<Token> tokens){
 
-        whileLoop wloop = new whileLoop();
+        WhileStmt wloop = new WhileStmt();
 
         if (tokens.get(0).getToken().equals("while") | tokens.get(0).getToken().equals("While")){
             tokens.remove(0);

@@ -1,7 +1,6 @@
 package provided.variables;
 
 import provided.*;
-import provided.variables.ifStmt;
 
 import java.util.ArrayList;
 
@@ -18,7 +17,7 @@ public class Stmt implements JottTree {
             if (tokens.get(1).getToken().equals("=")){
                 statement = Assignment.parseAsmt(tokens);
             }
-            statement = funcCall.parseFuncCall(tokens);
+            statement = FunctionCall.parseFuncCall(tokens);
         }
 
         else if (tokens.get(0).getToken().equals("String") ||tokens.get(0).getToken().equals("Boolean") || tokens.get(0).getToken().equals("Integer") ||tokens.get(0).getToken().equals("Double")){
