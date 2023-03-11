@@ -35,10 +35,9 @@ public class ParameterTail implements JottTree {
      * @return new params_t object
      */
     public static ParameterTail parseParams_t(ArrayList<Token> tokens){
-
-
+    
         // base case
-        if(tokens.get(0).getToken().equals("]"))
+        if(tokens.get(0).getToken().equals("]")) 
             return null;
 
         // Validate
@@ -60,11 +59,7 @@ public class ParameterTail implements JottTree {
      */
     @Override
     public String convertToJott() {
-        // base case
-        if (this.params_t == null)
-            return  "";
-        // else get rest of tail
-        return ", " + this.params_t.convertToJott();
+        return ", " + this.expr.convertToJott();
     }
 
     @Override

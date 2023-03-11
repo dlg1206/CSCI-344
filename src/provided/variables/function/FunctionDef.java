@@ -7,16 +7,22 @@ import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
 import provided.variables.Body;
+import provided.variables.ReturnStmt;
 
 class FunctionDef implements JottTree {
 
   //missing the func name id? 
-  static public FunctionDefParams params;
-  static public Body body;
-  static public FunctionReturn returnRef;
-  static private String funcId;
-  public FunctionDef() {
+  FunctionDefParams defParams;
+  Body body;
+  FunctionReturn funcReturn;
+  String funcId;
 
+  public FunctionDef(FunctionDefParams defParams, Body body, FunctionReturn funcReturn, String funcId) {
+    this.defParams = defParams;
+    this.body = body;
+    this.funcReturn = funcReturn;
+    this.funcId = funcId;
+    
   }
 
   public static FunctionDef parseFunctionDef(ArrayList<Token> tokens){
@@ -31,7 +37,7 @@ class FunctionDef implements JottTree {
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
       throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
     }
-    funcId = currToken.getToken();
+    String funcId = currToken.getToken();
     tokens.remove(0);
     // Check [
     currToken=tokens.get(0);
@@ -41,8 +47,11 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check Function_def_params
     currToken=tokens.get(0);
+    FunctionDefParams params = null;
     if (!currToken.getToken().equals("]"))  {
       params = FunctionDefParams.parseFunctionDefParams(tokens);
+
+      System.out.println("FUNCPARAMS: " + params.convertToJott());
     }
     // Check ]
     if(!currToken.getToken().equals("]")){
@@ -56,7 +65,7 @@ class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check FunctionReturn
-    returnRef = FunctionReturn.parseFunctionReturn(tokens); // I changed this, not sure if it's correct - Josh
+    FunctionReturn returnRef = FunctionReturn.parseFunctionReturn(tokens); // I changed this, not sure if it's correct - Josh
     if (returnRef == null) {
       return null;
     }
@@ -67,10 +76,7 @@ class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check Body
-    body = Body.parseBody(tokens);
-    if (body == null) {
-      return null;
-    }
+    Body body = Body.parseBody(tokens);
     // Check }
     currToken = tokens.get(0);
     if(!currToken.getToken().equals("}")){
@@ -78,15 +84,15 @@ class FunctionDef implements JottTree {
     }
     tokens.remove(0);
 
-    return new FunctionDef();
+    return new FunctionDef(params, body, returnRef, funcId);
   }
 
   @Override
   public String convertToJott() {
-    if (params != null) {
-      return "def " + funcId + "[" + params.convertToJott() + "]:" + returnRef.convertToJott() + "{" + body.convertToJott() + "}";
+    if (defParams != null) {
+      return "def " + funcId + "[" + defParams.convertToJott() + "]:" + funcReturn.convertToJott() + "{\n" + body.convertToJott() + "}\n\n";
     } else {
-      return "def " + funcId + "[]:" + returnRef.convertToJott() + "{" + body.convertToJott() + "}";
+      return "def " + funcId + "[]:" + funcReturn.convertToJott() + "{\n" + body.convertToJott() + "}\n\n";
     }
   }
 

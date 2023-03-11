@@ -26,7 +26,7 @@ public class WhileStmt implements JottTree {
         tokens.remove(0);
         // Check boolean
         wloop.conditions = BoolExp.parseBoolExp(tokens);
-        if (!tokens.get(0).equals("]")){
+        if (!tokens.get(0).getToken().equals("]")){
             throw new ParsingError("Syntax", "]", tokens.get(0));
         }
         tokens.remove(0);

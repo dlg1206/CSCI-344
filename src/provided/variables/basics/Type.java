@@ -13,8 +13,8 @@ public class Type implements JottTree {
     }
 
     public static boolean isType(Token token) {
-        return (token.equals("Boolean") || token.equals("String") ||
-        token.equals("Integer") || token.equals("Double"));
+        return (token.getToken().equals("Boolean") || token.getToken().equals("String") ||
+        token.getToken().equals("Integer") || token.getToken().equals("Double"));
     }
 
     public static Type parseType(ArrayList<Token> tokens) {

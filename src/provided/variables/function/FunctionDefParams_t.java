@@ -9,20 +9,22 @@ import provided.TokenType;
 import provided.variables.basics.Type;
 
 public class FunctionDefParams_t implements JottTree {
-  public static HashMap<String, Type> params = new HashMap<>();
-
-  public FunctionDefParams_t() {
-
+  ArrayList<String> ids;
+  ArrayList<Type> types;
+  public FunctionDefParams_t(ArrayList<String> ids, ArrayList<Type> types) {
+    this.ids = ids;
+    this.types = types;
   }
 
 
-  static Token currToken, startToken;
+  static Token currToken;
   static String currKey;
   static Type currVal;
   public static FunctionDefParams_t parseFunctionDefParams_t(ArrayList<Token> tokens) {
-    startToken = tokens.get(0);
-    currToken = startToken;
-    while (startToken.getToken().equals(",")) {
+    currToken = tokens.get(0);
+    ArrayList<String> ids = new ArrayList<>();
+    ArrayList<Type> types = new ArrayList<>();
+    while (currToken.getToken().equals(",")) {
       // We have checked for , in previous no need for error throwing
       tokens.remove(0);
 
@@ -31,9 +33,8 @@ public class FunctionDefParams_t implements JottTree {
       if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
         throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
       }
-      currKey = currToken.getToken();
+      String id = currToken.getToken();
       tokens.remove(0);
-
       // Check for :
       currToken=tokens.get(0);
       if (!currToken.getToken().equals(":")) {
@@ -46,23 +47,19 @@ public class FunctionDefParams_t implements JottTree {
       if (type == null) {
         return null;
       }
-      currVal = type;
-
-
-      params.put(currKey, currVal);
-
-      startToken = tokens.get(0);
-      currToken = startToken;
+      
+      ids.add(id);
+      types.add(type);
     }
 
-    return new FunctionDefParams_t();
+    return new FunctionDefParams_t(ids, types);
   }
 
   @Override
   public String convertToJott() {
     String result = "";
-    for (String key: params.keySet()) {
-      result += ", " + key + ":" + params.get(key) ;
+    for (int i=0; i<ids.size();i++) {
+      result += ", " + ids.get(i) + ":" + types.get(i);
     }
     return result;
   }

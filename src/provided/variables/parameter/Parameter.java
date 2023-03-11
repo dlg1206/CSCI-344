@@ -36,20 +36,12 @@ public class Parameter implements JottTree {
      * @return new params object
      */
     public static Parameter parseParams(ArrayList<Token> tokens) {
-        // Validate '['
-        if(!tokens.get(0).getToken().equals("["))
-            throw new ParsingError("Syntax Error", "[", tokens.get(0));
-        tokens.remove(0);   // pop "["
-
         // parse expression
         Expression expr = Expression.parseExpression(tokens);
+        System.out.println("EXPR: " + expr);
+        // 
         // parse params_t
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);   // will throw error if missing ","
-
-        // Validate ']'
-        if(!tokens.get(0).getToken().equals("]"))
-            throw new ParsingError("Syntax Error", "]", tokens.get(0));
-        tokens.remove(0);   // pop "]"
 
         // Success
         return new Parameter(expr, params_t);
@@ -63,7 +55,11 @@ public class Parameter implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return "[ " + this.expr.convertToJott() + this.params_t.convertToJott() + " ]";
+    
+    
+        if (this.params_t != null)
+            return this.expr.convertToJott() + this.params_t.convertToJott();
+        return this.expr.convertToJott();
     }
 
     @Override

@@ -4,24 +4,29 @@ import provided.Token;
 import provided.TokenType;
 import provided.variables.FunctionCall;
 import provided.JottTree;
+import provided.ParsingError;
 public class StrExp implements JottTree{
     
-    static String str;
-    static String id;
-    static FunctionCall functionCall;
+    String strOrId = null;
+    FunctionCall functionCall;
 
-    public StrExp() {}
-
+    public StrExp(String strOrId) {
+        this.strOrId = strOrId;
+    }
+    public StrExp(FunctionCall funcCall) {
+        this.functionCall = funcCall;
+    }
 
     static Token currToken;
 
     public static StrExp parseStrExp(ArrayList<Token> tokens) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
-            str = currToken.getToken();
+            
+            String str = currToken.getToken();
             tokens.remove(0);
+            return new StrExp(str);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
-            id = currToken.getToken();
             Token lookAhead = tokens.get(1);
             tokens.remove(0);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
@@ -30,12 +35,15 @@ public class StrExp implements JottTree{
             tokens.remove(0);
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
-                id = null;
-                functionCall = FunctionCall.parseFuncCall(tokens); 
+                return new StrExp(FunctionCall.parseFuncCall(tokens));
+            } else {
+                String id = currToken.getToken(); 
+                tokens.remove(0);
+                return new StrExp(id);
             }
+        } else {
+            throw new ParsingError("Syntax Error", "String Expression", currToken);
         }
-
-        return new StrExp();
     }
 
     /**
@@ -45,7 +53,8 @@ public class StrExp implements JottTree{
      */
     @Override
     public String convertToJott() {
-        return null;
+        if (strOrId != null) return strOrId;
+        return functionCall.convertToJott();
     }
 
     /**
