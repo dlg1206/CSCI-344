@@ -38,7 +38,7 @@ public class Expression implements JottTree {
     static RelOp relOp;
     static NumExp numExp2;
 
-    public static Expression createExpression(ArrayList<Token> tokens) {
+    public static Expression parseExpression(ArrayList<Token> tokens) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
             strExp = StrExp.parseStrExp(tokens);
