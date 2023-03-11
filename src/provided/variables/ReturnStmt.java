@@ -19,7 +19,7 @@ public class ReturnStmt implements JottTree{
         if(tokens.get(0).getToken() == "return"){
             tokens.remove(0);
             //start feeding in the token string as an expression till we get ;
-            Expression expression = Expression.createExpression(tokens);
+            Expression expression = Expression.parseExpression(tokens);
             if(tokens.get(0).getToken() == ";"){
                 EndStmt endStmt = EndStmt.parseEndStmt(tokens);
             }
