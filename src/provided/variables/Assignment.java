@@ -41,22 +41,20 @@ public class Assignment extends Stmt {
      * @return new asmt object
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
-        try{
-            Type type = Type.parseType(tokens);
-            Id id = Id.createId(tokens);
 
-            // Validate
-            if(!tokens.get(0).getToken().equals("="))
-                throw new ParsingError("Syntax Error", "=", tokens.get(0));
-            tokens.remove(0);   // pop '='
+        Type type = Type.parseType(tokens);
+        Id id = Id.createId(tokens);
 
-            Expression expr = Expression.createExpression(tokens);
-            EndStmt end_statement = EndStmt.parseEndStmt(tokens);
+        // Validate
+        if(!tokens.get(0).getToken().equals("="))
+            throw new ParsingError("Syntax Error", "=", tokens.get(0));
+        tokens.remove(0);   // pop '='
 
-            return new Assignment(type, id, expr, end_statement);
-        } catch (ParsingError e){
-            return null;
-        }
+        Expression expr = Expression.createExpression(tokens);
+        EndStmt end_statement = EndStmt.parseEndStmt(tokens);
+
+        return new Assignment(type, id, expr, end_statement);
+
     }
 
     /**
