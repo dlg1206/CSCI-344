@@ -14,7 +14,6 @@ public class Program implements JottTree {
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
-    // TODO uncomment w/ implementation
     funcList = FunctionList.parseFunctionList(tokens);
     if (funcList == null) return null;
     return new Program();

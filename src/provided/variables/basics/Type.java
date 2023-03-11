@@ -14,7 +14,7 @@ public class Type implements JottTree {
 
     public static boolean isType(Token token) {
         return (token.equals("Boolean") || token.equals("String") ||
-        token.equals("Integer") || token.equals("Double"))
+        token.equals("Integer") || token.equals("Double"));
     }
 
     public static Type parseType(ArrayList<Token> tokens) {
