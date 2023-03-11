@@ -1,9 +1,7 @@
 package provided.variables.function;
 
 import java.util.ArrayList;
-import provided.variables.BodyStmt;
-import provided.variables.basics.Id;
-import provided.variables.function.FunctionReturn;
+
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;

@@ -2,7 +2,6 @@ package provided.variables;
 
 import provided.ParsingError;
 import provided.Token;
-import provided.variables.basics.Id;
 import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 
@@ -17,7 +16,7 @@ import java.util.ArrayList;
 public class Assignment extends Stmt {
 
     private final Type type;
-     private final Id id;
+     private final String id;
      private final Expression expr;
      private final EndStmt end_statement;
 
@@ -27,7 +26,7 @@ public class Assignment extends Stmt {
      *
      * @param type variable type
      */
-     private Assignment(Type type, Id id, Expression expr, EndStmt end_statement) {
+     private Assignment(Type type, String id, Expression expr, EndStmt end_statement) {
         this.type = type;
         this.id = id;
         this.expr = expr;
@@ -43,7 +42,7 @@ public class Assignment extends Stmt {
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
 
         Type type = Type.parseType(tokens);
-        Id id = Id.createId(tokens);
+        String id = tokens.remove(0).getToken();
 
         // Validate
         if(!tokens.get(0).getToken().equals("="))
@@ -63,23 +62,22 @@ public class Assignment extends Stmt {
      * @return a string representing the Jott code of this tree
      */
     @Override
-    public String convertToJott() {
-         return this.type.convertToJott() + " " + this.id.convertToJott() + " = "
-                 + this.expr.convertToJott() + this.end_statement.convertToJott();
+    public java.lang.String convertToJott() {
+         return this.type.convertToJott() + " " + id + " = " + this.expr.convertToJott() + this.end_statement.convertToJott();
     }
 
     @Override
-    public String convertToJava(String className) {
+    public java.lang.String convertToJava(java.lang.String className) {
         return null;
     }
 
     @Override
-    public String convertToC() {
+    public java.lang.String convertToC() {
         return null;
     }
 
     @Override
-    public String convertToPython() {
+    public java.lang.String convertToPython() {
         return null;
     }
 
