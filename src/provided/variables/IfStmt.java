@@ -3,25 +3,22 @@ package provided.variables;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
+import provided.variables.expr.BoolExp;
 
 import java.util.ArrayList;
 
 public class IfStmt implements JottTree { // will need to extend body statement
 
-    // TODO uncomment w/ implementation
-    //ArrayList<bExpr> boolstmts;
+    BoolExp boolexp;
     Body body;
     ElseIfLst elifLst;
     Else elseStmt;
 
     public IfStmt(){
-        // TODO uncomment w/ implementation
-        //boolstmts = new ArrayList<bExpr>();
         body = null;
         elifLst = null;
         elseStmt = null;
     }
-
 
     public static IfStmt parseIfStmt(ArrayList<Token> tokens) {
         IfStmt IfStmt = new IfStmt();
@@ -36,11 +33,14 @@ public class IfStmt implements JottTree { // will need to extend body statement
         }
         if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
-            // TODO uncomment w/ implementation
-//            while (!tokens.get(0).getToken().equals("]")){
-//                IfStmt.boolstmts.add(bExpr.parseBExpr(tokens));
-//            }
-            tokens.remove(0);
+            IfStmt.boolexp = BoolExp.parseBool(tokens);
+            if (tokens.get(0).getToken().equals("]")){
+                tokens.remove(0);
+            }
+            else{
+                new ParsingError("Syntax", "]", tokens.get(0));
+                return null;
+            }
         }
         else {
             new ParsingError("Syntax", "[", tokens.get(0));
@@ -56,6 +56,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
             }
             else{
                 new ParsingError("Syntax", "}", tokens.get(0));
+                return null;
             }
         }
         else {

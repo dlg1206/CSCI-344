@@ -57,8 +57,6 @@ public class BoolExp implements JottTree {
             } else {
                 // Throw Error
             }
-    
-
         }  else {
             // Throw Error
         }

@@ -31,7 +31,7 @@ public class FunctionReturn implements JottTree {
      * @return new function_return object
      */
     public static FunctionReturn parseFunctionReturn(ArrayList<Token> tokens){
-        return new FunctionReturn(Type.parseType(tokens.remove(0)));
+        return new FunctionReturn(Type.parseType(tokens));
     }
 
     /**

@@ -31,14 +31,14 @@ public class Constant implements JottTree {
         Token token = tokens.remove(0);
         if (token.getTokenType() == TokenType.NUMBER) {
             if (token.getToken().contains(".")) {
-                return new Constant(Type.DOUBLE, token);
+                return new Constant(Type.parseType(tokens), token);
             } else {
-                return new Constant(Type.INT, token);
+                return new Constant(Type.parseType(tokens), token);
             }
         } else if (token.getToken().contains("True") || token.getToken().contains("False")) {
-            return new Constant(Type.BOOL, token);
+            return new Constant(Type.parseType(tokens), token);
         } else {
-            return new Constant(Type.STRING, token);
+            return new Constant(Type.parseType(tokens), token);
         }
     }
 

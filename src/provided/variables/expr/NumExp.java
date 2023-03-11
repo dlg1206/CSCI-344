@@ -17,7 +17,9 @@ public class NumExp implements JottTree{
     static String num;
 
 
-    public NumExp() {}
+    public NumExp() {
+
+    }
 
     static Token currToken;
     public static NumExp parseNumExp(ArrayList<Token> tokens) {

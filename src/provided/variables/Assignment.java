@@ -42,7 +42,7 @@ public class Assignment extends Stmt {
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
         try{
-            Type type = Type.parseType(tokens.remove(0));
+            Type type = Type.parseType(tokens);
             Id id = Id.createId(tokens);
 
             // Validate
