@@ -44,7 +44,7 @@ public class Body implements JottTree{
             bodyStmts.add(0, bodyStmt);
         } else if (!currToken.getToken().equals("}")) {
             throw new ParsingError("Syntax Error", "id, type, if, while, or return", currToken);
-
+        }
         return new Body(bodyStmts, returnStmt);
     }
 
