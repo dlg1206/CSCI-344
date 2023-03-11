@@ -25,8 +25,10 @@ public class Stmt implements JottTree {
         } else if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             if (tokens.get(1).getToken().equals("=")){
                 statement = Assignment.parseAsmt(tokens);
+           // EndStmt.parseEndStmt(tokens);
             } else {
                 statement = FunctionCall.parseFuncCall(tokens);
+                EndStmt.parseEndStmt(tokens);
             }
         }
         else {

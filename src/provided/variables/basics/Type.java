@@ -28,7 +28,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return type;
     }
 
     @Override

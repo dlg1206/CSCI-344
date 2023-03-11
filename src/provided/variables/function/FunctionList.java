@@ -15,7 +15,7 @@ public class FunctionList implements JottTree {
 
   public static FunctionList parseFunctionList(ArrayList<Token> tokens) {
     FunctionDef currFuncDef; 
-    while (tokens.get(0).getToken().equals("def")) {
+    while (tokens.size() != 0 && tokens.get(0).getToken().equals("def")) {
       currFuncDef = FunctionDef.parseFunctionDef(tokens);
 			if (currFuncDef == null) {
         return null;

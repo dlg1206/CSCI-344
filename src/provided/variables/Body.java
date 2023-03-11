@@ -18,10 +18,10 @@ public class Body implements JottTree{
     }
 
     public static Body parseBody(ArrayList<Token> tokens){
-        if(tokens.size() == 0){
+        if(tokens.get(0).getToken().equals("}")){
             return new Body(null, null, null);
         }
-        if(tokens.get(0).getToken() == "return"){
+        if(tokens.get(0).getToken().equals("return")){
             return new Body(null, null, ReturnStmt.parseReturnStmt(tokens));
         }
         else{

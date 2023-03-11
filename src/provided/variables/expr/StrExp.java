@@ -19,15 +19,22 @@ public class StrExp implements JottTree{
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
             str = currToken.getToken();
+            tokens.remove(0);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             id = currToken.getToken();
             Token lookAhead = tokens.get(1);
+            tokens.remove(0);
+        } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
+            id = currToken.getToken();
+            Token lookAhead = tokens.get(1);
+            tokens.remove(0);
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
                 id = null;
                 functionCall = FunctionCall.parseFuncCall(tokens); 
             }
         }
+
         return new StrExp();
     }
 

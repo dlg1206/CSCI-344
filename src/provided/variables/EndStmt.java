@@ -12,11 +12,12 @@ public class EndStmt implements JottTree{
     }
 
     public static EndStmt parseEndStmt(ArrayList<Token> tokens){
-        if(tokens.get(0).getToken() == ";"){
+        if(tokens.get(0).getToken().equals(";")){
             tokens.remove(0);
             return new EndStmt();
         }
-        throw new ParsingError("Missing return", "return", tokens.get(0));
+
+        throw new ParsingError("Expected semicolon", ";", tokens.get(0));
     }
 
     @Override

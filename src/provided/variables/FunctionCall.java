@@ -24,13 +24,8 @@ public class FunctionCall extends Stmt {
         }
 
         if (tokens.get(0).getToken().equals("[")) {
-            tokens.remove(0);
             // might need to change this to use the parameters class?
             func.parameters = Parameter.parseParams(tokens);
-            if (!tokens.get(0).equals("]")){
-                throw new ParsingError("Syntax", "]", tokens.get(0));
-            }
-            tokens.remove(0);
         }
 
         return func;

@@ -50,7 +50,10 @@ public class Expression implements JottTree {
 
         }
 
+
         strExp = StrExp.parseStrExp(tokens);
+        //need to update curr token b/c things may have been removed from token list
+        currToken = tokens.get(0);
 
 
 
@@ -89,6 +92,7 @@ public class Expression implements JottTree {
         }   
 
         return new Expression();
+
     }
 
 
