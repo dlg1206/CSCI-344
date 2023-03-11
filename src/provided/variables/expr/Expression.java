@@ -2,11 +2,7 @@ package provided.variables.expr;
 
 import java.util.ArrayList;
 
-import provided.ParsingError;
 import provided.JottTree;
-import provided.variables.FunctionCall;
-import provided.variables.basics.Constant;
-import provided.variables.basics.Id;
 import provided.Token;
 import provided.TokenType;
 import provided.variables.ops.Op;
