@@ -16,7 +16,7 @@ class FunctionDef implements JottTree {
   static public FunctionDefParams params;
   static public Body body;
   static public FunctionReturn returnRef;
-
+  static private String funcId;
   public FunctionDef() {
 
   }
@@ -36,6 +36,7 @@ class FunctionDef implements JottTree {
       new ParsingError("Syntax Error", "Id or Keyword", currToken);
       return null;
     }
+    funcId = currToken.getToken();
     tokens.remove(0);
     // Check [
     currToken=tokens.get(0);
@@ -93,10 +94,7 @@ class FunctionDef implements JottTree {
 
   @Override
   public String convertToJott() {
-    //missing func name id?? 
-    return "def "
-    //missing function name
-     + "[" + params.convertToJott() + "]:" + returnRef.convertToJott() + "{" + body.convertToJott() + "}";
+    return "def " + funcId + "[" + params.convertToJott() + "]:" + returnRef.convertToJott() + "{" + body.convertToJott() + "}";
   }
 
   @Override
