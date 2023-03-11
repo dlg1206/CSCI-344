@@ -33,7 +33,11 @@ public class ElseIfLst implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        String converted = "";
+        for (IfStmt ifstmt : ifLst){
+            converted = converted + "else" + ifstmt.convertToJott();
+        }
+        return converted;
     }
 
     @Override

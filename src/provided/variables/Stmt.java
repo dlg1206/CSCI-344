@@ -7,8 +7,6 @@ import java.util.ArrayList;
 
 public class Stmt implements JottTree {
 
-
-
     public Stmt(){
 
     }
@@ -38,12 +36,9 @@ public class Stmt implements JottTree {
         return statement;
     }
 
-
-
-
     @Override
     public String convertToJott() {
-        return null;
+        return this.convertToJott();
     }
 
     @Override
