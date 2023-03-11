@@ -32,7 +32,7 @@ public class FunctionCall extends Stmt {
             }
         }
 
-        return null;
+        return func;
     }
 
     @Override
