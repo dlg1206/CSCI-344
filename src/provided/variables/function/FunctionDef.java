@@ -51,7 +51,7 @@ class FunctionDef implements JottTree {
     if (!currToken.getToken().equals("]"))  {
       params = FunctionDefParams.parseFunctionDefParams(tokens);
 
-      System.out.println("FUNCPARAMS: " + params.convertToJott());
+      
     }
     currToken = tokens.get(0);
     // Check ]

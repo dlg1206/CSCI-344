@@ -38,7 +38,7 @@ public class Parameter implements JottTree {
     public static Parameter parseParams(ArrayList<Token> tokens) {
         // parse expression
         Expression expr = Expression.parseExpression(tokens);
-        System.out.println("EXPR: " + expr);
+        
         // 
         // parse params_t
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);   // will throw error if missing ","
