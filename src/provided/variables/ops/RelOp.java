@@ -13,9 +13,9 @@ public class RelOp implements JottTree {
 
     public static RelOp parseRelOp(ArrayList<Token> tokens) {
         Token currToken = tokens.get(0);
-        if (currToken.equals(">") || currToken.equals(">=") ||
-            currToken.equals("<") || currToken.equals("<=") ||
-            currToken.equals("==") || currToken.equals("!=")
+        if (currToken.getToken().equals(">") || currToken.getToken().equals(">=") ||
+            currToken.getToken().equals("<") || currToken.getToken().equals("<=") ||
+            currToken.getToken().equals("==") || currToken.getToken().equals("!=")
         ) {
             tokens.remove(0);
             return new RelOp(currToken.getToken());

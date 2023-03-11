@@ -6,6 +6,7 @@ import provided.variables.FunctionCall;
 import provided.variables.function.FunctionDefParams;
 import provided.variables.ops.Op;
 import provided.JottTree;
+import provided.ParsingError;
 
 public class NumExp implements JottTree{
     
@@ -55,9 +56,8 @@ public class NumExp implements JottTree{
             }
             return new NumExp();
         } else {
-            // Throw Error
+            throw new ParsingError("Syntax", "Number Expression", currToken);
         }
-        return null;
     }
 
     /**
