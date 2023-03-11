@@ -1,6 +1,7 @@
 package provided.variables.basics;
 
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
 
@@ -8,8 +9,8 @@ import java.util.ArrayList;
 
 public class Constant implements JottTree {
 
-    private Token token;
-    private Type type;
+    private final Token token;
+    private final Type type;
 
     private Constant(Type type, Token token) {
         this.type = type;
@@ -25,20 +26,17 @@ public class Constant implements JottTree {
     }
 
     public static Constant createConstant(ArrayList<Token> tokens) {
-        if (tokens.isEmpty()) {
-            // TODO: error handling
-        }
+
+
         Token token = tokens.remove(0);
+
         if (token.getTokenType() == TokenType.NUMBER) {
-            if (token.getToken().contains(".")) {
-                return new Constant(Type.parseType(tokens), token);
-            } else {
-                return new Constant(Type.parseType(tokens), token);
-            }
+            return new Constant(Type.parseType(tokens), token);
         } else if (token.getToken().contains("True") || token.getToken().contains("False")) {
             return new Constant(Type.parseType(tokens), token);
         } else {
-            return new Constant(Type.parseType(tokens), token);
+            // todo may cause issues?
+            throw new ParsingError("Syntax", "Constant", token);
         }
     }
 
