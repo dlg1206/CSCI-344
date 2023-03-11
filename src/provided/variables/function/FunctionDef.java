@@ -53,6 +53,7 @@ class FunctionDef implements JottTree {
 
       System.out.println("FUNCPARAMS: " + params.convertToJott());
     }
+    currToken = tokens.get(0);
     // Check ]
     if(!currToken.getToken().equals("]")){
       throw new ParsingError("Syntax Error", "]", currToken);
