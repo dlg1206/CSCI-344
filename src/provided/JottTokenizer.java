@@ -34,7 +34,7 @@ public class JottTokenizer {
         if (type == null) {
             if (currChar == '=') {
                 type = TokenType.ASSIGN;
-            } else if (currChar == '<' || currChar == '>') {
+            } else if (currChar == '<' || currChar == '>' || currChar == '!') {
                 type = TokenType.REL_OP;
             } else if (currChar == '.') {
                 type = TokenType.NUMBER;
@@ -43,8 +43,6 @@ public class JottTokenizer {
             } else if (Character.toLowerCase(currChar) >= 'a'
                     && Character.toLowerCase(currChar) <= 'z') {
                 type = TokenType.ID_KEYWORD;
-            } else if (currChar == '!') {
-                type = TokenType.REL_OP;
             } else if (currChar == '"') {
                 type = TokenType.STRING;
             } else {
@@ -74,42 +72,30 @@ public class JottTokenizer {
      * @return Index of last character in a token, -1 if error parsing
      */
     private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-
+        System.out.println("Current Char: " + currLine[i]);
         // Attempt to index array successfully
-        try {
-            // quick check that this isn't an assign
-            if (currLine[i] == '=' && currLine[i + 1] == ' ') {
-                tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
-                return i;
+        char  first = currLine[i]; 
+        if (first == '<' || first == '>' || first == '!' ) {
+            // check for following =
+            i++;
+            char follow = currLine[i];
+            String fullLexeme;
+            if (follow == '=') {
+                i++;
+                fullLexeme = Character.toString(first) + Character.toString(follow);
+            } else {
+                fullLexeme = Character.toString(first);
             }
-
-            // Check valid !=
-            if (currLine[i] == '!' && currLine[i + 1] != '='){
-                tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
-                return -1;
-            }
-
-            // Else test for valid relop
-            String tokenString;
-            switch (currLine[i + 1]) {
-                // >, <
-                case ' ' -> tokenString = String.valueOf(currLine[i]);
-                // ==, >=, <=, !=
-                case '=' -> tokenString = String.valueOf(currLine[i]) + currLine[i + 1];
-                // illegal char following
-                default -> {
-                    tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
-                    return -1;
-                }
-            }
-
-            // Add to token list
-            tokenList.add(new Token(tokenString, globalFileName, lineNum, TokenType.REL_OP));
-            return i + tokenString.length() - 1;    // +0 or +1 to get to last index
-
-        } catch (IndexOutOfBoundsException e) {
-            // ie attempted to look ahead and couldn't
-            tokenList.add(new Token(String.valueOf(currLine[i]), globalFileName, lineNum, TokenType.ASSIGN));
+            tokenList.add(new Token(fullLexeme, globalFileName, lineNum, TokenType.REL_OP));
+            return i;
+        } else if (first == '=' && currLine[i+1] == '=') {
+            // Check for ==
+            i++;
+            i++;
+            String fullLexeme = "==";
+            tokenList.add(new Token(fullLexeme, globalFileName, lineNum, TokenType.REL_OP));
+            return i;
+        } else {
             return -1;
         }
 
@@ -270,8 +256,7 @@ public class JottTokenizer {
             tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
         } else if (currLine[i + 1] == '=') {
             currLexeme.append(currLine[i + 1]);
-            tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.REL_OP));
-            return i + 1;
+            return handleRelOpToken(i, currLine, tokenList, lineNum);
         } else {
             tokenList.add(new Token(currLexeme.toString(), globalFileName, lineNum, TokenType.ASSIGN));
         }
