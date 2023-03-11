@@ -65,7 +65,7 @@ public class BoolExp implements JottTree {
 
         if (currToken.getTokenType() != TokenType.ID_KEYWORD && 
             !tokens.get(0).getToken().equals("True")  && 
-            !tokens.get(0).getToken().equals("False") &&
+            !tokens.get(0).getToken().equals("False")
             ) {
 
             }
