@@ -1,5 +1,6 @@
 package provided.variables;
 
+import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
 import provided.variables.parameter.Parameter;
@@ -26,6 +27,9 @@ public class FunctionCall extends Stmt {
             tokens.remove(0);
             // might need to change this to use the parameters class?
             func.parameters = Parameter.parseParams(tokens);
+            if (!tokens.get(0).equals("]")){
+                throw new ParsingError("Syntax", "]", tokens.get(0));
+            }
             tokens.remove(0);
         }
 
