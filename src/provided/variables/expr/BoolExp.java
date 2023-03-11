@@ -19,7 +19,7 @@ public class BoolExp implements JottTree {
 
     static String id;
     static RelOp relOp = null; 
-
+    static String bool; 
     static NumExp numExp1;
     static NumExp numExp2;
     
@@ -34,6 +34,8 @@ public class BoolExp implements JottTree {
         if (currToken.getToken().equals("True") || currToken.getToken().equals("False")) {
             // is Bool
             IS_BOOL = true;
+            bool = currToken.getToken();
+            tokens.remove(0);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             // ID or N_EXP or Func Call
             // , ; ]
@@ -42,7 +44,7 @@ public class BoolExp implements JottTree {
                 // Just Id
                 IS_ID = true;
                 id = currToken.getToken();
-                return new BoolExp();
+                tokens.remove(0);
             } else if (lookAhead.getToken().equals("[")) {
                 numExp1 = NumExp.parseNumExp(tokens);
                 relOp = RelOp.parseRelOp(tokens);
@@ -53,27 +55,12 @@ public class BoolExp implements JottTree {
                     IS_FUNCCALL = true;
                 }
             } else {
-
+                // Throw Error
             }
     
 
         }  else {
-            // error
-        }
-
-
-
-        if (currToken.getTokenType() != TokenType.ID_KEYWORD && 
-            !tokens.get(0).getToken().equals("True")  && 
-            !tokens.get(0).getToken().equals("False") &&
-            ) {
-
-            }
-
-
-        if (!tokens.get(0).getToken().equals("True") && !tokens.get(0).getToken().equals("False") ) {
-            new ParsingError("Syntax Error", "Boolean Expression", currToken);
-            return null;
+            // Throw Error
         }
 
         return new BoolExp();

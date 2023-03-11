@@ -2,7 +2,7 @@ package provided;
 
 
 
-public class ParsingError extends Error{
+public class ParsingError extends Error {
 
   /**
    * ParsingError is used to print out an error message to std error.
@@ -16,4 +16,6 @@ public class ParsingError extends Error{
     
     System.err.println(errorMessage);
   }
+
+  
 }
