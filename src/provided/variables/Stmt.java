@@ -32,7 +32,8 @@ public class Stmt implements JottTree {
             statement = FunctionCall.parseFuncCall(tokens);
         }
         else {
-            // error
+            // todo fix
+            throw new ParsingError("Syntax Error", "???", tokens.get(0));
         }
 
         return statement;
