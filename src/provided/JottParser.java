@@ -27,6 +27,14 @@ public class JottParser {
             // Parse error, print message and return null
             System.err.println(e.toString());
             return null;
+        } catch (IndexOutOfBoundsException e){
+            // debug output
+            e.printStackTrace();
+            return null;
+        } catch (Exception e){
+            System.err.println("Unknown Issue :(");
+            e.printStackTrace();
+            return null;
         }
     }
 }
