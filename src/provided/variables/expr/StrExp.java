@@ -19,7 +19,7 @@ public class StrExp implements JottTree{
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
             str = currToken.getToken();
-        } if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
+        } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             id = currToken.getToken();
             Token lookAhead = tokens.get(1);
             if (lookAhead.getToken().equals("[")) {

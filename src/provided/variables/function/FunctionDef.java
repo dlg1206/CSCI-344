@@ -24,7 +24,6 @@ class FunctionDef implements JottTree {
   public static FunctionDef parseFunctionDef(ArrayList<Token> tokens){
     // Check def
     Token currToken=tokens.get(0);
-    System.out.println("CURRTOKEN1: " + currToken.getToken());
     if(!currToken.getToken().equals("def")) {
       // Throw error
       new ParsingError("Syntax Error", "def", currToken);
@@ -33,7 +32,6 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check <id>
     currToken=tokens.get(0);
-    System.out.println("CURRTOKEN2: " + currToken.getToken());
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
       new ParsingError("Syntax Error", "Id or Keyword", currToken);
       return null;
@@ -49,7 +47,6 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check Function_def_params
     currToken=tokens.get(0);
-    System.out.println("CURRTOKEN3: " + currToken);
     if (!currToken.getToken().equals("]"))  {
       params = FunctionDefParams.parseFunctionDefParams(tokens);
       if (params == null) {
@@ -64,7 +61,6 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check :
     currToken=tokens.get(0);
-    System.out.println("CURRTOKEN4: " + currToken);
     if(!currToken.getToken().equals(":")){
       new ParsingError("Syntax Error", ":", currToken);
       return null;
@@ -77,7 +73,6 @@ class FunctionDef implements JottTree {
     }
     // Check {
     currToken=tokens.get(0);
-    System.out.println("CURRTOKEN5: " + currToken);
     if(!currToken.getToken().equals("{")){
       new ParsingError("Syntax Error", "{", currToken);
       return null;
