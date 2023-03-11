@@ -13,15 +13,17 @@ public class IfStmt implements JottTree { // will need to extend body statement
     Body body;
     ElseIfLst elifLst;
     Else elseStmt;
+    boolean elif;
 
-    public IfStmt(){
+    public IfStmt(boolean elif){
         body = null;
         elifLst = null;
         elseStmt = null;
+        elif = true;
     }
 
     public static IfStmt parseIfStmt(ArrayList<Token> tokens) {
-        IfStmt IfStmt = new IfStmt();
+        
         boolean elif = false;
         if (tokens.get(0).getToken().equals("if")){
             tokens.remove(0);
@@ -31,6 +33,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
             tokens.remove(0);
             elif = true;
         }
+        IfStmt IfStmt = new IfStmt(elif);
         if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
             IfStmt.boolexp = BoolExp.parseBoolExp(tokens);
@@ -76,7 +79,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToJott() {
-        return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}";
+        if (!elif) {
+            return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}" + elifLst.convertToJott() + elseStmt.convertToJott();
+        }
+        else {
+            return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}";
+        }
     }
 
     @Override
