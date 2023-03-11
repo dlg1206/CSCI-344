@@ -46,7 +46,7 @@ public class ParameterTail implements JottTree {
             throw new ParsingError("Syntax Error", ",", tokens.get(0));
         tokens.remove(0);   // pop ","
 
-        Expression expr = Expression.createExpression(tokens);
+        Expression expr = Expression.parseExpression(tokens);
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);
 
         return new ParameterTail(expr, params_t);

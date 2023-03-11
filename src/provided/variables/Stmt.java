@@ -19,17 +19,15 @@ public class Stmt implements JottTree {
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
                 statement = Assignment.parseAsmt(tokens);
-            }
-            else {
+            } else {
                 statement = VariableDeclaration.parseVar_dec(tokens);
             }
-        }
-
-        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
+        } else if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             if (tokens.get(1).getToken().equals("=")){
                 statement = Assignment.parseAsmt(tokens);
+            } else {
+                statement = FunctionCall.parseFuncCall(tokens);
             }
-            statement = FunctionCall.parseFuncCall(tokens);
         }
         else {
             // todo fix

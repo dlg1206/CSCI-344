@@ -2,6 +2,7 @@ package provided.variables;
 
 import provided.ParsingError;
 import provided.Token;
+import provided.TokenType;
 import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 
@@ -15,24 +16,19 @@ import java.util.ArrayList;
  **/
 public class Assignment extends Stmt {
 
-    private final Type type;
-     private final String id;
-     private final Expression expr;
-     private final EndStmt end_statement;
-
+    static Type type;
+    static EndStmt end_statement;
+    static Expression expr;
+    static EndStmt endStmt;
 
     /**
      * Creates new asmt object
      *
      * @param type variable type
      */
-     private Assignment(Type type, String id, Expression expr, EndStmt end_statement) {
-        this.type = type;
-        this.id = id;
-        this.expr = expr;
-        this.end_statement = end_statement;
-    }
-
+    private Assignment() {}
+    public static String id;
+    public static Token currToken;
     /**
      * Parse asmt
      *
@@ -40,7 +36,6 @@ public class Assignment extends Stmt {
      * @return new asmt object
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
-
         Type type = Type.parseType(tokens);
         String id = tokens.remove(0).getToken();
 
@@ -48,12 +43,9 @@ public class Assignment extends Stmt {
         if(!tokens.get(0).getToken().equals("="))
             throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
-
-        Expression expr = Expression.createExpression(tokens);
-        EndStmt end_statement = EndStmt.parseEndStmt(tokens);
-
-        return new Assignment(type, id, expr, end_statement);
-
+        expr = Expression.parseExpression(tokens);
+        endStmt = EndStmt.parseEndStmt(tokens);
+        return new Assignment();
     }
 
     /**

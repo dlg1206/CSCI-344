@@ -36,14 +36,13 @@ public class Parameter implements JottTree {
      * @return new params object
      */
     public static Parameter parseParams(ArrayList<Token> tokens) {
-
         // Validate '['
         if(!tokens.get(0).getToken().equals("["))
             throw new ParsingError("Syntax Error", "[", tokens.get(0));
         tokens.remove(0);   // pop "["
 
         // parse expression
-        Expression expr = Expression.createExpression(tokens);
+        Expression expr = Expression.parseExpression(tokens);
         // parse params_t
         ParameterTail params_t = ParameterTail.parseParams_t(tokens);   // will throw error if missing ","
 
