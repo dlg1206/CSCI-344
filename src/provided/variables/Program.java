@@ -8,16 +8,17 @@ import provided.variables.function.FunctionList;
 public class Program implements JottTree {
 
 
-  static FunctionList funcList;
+  FunctionList funcList;
 
-  public Program() {}
+  public Program(FunctionList funcList) {
+    this.funcList = funcList;
+  }
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
-    System.out.println(tokens.get(0).getFilename());
-    funcList = FunctionList.parseFunctionList(tokens);
-    if (funcList == null) return null;
-    return new Program();
+    
+    FunctionList funcList = FunctionList.parseFunctionList(tokens);
+    return new Program(funcList);
   }
 
   @Override

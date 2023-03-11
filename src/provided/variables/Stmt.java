@@ -4,42 +4,49 @@ import provided.*;
 import provided.variables.basics.Type;
 
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Stmt implements JottTree {
 
+    EndStmt endStmt;
+    Stmt stmt;
 
+    public Stmt() {}
 
-    public Stmt(){
-
+    public Stmt(Stmt stmt, EndStmt endStmt){
+        this.stmt = stmt;
+        this.endStmt = endStmt;
     }
 
     static Stmt parseStmt(ArrayList<Token> tokens){
-        Stmt statement = new Stmt();
-
+        
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
-                statement = Assignment.parseAsmt(tokens);
+                Stmt statement = Assignment.parseAsmt(tokens);
+                return new Stmt(statement, null);
             } else {
-                statement = VariableDeclaration.parseVar_dec(tokens);
+                Stmt statement = VariableDeclaration.parseVar_dec(tokens);
+                return new Stmt(statement, null);
             }
         } else if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             if (tokens.get(1).getToken().equals("=")){
-                statement = Assignment.parseAsmt(tokens);
+                Stmt statement = Assignment.parseAsmt(tokens);
+                return new Stmt(statement, null);
             } else {
-                statement = FunctionCall.parseFuncCall(tokens);
+                Stmt statement = FunctionCall.parseFuncCall(tokens);
+                EndStmt endStmt = EndStmt.parseEndStmt(tokens);
+                return new Stmt(statement, endStmt);
             }
         }
         else {
-            // todo fix
             throw new ParsingError("Syntax Error", "???", tokens.get(0));
         }
-
-        return statement;
     }
 
     @Override
     public String convertToJott() {
-        return this.convertToJott();
+        if (endStmt != null) return stmt.convertToJott() + endStmt.convertToJott(); 
+        return stmt.convertToJott();
     }
 
     @Override

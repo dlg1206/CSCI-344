@@ -39,7 +39,7 @@ public class FunctionReturn implements JottTree {
                 throw new ParsingError("Syntax Error", "Return Type", tokens.get(0));
             }
         } else {
-            typeString = Type.type;
+            typeString = type.convertToJott();
         }
 
         tokens.remove(0);
@@ -52,7 +52,7 @@ public class FunctionReturn implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return this.type.convertToJott();
+        return typeString;
     }
 
     @Override

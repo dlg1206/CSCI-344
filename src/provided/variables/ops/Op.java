@@ -14,8 +14,10 @@ public class Op implements JottTree {
 
     public static Op parseOp(ArrayList<Token> tokens) {
         Token currToken = tokens.get(0);
-        if (currToken.equals("+") || currToken.equals("*") ||
-        currToken.equals("/") || currToken.equals("-")
+        
+        
+        if (currToken.getToken().equals("+") || currToken.getToken().equals("*") ||
+            currToken.getToken().equals("/") || currToken.getToken().equals("-")
         ) {
             tokens.remove(0);
             return new Op(currToken.getToken());

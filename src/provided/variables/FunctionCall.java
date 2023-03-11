@@ -8,37 +8,42 @@ import provided.variables.parameter.Parameter;
 import java.util.ArrayList;
 
 public class FunctionCall extends Stmt {
-    Token funcName;
-    Parameter parameters;
+    String id;
+    Parameter params;
 
-    public FunctionCall(){
-        funcName = null;
+    public FunctionCall(String id, Parameter params) {
+        this.id = id;
+        this.params = params;
     }
 
+    public static Token currToken;
     public static FunctionCall parseFuncCall(ArrayList<Token> tokens){
-        FunctionCall func = new FunctionCall();
-
-        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
-            func.funcName = tokens.get(0);
-            tokens.remove(0);
+        currToken = tokens.get(0); 
+        if (currToken.getTokenType() != TokenType.ID_KEYWORD){
+            throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
         }
-
-        if (tokens.get(0).getToken().equals("[")) {
-            tokens.remove(0);
-            // might need to change this to use the parameters class?
-            func.parameters = Parameter.parseParams(tokens);
-            if (!tokens.get(0).equals("]")){
-                throw new ParsingError("Syntax", "]", tokens.get(0));
-            }
-            tokens.remove(0);
+        String id = currToken.getToken();
+        tokens.remove(0);
+        currToken = tokens.get(0);
+        if (!tokens.get(0).getToken().equals("[")) {
+            throw new ParsingError("Syntax Error", "", currToken);
         }
-
-        return func;
+        tokens.remove(0);
+        
+        // might need to change this to use the parameters class?
+        Parameter parameters = Parameter.parseParams(tokens);
+        
+        if (!tokens.get(0).getToken().equals("]")) {
+            throw new ParsingError("Syntax Error", "]", tokens.get(0));
+        }
+        tokens.remove(0);
+        return new FunctionCall(id, parameters);
     }
 
     @Override
     public String convertToJott() {
-        return funcName.getToken() + "[" + parameters.convertToJott() + "]";
+        if (params != null) return id + "[" + params.convertToJott() + "]";
+        return id + "[]";
     }
 
     @Override

@@ -7,27 +7,24 @@ import provided.ParsingError;
 import provided.Token;
 
 public class FunctionList implements JottTree {
-  static ArrayList<FunctionDef> funcList = new ArrayList<>();
+  ArrayList<FunctionDef> funcList;
 
-  public FunctionList() {
-
+  public FunctionList(ArrayList<FunctionDef> funcList) {
+    this.funcList = funcList;
   }
 
   public static FunctionList parseFunctionList(ArrayList<Token> tokens) {
     FunctionDef currFuncDef; 
-    while (tokens.get(0).getToken().equals("def")) {
-      currFuncDef = FunctionDef.parseFunctionDef(tokens);
-			if (currFuncDef == null) {
-        return null;
-      } 
-      funcList.add(currFuncDef);
+    ArrayList<FunctionDef> funcList = new ArrayList<>();
+    while (tokens.size() > 0 && tokens.get(0).getToken().equals("def")) {
+      funcList.add(FunctionDef.parseFunctionDef(tokens));
 		} 
     if (tokens.size() > 0)
       throw new ParsingError("Syntax Error", "EOF", tokens.get(0));
 
 
 
-    return new FunctionList();
+    return new FunctionList(funcList);
   }
 
   @Override

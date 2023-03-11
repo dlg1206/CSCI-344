@@ -17,51 +17,60 @@ public class BoolExp implements JottTree {
     static boolean IS_FUNCCALL = false;
     
 
-    static String id;
-    static RelOp relOp = null; 
-    static String bool; 
-    static NumExp numExp1;
-    static NumExp numExp2;
+    String idOrBool;
+    RelOp relOp = null; 
+    NumExp numExp1;
+    NumExp numExp2;
+    FunctionCall functionCall;
     
-    public BoolExp() {}
+    public BoolExp(String idOrBool) {
+        this.idOrBool = idOrBool;
+    }
+
+    public BoolExp(FunctionCall funcCall) {
+        this.functionCall = funcCall;
+    }
+
+    public BoolExp(NumExp numExp, RelOp relOp, NumExp numExp2) {
+        this.numExp1 = numExp;
+        this.relOp = relOp;
+        this.numExp2 = numExp2;
+    }
 
     static Token currToken; 
 
     static public BoolExp parseBoolExp (ArrayList<Token> tokens) {
-
         currToken = tokens.get(0);
-
         if (currToken.getToken().equals("True") || currToken.getToken().equals("False")) {
             // is Bool
             IS_BOOL = true;
-            bool = currToken.getToken();
+            String bool = currToken.getToken();
             tokens.remove(0);
+            return new BoolExp(bool);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             // ID or N_EXP or Func Call
             // , ; ]
             Token lookAhead = tokens.get(1);
-            if (lookAhead.getToken().equals(";") || lookAhead.getToken().equals(",") || lookAhead.getToken().equals("]")) {
-                // Just Id
-                IS_ID = true;
-                id = currToken.getToken();
+            if (!lookAhead.getToken().equals("[")) {
+                String id = currToken.getToken();
                 tokens.remove(0);
-            } else if (lookAhead.getToken().equals("[")) {
-                numExp1 = NumExp.parseNumExp(tokens);
-                relOp = RelOp.parseRelOp(tokens);
-                if (relOp != null) {
-                    IS_NEXPR = true;
-                    numExp2 = NumExp.parseNumExp(tokens);
-                } else if (numExp1.IS_FUNCCALL) {
-                    IS_FUNCCALL = true;
-                }
+                return new BoolExp(id);
+            }
+            
+            NumExp numExp1 = NumExp.parseNumExp(tokens);
+            RelOp relOp = RelOp.parseRelOp(tokens);
+            if (relOp != null) {
+                IS_NEXPR = true;
+                NumExp numExp2 = NumExp.parseNumExp(tokens);
+                return new BoolExp(numExp1, relOp, numExp2);
+            } else if (numExp1.functionCall != null && numExp1.nextNumExp == null) {
+                return new BoolExp(numExp1.functionCall);
             } else {
-                throw new ParsingError("Syntax", "ID or Keyword", currToken);
+                throw new ParsingError("Syntax Error", "", currToken);
             }
         } else {
             throw new ParsingError("Syntax", "Boolean Expression", currToken);
         }
-
-        return new BoolExp();
     } 
     /**
      * Will output a string of this tree in Jott
@@ -70,7 +79,9 @@ public class BoolExp implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return null;
+        if (IS_ID || IS_BOOL) return idOrBool;
+        if (IS_NEXPR) return numExp1.convertToJott() + relOp.convertToJott() + numExp2.convertToJott();
+        return numExp1.convertToJott();
     }
 
     /**

@@ -16,18 +16,22 @@ import java.util.ArrayList;
  **/
 public class Assignment extends Stmt {
 
-    static Type type;
-    static EndStmt end_statement;
-    static Expression expr;
-    static EndStmt endStmt;
+    Type type;
+    String id;
+    Expression expr;
+    EndStmt endStmt;
 
     /**
      * Creates new asmt object
      *
      * @param type variable type
      */
-    private Assignment() {}
-    public static String id;
+    private Assignment(Type type, String id, Expression expr, EndStmt endStmt) {
+        this.type = type;
+        this.id = id;
+        this.expr = expr;
+        this.endStmt = endStmt;
+    }
     public static Token currToken;
     /**
      * Parse asmt
@@ -43,9 +47,10 @@ public class Assignment extends Stmt {
         if(!tokens.get(0).getToken().equals("="))
             throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
-        expr = Expression.parseExpression(tokens);
-        endStmt = EndStmt.parseEndStmt(tokens);
-        return new Assignment();
+        Expression expr = Expression.parseExpression(tokens);
+        EndStmt endStmt = EndStmt.parseEndStmt(tokens);
+
+        return new Assignment(type, id, expr, endStmt);
     }
 
     /**
@@ -55,7 +60,10 @@ public class Assignment extends Stmt {
      */
     @Override
     public java.lang.String convertToJott() {
-         return this.type.convertToJott() + " " + id + " = " + this.expr.convertToJott() + this.end_statement.convertToJott();
+        if (type != null) {
+            return this.type.convertToJott() + " " + id + " = " + this.expr.convertToJott() + this.endStmt.convertToJott();
+        }
+        return id + " = " + this.expr.convertToJott() + this.endStmt.convertToJott();
     }
 
     @Override

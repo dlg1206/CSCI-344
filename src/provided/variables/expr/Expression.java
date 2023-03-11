@@ -9,86 +9,41 @@ import provided.variables.ops.Op;
 import provided.variables.ops.RelOp;
 
 public class Expression implements JottTree {
-    JottTree lnode;
-    Token operator;
-    JottTree rnode;
-    Boolean isTail;
 
-
-
-    private Expression() {
-        lnode = null;
-        rnode = null;
-        operator = null;
-        isTail = false;
+    public JottTree exp1, exp2, exp3;
+    
+    public Expression(JottTree exp) {
+        this.exp1 = exp;
     }
-    
-    static BoolExp boolExp = null;
-    static NumExp numExp = null;
-    static StrExp strExp = null;
-    
-    
-    
-    static Token currToken;
-    static String id;
-    static RelOp relOp;
-    static NumExp numExp2;
-
+    public Expression(JottTree exp1, JottTree exp2, JottTree exp3) {
+        this.exp1 = exp1;
+        this.exp2 = exp2;
+        this.exp3 = exp3;
+    }
+    public static Token currToken;
     public static Expression parseExpression(ArrayList<Token> tokens) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
-            strExp = StrExp.parseStrExp(tokens);
+            
+            StrExp strExp = StrExp.parseStrExp(tokens);
+            
+            return new Expression(strExp);
         } else if (currToken.getToken().equals("True") ||
                    currToken.getToken().equals("False")) {
-            boolExp = BoolExp.parseBoolExp(tokens);    
+            BoolExp boolExp = BoolExp.parseBoolExp(tokens);    
+            return new Expression(boolExp);
         } else {
-            numExp = NumExp.parseNumExp(tokens);
-            relOp = RelOp.parseRelOp(tokens);
+            NumExp numExp = NumExp.parseNumExp(tokens);
+            RelOp relOp = RelOp.parseRelOp(tokens);
+            
+            
             if (relOp != null) {
-                numExp2 = NumExp.parseNumExp(tokens);
+                NumExp numExp2 = NumExp.parseNumExp(tokens);
+                return new Expression(numExp, relOp, numExp2);
             }
-
+            return new Expression(numExp) ;
         }
 
-        strExp = StrExp.parseStrExp(tokens);
-
-
-
-
-
-        if (currToken.getTokenType() == TokenType.NUMBER) {
-            numExp = NumExp.parseNumExp(tokens);
-        } else if (currToken.getTokenType() == TokenType.STRING) {
-            strExp = StrExp.parseStrExp(tokens);
-        } else if (currToken.getToken().equals("True") ||
-                   currToken.getToken().equals("False")) {
-            boolExp = BoolExp.parseBoolExp(tokens);
-        } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
-            // current is an id and we need more investigation
-            tokens.remove(0);
-            currToken = tokens.get(0);
-            if (currToken.getToken().equals(";") || 
-                currToken.getToken().equals(",") ||
-                (Op.parseOp(tokens) != null)
-            ) {
-                // Only an id or id <op>
-                numExp = NumExp.parseNumExp(tokens);
-                currToken = tokens.get(0);
-            }
-            if (numExp != null) {
-                if (RelOp.parseRelOp(tokens) != null) {
-                    // We know that numExp is no longer correct so we destruct it.
-                    numExp = null;
-                    boolExp = BoolExp.parseBoolExp(tokens);
-                }
-            } else if (currToken.getToken().equals("[")) {
-                // function call 
-                numExp = NumExp.parseNumExp(tokens);
-            }
-
-        }   
-
-        return new Expression();
     }
 
 
@@ -99,11 +54,8 @@ public class Expression implements JottTree {
      */
     @Override
     public String convertToJott() {
-        if (isTail) {
-            return lnode.convertToJott();
-        } else {
-            return lnode.convertToJott() + operator.getToken() + rnode.convertToJott();
-        }
+        if (exp3 != null && exp2 != null) return exp1.convertToJott() + exp2.convertToJott() + exp3.convertToJott();
+        return exp1.convertToJott();
     }
 
     /**

@@ -11,57 +11,54 @@ import provided.variables.basics.Type;
 
 public class FunctionDefParams implements JottTree {
 
-  static HashMap<String, Type> params = new HashMap<String, Type>();
+  FunctionDefParams_t functionDefs_t;
+  String firstId;
+  Type firstType;
 
-  static FunctionDefParams_t functionDefs_t;
-  public FunctionDefParams() {
-
+  public FunctionDefParams(FunctionDefParams_t functionDefs_t, String firstId, Type firstType) {
+    this.functionDefs_t = functionDefs_t;
+    this.firstId = firstId;
+    this.firstType = firstType;
   }
 
 
   static Token currToken;
-  static String currKey;
-  static Type currVal;
   public static FunctionDefParams parseFunctionDefParams(ArrayList<Token> tokens) {
+    HashMap<String, Type> params = new HashMap<String, Type>();
+
     // Check for Keyword
     currToken=tokens.get(0);
     if(currToken.getTokenType() != TokenType.ID_KEYWORD)
       throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
-
-    currKey = currToken.getToken();
+    String id = currToken.getToken();
     tokens.remove(0);
     // Check for :
     currToken=tokens.get(0);
     if (!currToken.getToken().equals(":"))
       throw new ParsingError("Syntax Error", ":", currToken);
-
     tokens.remove(0);
+    // Check for type
     currToken = tokens.get(0);
-    // Check for type:
     Type type = Type.parseType(tokens);
     if (type == null) {
-      return null;
+      throw new ParsingError("Syntax Error", "Type", currToken);
     }
-    currVal = type;
 
     currToken = tokens.get(0);
+    FunctionDefParams_t funcParams_t = null;
     if (currToken.getToken().equals(",")) {
-      functionDefs_t = FunctionDefParams_t.parseFunctionDefParams_t(tokens);
-      if (functionDefs_t == null) {
-        params = new HashMap<String, Type>();
-      } else {
-        // throw err?
-      }
+      funcParams_t = FunctionDefParams_t.parseFunctionDefParams_t(tokens);
     }
-    params.put(currKey, currVal);
+    
 
-    return new FunctionDefParams();
+    return new FunctionDefParams(funcParams_t, id, type);
   }
 
 
   @Override
   public String convertToJott() {
-    return currKey + ":" + currVal + functionDefs_t.convertToJott();
+    if (functionDefs_t != null) return firstId + ":" + firstType + functionDefs_t.convertToJott();
+    return firstId + ":" + firstType;  
   }
 
   @Override
