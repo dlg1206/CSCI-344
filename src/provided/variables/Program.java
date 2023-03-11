@@ -14,6 +14,7 @@ public class Program implements JottTree {
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
+    System.out.println(tokens.get(0).getFilename());
     funcList = FunctionList.parseFunctionList(tokens);
     if (funcList == null) return null;
     return new Program();

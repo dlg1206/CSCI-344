@@ -55,10 +55,10 @@ public class BoolExp implements JottTree {
                     IS_FUNCCALL = true;
                 }
             } else {
-                // Throw Error
+                throw new ParsingError("Syntax", "ID or Keyword", currToken);
             }
-        }  else {
-            // Throw Error
+        } else {
+            throw new ParsingError("Syntax", "Boolean Expression", currToken);
         }
 
         return new BoolExp();
