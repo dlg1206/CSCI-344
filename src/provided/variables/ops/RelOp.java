@@ -1,10 +1,27 @@
 package provided.variables.ops;
 
+import java.util.ArrayList;
+import provided.Token;
 import provided.JottTree;
 
-public enum RelOp implements JottTree {
-    ;
+public class RelOp implements JottTree {
+    
+    public String relOpType;
+    public RelOp(String relOpType) {
+        this.relOpType = relOpType;
+    }
 
+    public static RelOp parseRelOp(ArrayList<Token> tokens) {
+        Token currToken = tokens.get(0);
+        if (currToken.equals(">") || currToken.equals(">=") ||
+            currToken.equals("<") || currToken.equals("<=") ||
+            currToken.equals("==") || currToken.equals("!=")
+        ) {
+            tokens.remove(0);
+            return new RelOp(currToken.getToken());
+        }
+        return null;
+    }
 
     /**
      * Will output a string of this tree in Jott

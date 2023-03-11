@@ -1,15 +1,34 @@
 package provided.variables.expr;
 import java.util.ArrayList;
 import provided.Token;
+import provided.TokenType;
+import provided.variables.FunctionCall;
 import provided.JottTree;
 public class StrExp implements JottTree{
     
+    static String str;
+    static String id;
+    static FunctionCall functionCall;
 
     public StrExp() {}
 
 
-    public static StrExp parseStrExp(ArrayList<Token> tokens) {
+    static Token currToken;
 
+    public static StrExp parseStrExp(ArrayList<Token> tokens) {
+        currToken = tokens.get(0);
+        if (currToken.getTokenType() == TokenType.STRING) {
+            str = currToken.getToken();
+        } if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
+            id = currToken.getToken();
+            Token lookAhead = tokens.get(1);
+            if (lookAhead.getToken().equals("[")) {
+                // Func Call
+                id = null;
+                functionCall = FunctionCall.parseFuncCall(tokens); 
+            }
+        }
+        return new StrExp();
     }
 
     /**

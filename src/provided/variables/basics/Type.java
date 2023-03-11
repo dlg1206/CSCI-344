@@ -2,40 +2,30 @@ package provided.variables.basics;
 
 import provided.JottTree;
 import provided.Token;
+import java.util.ArrayList;
 
-public enum Type implements JottTree {
-    INT("Integer"),
-    BOOL("Boolean"),
-    DOUBLE("Double"),
-    ID(""),
-    KEYWORD(""),
-    STRING("String"),
-    VOID("Void");
+public class Type implements JottTree {
+    
+    public static String type;
 
-    public final String label;
-
-    Type(String name) {
-        this.label = name;
+    public Type(String type) {
+        this.type = type;
     }
 
-    public String getLabel() {
-        return label;
-    }
-
-    public static Type getType(Token token) {
-        return switch (token.getToken()) {
-            case "Integer" -> INT;
-            case "Boolean" -> BOOL;
-            case "String" -> STRING;
-            case "Void" -> VOID;
-            case "Double" -> DOUBLE;
-            default -> null;
-        };
+    public static Type parseType(ArrayList<Token> tokens) {
+        Token currToken = tokens.get(0);
+        if (currToken.equals("Boolean") || currToken.equals("String") ||
+            currToken.equals("Integer") || currToken.equals("Double") 
+        ) {
+            tokens.remove(0);
+            return new Type(currToken.getToken());
+        }
+        return null;
     }
 
     @Override
     public String convertToJott() {
-        return this.label;
+        return null;
     }
 
     @Override

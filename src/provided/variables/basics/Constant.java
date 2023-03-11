@@ -16,7 +16,7 @@ public class Constant implements JottTree {
         this.token = token;
     }
 
-    public Type getType() {
+    public Type parseType() {
         return this.type;
     }
 
