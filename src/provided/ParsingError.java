@@ -25,4 +25,6 @@ public class ParsingError extends Error {
             + "Error with parsing file, expected: " + this.expected + " received: " + this.actual.getToken() + "\n"
             + this.actual.getFilename() + ":" + this.actual.getLineNum();
   }
+
+  
 }

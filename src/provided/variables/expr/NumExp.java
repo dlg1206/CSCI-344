@@ -30,6 +30,7 @@ public class NumExp implements JottTree{
             Token lookAhead = tokens.get(1);
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
+                id = null;
                 IS_FUNCCALL = true;
                 functionCall = FunctionCall.parseFuncCall(tokens);
                 op = Op.parseOp(tokens);
@@ -37,22 +38,25 @@ public class NumExp implements JottTree{
                     IS_FUNCCALL = false;
                     nextNumExp = parseNumExp(tokens);
                 }
-                return new NumExp();
             } else {
+                tokens.remove(0);
                 op = Op.parseOp(tokens);
                 if (op != null) {
                     nextNumExp = parseNumExp(tokens);
                 }
             }
+            return new NumExp();
         } else if (currToken.getTokenType() == TokenType.NUMBER) {
             num = currToken.getToken();
+            tokens.remove(0);
             op = Op.parseOp(tokens);
             if (op != null) {
                 nextNumExp = parseNumExp(tokens);
             }
             return new NumExp();
+        } else {
+            // Throw Error
         }
-
         return null;
     }
 
