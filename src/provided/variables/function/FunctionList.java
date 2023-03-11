@@ -17,11 +17,15 @@ public class FunctionList implements JottTree {
     FunctionDef currFuncDef; 
     while (tokens.get(0).getToken().equals("def")) {
       currFuncDef = FunctionDef.parseFunctionDef(tokens);
+			if (currFuncDef == null) {
+        return null;
+      } 
       funcList.add(currFuncDef);
 		} 
-    if (tokens.size() > 0) {      
+    if (tokens.size() > 0)
       throw new ParsingError("Syntax Error", "EOF", tokens.get(0));
-    }
+
+
 
     return new FunctionList();
   }
