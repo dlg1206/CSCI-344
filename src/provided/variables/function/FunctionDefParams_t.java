@@ -62,7 +62,11 @@ public class FunctionDefParams_t implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    String result = "";
+    for (String key: params.keySet()) {
+      result += ", " + key + ":" + params.get(key) ;
+    }
+    return result;
   }
 
   @Override

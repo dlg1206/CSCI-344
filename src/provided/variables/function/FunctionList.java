@@ -1,6 +1,7 @@
 package provided.variables.function;
 
 import java.util.ArrayList;
+
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
@@ -13,8 +14,13 @@ public class FunctionList implements JottTree {
   }
 
   public static FunctionList parseFunctionList(ArrayList<Token> tokens) {
-     while (tokens.get(0).getToken().equals("def")) {
-			funcList.add(FunctionDef.parseFunctionDef(tokens));
+    FunctionDef currFuncDef; 
+    while (tokens.get(0).getToken().equals("def")) {
+      currFuncDef = FunctionDef.parseFunctionDef(tokens);
+			if (currFuncDef == null) {
+        return null;
+      } 
+      funcList.add(currFuncDef);
 		} 
     if (tokens.size() > 0) {
       // Throw error
@@ -27,11 +33,11 @@ public class FunctionList implements JottTree {
 
   @Override
   public String convertToJott() {
-    String s = "";
+    String result = "";
     for (FunctionDef func : funcList) {
-      s = s + func.convertToJott();
+      result += func.convertToJott();
     }
-    return s;
+    return result;
   }
 
   @Override
