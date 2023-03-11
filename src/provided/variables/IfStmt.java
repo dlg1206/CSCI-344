@@ -38,14 +38,11 @@ public class IfStmt implements JottTree { // will need to extend body statement
                 tokens.remove(0);
             }
             else{
-                new ParsingError("Syntax", "]", tokens.get(0));
-                return null;
+                throw new ParsingError("Syntax", "]", tokens.get(0));
             }
         }
         else {
-            new ParsingError("Syntax", "[", tokens.get(0));
-            // error, no open parenthesis after if
-            return null;
+            throw new ParsingError("Syntax", "[", tokens.get(0));
         }
 
         if (tokens.get(0).getToken().equals("{")){
@@ -55,14 +52,11 @@ public class IfStmt implements JottTree { // will need to extend body statement
                 tokens.remove(0);
             }
             else{
-                new ParsingError("Syntax", "}", tokens.get(0));
-                return null;
+                throw new ParsingError("Syntax", "}", tokens.get(0));
             }
         }
         else {
-            new ParsingError("Syntax", "{", tokens.get(0));
-            // error, no open bracket after if
-            return null;
+            throw new ParsingError("Syntax", "{", tokens.get(0));
         }
 
         if (!elif) {

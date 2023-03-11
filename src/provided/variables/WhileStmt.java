@@ -21,15 +21,13 @@ public class WhileStmt implements JottTree {
         tokens.remove(0);
         currToken = tokens.get(0);
         if (!currToken.getToken().equals("[")){
-            // Throw error
-            return null;
+            throw new ParsingError("Syntax", "[", currToken);
         }
         tokens.remove(0);
         // Check boolean
         wloop.conditions = BoolExp.parseBoolExp(tokens);
         if (!tokens.get(0).equals("]")){
-            new ParsingError("Syntax", "]", tokens.get(0));
-            return null;
+            throw new ParsingError("Syntax", "]", tokens.get(0));
         }
         tokens.remove(0);
         currToken = tokens.get(0);

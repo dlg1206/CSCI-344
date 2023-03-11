@@ -2,13 +2,13 @@ package provided.variables;
 
 import provided.Token;
 import provided.TokenType;
-import provided.variables.function.FunctionDefParams;
+import provided.variables.parameter.Parameter;
 
 import java.util.ArrayList;
 
 public class FunctionCall extends Stmt {
     Token funcName;
-    FunctionDefParams parameters;
+    Parameter parameters;
 
     public FunctionCall(){
         funcName = null;
@@ -25,7 +25,7 @@ public class FunctionCall extends Stmt {
         if (tokens.get(0).getToken().equals("[")) {
             tokens.remove(0);
             // might need to change this to use the parameters class?
-            func.parameters = FunctionDefParams.parseFunctionDefParams(tokens);
+            func.parameters = Parameter.parseParams(tokens);
             tokens.remove(0);
         }
 

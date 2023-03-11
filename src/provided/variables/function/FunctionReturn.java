@@ -1,6 +1,7 @@
 package provided.variables.function;
 
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.variables.basics.Type;
 
@@ -13,16 +14,15 @@ import java.util.ArrayList;
  * @author Derek Garcia
  **/
 public class FunctionReturn implements JottTree {
-    private final Type type;
+    public static Type type;
+    public static String typeString;
 
     /**
      * Creates new function_return object
      *
      * @param type return type
      */
-    private FunctionReturn(Type type){
-        this.type = type;
-    }
+    private FunctionReturn(){}
 
     /**
      * Parse function_return
@@ -31,7 +31,19 @@ public class FunctionReturn implements JottTree {
      * @return new function_return object
      */
     public static FunctionReturn parseFunctionReturn(ArrayList<Token> tokens){
-        return new FunctionReturn(Type.parseType(tokens));
+        type = Type.parseType(tokens);
+        if (type == null) {
+            if (tokens.get(0).getToken().equals("Void")) {
+                typeString = "Void";
+            } else {
+                throw new ParsingError("Syntax Error", "Return Type", tokens.get(0));
+            }
+        } else {
+            typeString = Type.type;
+        }
+
+        tokens.remove(0);
+        return new FunctionReturn();
     }
 
     /**
