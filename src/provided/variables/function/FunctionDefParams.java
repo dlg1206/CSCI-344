@@ -2,6 +2,7 @@ package provided.variables.function;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
@@ -10,7 +11,7 @@ import provided.variables.basics.Type;
 
 public class FunctionDefParams implements JottTree {
 
-  static HashMap<String, Type> params;
+  static HashMap<String, Type> params = new HashMap<String, Type>();
 
   static FunctionDefParams_t functionDefs_t;
   public FunctionDefParams() {
@@ -50,10 +51,9 @@ public class FunctionDefParams implements JottTree {
       functionDefs_t = FunctionDefParams_t.parseFunctionDefParams_t(tokens);
       if (functionDefs_t == null) {
         params = new HashMap<String, Type>();
+      } else {
+        
       }
-    }
-    if (params == null) {
-      params = new HashMap<String, Type>();
     }
     params.put(currKey, currVal);
 
@@ -63,7 +63,8 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToJott() {
-    return null;
+    String result = currKey + ":" + currVal + functionDefs_t.convertToJott();
+    return result;
   }
 
   @Override
