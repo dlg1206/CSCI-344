@@ -25,16 +25,16 @@ public class FunctionDefParams implements JottTree {
   public static FunctionDefParams parseFunctionDefParams(ArrayList<Token> tokens) {
     // Check for Keyword
     currToken=tokens.get(0);
-    if(currToken.getTokenType() != TokenType.ID_KEYWORD){
+    if(currToken.getTokenType() != TokenType.ID_KEYWORD)
       throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
-    }
+
     currKey = currToken.getToken();
     tokens.remove(0);
     // Check for :
     currToken=tokens.get(0);
-    if (!currToken.getToken().equals(":")) {
+    if (!currToken.getToken().equals(":"))
       throw new ParsingError("Syntax Error", ":", currToken);
-    }
+
     tokens.remove(0);
     currToken = tokens.get(0);
     // Check for type:
@@ -50,7 +50,7 @@ public class FunctionDefParams implements JottTree {
       if (functionDefs_t == null) {
         params = new HashMap<String, Type>();
       } else {
-        
+        // throw err?
       }
     }
     params.put(currKey, currVal);
@@ -61,8 +61,7 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToJott() {
-    String result = currKey + ":" + currVal + functionDefs_t.convertToJott();
-    return result;
+    return currKey + ":" + currVal + functionDefs_t.convertToJott();
   }
 
   @Override

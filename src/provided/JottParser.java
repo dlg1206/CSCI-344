@@ -20,7 +20,21 @@ public class JottParser {
      *         or null upon an error in parsing.
      */
     public static JottTree parse(ArrayList<Token> tokens){
-      JottTree jottTree = (JottTree) Program.parseProgram(tokens);
-      return jottTree;
+        // Attempt to parse the jott tree
+        try {
+            return Program.parseProgram(tokens);
+        } catch (ParsingError e){
+            // Parse error, print message and return null
+            System.err.println(e.toString());
+            return null;
+        } catch (IndexOutOfBoundsException e){
+            // debug output
+            e.printStackTrace();
+            return null;
+        } catch (Exception e){
+            System.err.println("Unknown Issue :(");
+            e.printStackTrace();
+            return null;
+        }
     }
 }

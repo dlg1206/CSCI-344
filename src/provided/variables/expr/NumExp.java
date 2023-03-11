@@ -1,12 +1,13 @@
 package provided.variables.expr;
-import java.util.ArrayList;
+
+import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
 import provided.variables.FunctionCall;
-import provided.variables.function.FunctionDefParams;
 import provided.variables.ops.Op;
-import provided.JottTree;
-import provided.ParsingError;
+
+import java.util.ArrayList;
 
 public class NumExp implements JottTree{
     
@@ -56,7 +57,7 @@ public class NumExp implements JottTree{
             }
             return new NumExp();
         } else {
-            throw new ParsingError("Syntax", "Number Expression", currToken);
+            throw new ParsingError("Syntax Error", "num exp", currToken);
         }
     }
 
