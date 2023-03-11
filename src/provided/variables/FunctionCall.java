@@ -34,7 +34,7 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToJott() {
-        return null;
+        return funcName.getToken() + "[" + parameters.convertToJott() + "]";
     }
 
     @Override

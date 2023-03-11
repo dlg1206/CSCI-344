@@ -40,7 +40,7 @@ public class WhileStmt implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return "while[" + conditions.convertToJott() + "]{" + body.convertToJott() + "}";
     }
 
     @Override

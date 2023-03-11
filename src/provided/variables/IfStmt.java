@@ -33,7 +33,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         }
         if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
-            IfStmt.boolexp = BoolExp.parseBool(tokens);
+            IfStmt.boolexp = BoolExp.parseBoolExp(tokens);
             if (tokens.get(0).getToken().equals("]")){
                 tokens.remove(0);
             }
@@ -82,7 +82,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToJott() {
-        return null;
+        return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}";
     }
 
     @Override

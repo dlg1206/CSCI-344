@@ -27,7 +27,7 @@ public class Else implements JottTree {
 
     @Override
     public String convertToJott() {
-        return null;
+        return "Else{" + body.convertToJott() + "}";
     }
 
     @Override
