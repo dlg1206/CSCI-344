@@ -17,45 +17,37 @@ public class Expression implements JottTree {
     Boolean isTail;
 
 
+
     private Expression() {
         lnode = null;
         rnode = null;
         operator = null;
         isTail = false;
     }
-
+    
+    static BoolExp boolExp = null;
+    static NumExp numExp = null;
+    static StrExp strExp = null;
+    
+    
+    
+    static Token currToken;
     public static Expression createExpression(ArrayList<Token> tokens) {
-        Expression expr = new Expression();
-        if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD) {
-            if (tokens.get(1).getTokenType() == TokenType.L_BRACKET) {
-                expr.lnode = FunctionCall.parseFuncCall(tokens);
-            } else if (Character.isUpperCase(tokens.get(0).getToken().charAt(0))) {
-                expr.lnode = Constant.createConstant(tokens);
-            } else {
-                expr.lnode = Id.createId(tokens);
-            }
-        } else if (tokens.get(0).getTokenType() == TokenType.NUMBER) {
-            expr.lnode = Constant.createConstant(tokens);
-        } else if (tokens.get(0).getTokenType() == TokenType.STRING) {
-            expr.lnode = Constant.createConstant(tokens);
+        currToken = tokens.get(0);
+        
+        if (currToken.getTokenType() == TokenType.NUMBER) {
+            numExp = NumExp.parseNumExp(tokens);
+        } else if (currToken.getTokenType() == TokenType.STRING) {
+            strExp = StrExp.parseStrExp(tokens);
+        } else if (currToken.getToken().equals("True") ||
+                   currToken.getToken().equals("True")) {
+            boolExp = BoolExp.parseBool(tokens);
         } else {
-            new ParsingError(tokens.get(0).toString(), "Something else" ,tokens.get(0));
-            return null;
-        }
-        if (tokens.get(0).getTokenType() == TokenType.MATH_OP || tokens.get(0).getTokenType() == TokenType.REL_OP) {
-            if (!(tokens.get(1).getTokenType() == TokenType.ID_KEYWORD ||
-                    tokens.get(1).getTokenType() == TokenType.NUMBER ||
-                    tokens.get(1).getTokenType() == TokenType.STRING)) {
-                new ParsingError(tokens.get(1).getTokenType().toString(), "Something else",tokens.get(1));
-                return null;
-            }
-            expr.operator = tokens.remove(0);
-            expr.rnode = Expression.createExpression(tokens);
-        } else {
-            expr.isTail = true;
-        }
+            // current is an id and we need more investigation
+            
+        }   
 
-        return expr;
+        return new Expression();
     }
 
 

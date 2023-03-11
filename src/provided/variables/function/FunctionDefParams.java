@@ -25,7 +25,7 @@ public class FunctionDefParams implements JottTree {
   public static FunctionDefParams parseFunctionDefParams(ArrayList<Token> tokens) {
     // Check for Keyword
     currToken=tokens.get(0);
-    if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
+    if(currToken.getTokenType() != TokenType.ID_KEYWORD){
       new ParsingError("Syntax Error", "Id or Keyword", currToken);
       return null;
     }
