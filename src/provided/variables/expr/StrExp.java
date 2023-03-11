@@ -28,6 +28,11 @@ public class StrExp implements JottTree{
             return new StrExp(str);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             Token lookAhead = tokens.get(1);
+            tokens.remove(0);
+        } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
+            id = currToken.getToken();
+            Token lookAhead = tokens.get(1);
+            tokens.remove(0);
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
                 return new StrExp(FunctionCall.parseFuncCall(tokens));
