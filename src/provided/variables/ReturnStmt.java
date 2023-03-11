@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class ReturnStmt implements JottTree{
 
-    private static EndStmt endStmt;
-    private static  Expression expression;
+    EndStmt endStmt;
+    Expression expression;
 
     public ReturnStmt(Expression expression, EndStmt endStmt){
         this.endStmt = endStmt;
@@ -16,26 +16,17 @@ public class ReturnStmt implements JottTree{
     }
 
     public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens){
-        if(tokens.get(0).getToken() == "return"){
-            tokens.remove(0);
-            //start feeding in the token string as an expression till we get ;
-            Expression expression = Expression.parseExpression(tokens);
-            if(tokens.get(0).getToken() == ";"){
-                EndStmt endStmt = EndStmt.parseEndStmt(tokens);
-            }
-            else{
-                throw new ParsingError("Semicolon expected", ";", tokens.get(0));
-            }
-            return new ReturnStmt(expression, endStmt);
-        }
-        else{
-            throw new ParsingError("Missing return", "return", tokens.get(0));
-        }
+        tokens.remove(0);
+        //start feeding in the token string as an expression till we get ;
+        Expression expression = Expression.parseExpression(tokens);
+        EndStmt endStmt = EndStmt.parseEndStmt(tokens);
+        return new ReturnStmt(expression, endStmt);
     }
 
     @Override
     public String convertToJott() {
-        return "return" + expression.convertToJott() + endStmt.convertToJott();
+        if (expression != null) return "return " + expression.convertToJott() + endStmt.convertToJott();
+        return "return" + endStmt.convertToJott();
     }
 
     @Override

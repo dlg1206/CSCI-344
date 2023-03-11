@@ -33,13 +33,14 @@ public class Stmt implements JottTree {
                 Stmt statement = Assignment.parseAsmt(tokens);
                 return new Stmt(statement, null);
             } else {
+                System.out.println("STATEMENT: ");
                 Stmt statement = FunctionCall.parseFuncCall(tokens);
                 EndStmt endStmt = EndStmt.parseEndStmt(tokens);
                 return new Stmt(statement, endStmt);
             }
         }
         else {
-            throw new ParsingError("Syntax Error", "???", tokens.get(0));
+            throw new ParsingError("Syntax Error", "Assignment, Variable Declaration, or Function Call", tokens.get(0));
         }
     }
 

@@ -14,15 +14,16 @@ import java.util.ArrayList;
  * @author Derek Garcia
  **/
 public class FunctionReturn implements JottTree {
-    public static Type type;
-    public static String typeString;
+    String returnType;
 
     /**
      * Creates new function_return object
      *
      * @param type return type
      */
-    private FunctionReturn(){}
+    private FunctionReturn(String returnType) {
+        this.returnType = returnType;
+     }
 
     /**
      * Parse function_return
@@ -31,10 +32,12 @@ public class FunctionReturn implements JottTree {
      * @return new function_return object
      */
     public static FunctionReturn parseFunctionReturn(ArrayList<Token> tokens){
-        type = Type.parseType(tokens);
+        Type type = Type.parseType(tokens);
+        String typeString = "";
         if (type == null) {
             if (tokens.get(0).getToken().equals("Void")) {
                 typeString = "Void";
+                tokens.remove(0);
             } else {
                 throw new ParsingError("Syntax Error", "Return Type", tokens.get(0));
             }
@@ -42,8 +45,7 @@ public class FunctionReturn implements JottTree {
             typeString = type.convertToJott();
         }
 
-        tokens.remove(0);
-        return new FunctionReturn();
+        return new FunctionReturn(typeString);
     }
 
     /**
@@ -52,7 +54,7 @@ public class FunctionReturn implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return typeString;
+        return returnType;
     }
 
     @Override

@@ -32,7 +32,7 @@ public class FunctionCall extends Stmt {
         
         // might need to change this to use the parameters class?
         Parameter parameters = Parameter.parseParams(tokens);
-        
+        System.out.println("PARAMS: " + parameters.convertToJott());
         if (!tokens.get(0).getToken().equals("]")) {
             throw new ParsingError("Syntax Error", "]", tokens.get(0));
         }
