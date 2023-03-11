@@ -1,6 +1,7 @@
 package provided.variables;
 
 import provided.*;
+import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 
