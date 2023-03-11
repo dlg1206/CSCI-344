@@ -3,8 +3,6 @@ package provided.variables;
 import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
-
-import provided.variables.basics.Id;
 import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 
@@ -22,13 +20,13 @@ public class Assignment extends Stmt {
     static EndStmt end_statement;
     static Expression expr;
     static EndStmt endStmt;
+
     /**
      * Creates new asmt object
      *
      * @param type variable type
      */
-     private Assignment() {}
-
+    private Assignment() {}
     public static String id;
     public static Token currToken;
     /**
@@ -38,24 +36,16 @@ public class Assignment extends Stmt {
      * @return new asmt object
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
-        type = Type.parseType(tokens);
-        currToken = tokens.get(0);
-        if (currToken.getTokenType() != TokenType.ID_KEYWORD) {
-            throw new ParsingError("Syntax Error", "Id_Keyword", currToken);
-        }
-        id = currToken.getToken();
-        tokens.remove(0);
-        currToken = tokens.get(0);
+        Type type = Type.parseType(tokens);
+        String id = tokens.remove(0).getToken();
+
         // Validate
-        if(!currToken.getToken().equals("=")) {
-            throw new ParsingError("Syntax Error", "=", currToken);
-        }
+        if(!tokens.get(0).getToken().equals("="))
+            throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
         expr = Expression.parseExpression(tokens);
         endStmt = EndStmt.parseEndStmt(tokens);
-
         return new Assignment();
-    
     }
 
     /**
@@ -64,23 +54,22 @@ public class Assignment extends Stmt {
      * @return a string representing the Jott code of this tree
      */
     @Override
-    public String convertToJott() {
-         return this.type.convertToJott() + " " + this.id.convertToJott() + " = "
-                 + this.expr.convertToJott() + this.end_statement.convertToJott();
+    public java.lang.String convertToJott() {
+         return this.type.convertToJott() + " " + id + " = " + this.expr.convertToJott() + this.end_statement.convertToJott();
     }
 
     @Override
-    public String convertToJava(String className) {
+    public java.lang.String convertToJava(java.lang.String className) {
         return null;
     }
 
     @Override
-    public String convertToC() {
+    public java.lang.String convertToC() {
         return null;
     }
 
     @Override
-    public String convertToPython() {
+    public java.lang.String convertToPython() {
         return null;
     }
 

@@ -2,11 +2,7 @@ package provided.variables.expr;
 
 import java.util.ArrayList;
 
-import provided.ParsingError;
 import provided.JottTree;
-import provided.variables.FunctionCall;
-import provided.variables.basics.Constant;
-import provided.variables.basics.Id;
 import provided.Token;
 import provided.TokenType;
 import provided.variables.ops.Op;
@@ -43,7 +39,7 @@ public class Expression implements JottTree {
         if (currToken.getTokenType() == TokenType.STRING) {
             strExp = StrExp.parseStrExp(tokens);
         } else if (currToken.getToken().equals("True") ||
-                   currToken.getToken().equals("True")) { 
+                   currToken.getToken().equals("False")) {
             boolExp = BoolExp.parseBoolExp(tokens);    
         } else {
             numExp = NumExp.parseNumExp(tokens);
@@ -65,7 +61,7 @@ public class Expression implements JottTree {
         } else if (currToken.getTokenType() == TokenType.STRING) {
             strExp = StrExp.parseStrExp(tokens);
         } else if (currToken.getToken().equals("True") ||
-                   currToken.getToken().equals("True")) {
+                   currToken.getToken().equals("False")) {
             boolExp = BoolExp.parseBoolExp(tokens);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             // current is an id and we need more investigation

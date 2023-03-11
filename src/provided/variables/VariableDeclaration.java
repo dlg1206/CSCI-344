@@ -1,7 +1,6 @@
 package provided.variables;
 
 import provided.Token;
-import provided.variables.basics.Id;
 import provided.variables.basics.Type;
 
 import java.util.ArrayList;
@@ -16,8 +15,7 @@ import java.util.ArrayList;
 public class VariableDeclaration extends Stmt {
 
     private final Type type;
-     private final Id id;
-    // todo add w/ future implementation
+     private final String id;
      private final EndStmt end_statement;
 
     /**
@@ -25,10 +23,10 @@ public class VariableDeclaration extends Stmt {
      *
      * @param type variable type
      */
-    private VariableDeclaration(Type type, Id id, EndStmt end_statement){
+    private VariableDeclaration(Type type, String id, EndStmt end_statement){
         this.type = type;
-         this.id = id;
-         this.end_statement = end_statement;
+        this.id = id;
+        this.end_statement = end_statement;
     }
 
     /**
@@ -38,7 +36,7 @@ public class VariableDeclaration extends Stmt {
      * @return new var_dec object
      */
     public static VariableDeclaration parseVar_dec(ArrayList<Token> tokens){
-         Id id = Id.createId(tokens);
+         String id = tokens.remove(0).getToken();
          Type type = Type.parseType(tokens);
          EndStmt end_statement = EndStmt.parseEndStmt(tokens);
          return new VariableDeclaration(type, id, end_statement);
@@ -49,22 +47,22 @@ public class VariableDeclaration extends Stmt {
      * @return a string representing the Jott code of this tree
      */
     @Override
-    public String convertToJott() {
-        return this.type.convertToJott() + " " + this.id.convertToJott() + this.end_statement.convertToJott();
+    public java.lang.String convertToJott() {
+        return this.type.convertToJott() + " " + this.id + this.end_statement.convertToJott();
     }
 
     @Override
-    public String convertToJava(String className) {
+    public java.lang.String convertToJava(java.lang.String className) {
         return null;
     }
 
     @Override
-    public String convertToC() {
+    public java.lang.String convertToC() {
         return null;
     }
 
     @Override
-    public String convertToPython() {
+    public java.lang.String convertToPython() {
         return null;
     }
 

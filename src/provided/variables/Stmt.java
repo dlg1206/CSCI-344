@@ -7,6 +7,8 @@ import java.util.ArrayList;
 
 public class Stmt implements JottTree {
 
+
+
     public Stmt(){
 
     }
@@ -28,7 +30,8 @@ public class Stmt implements JottTree {
             }
         }
         else {
-            // error
+            // todo fix
+            throw new ParsingError("Syntax Error", "???", tokens.get(0));
         }
 
         return statement;
