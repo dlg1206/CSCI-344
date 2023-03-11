@@ -40,7 +40,7 @@ public class FunctionDefParams implements JottTree {
     tokens.remove(0);
     currToken = tokens.get(0);
     // Check for type:
-    Type type = Type.getType(currToken);
+    Type type = Type.parseType(tokens);
     if (type == null) {
       return null;
     }

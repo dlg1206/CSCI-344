@@ -39,7 +39,7 @@ public class VariableDeclaration extends Stmt {
      */
     public static VariableDeclaration parseVar_dec(ArrayList<Token> tokens){
          Id id = Id.createId(tokens);
-         Type type = Type.getType(tokens.remove(0));
+         Type type = Type.parseType(tokens);
          EndStmt end_statement = EndStmt.parseEndStmt(tokens);
          return new VariableDeclaration(type, id, end_statement);
     }

@@ -23,11 +23,11 @@ public class IfStmt implements JottTree { // will need to extend body statement
     public static IfStmt parseIfStmt(ArrayList<Token> tokens) {
         IfStmt IfStmt = new IfStmt();
         boolean elif = false;
-        if (tokens.get(0).getToken().equals("if") | tokens.get(0).getToken().equals("If")){
+        if (tokens.get(0).getToken().equals("if")){
             tokens.remove(0);
             elif = false;
         }
-        else if (tokens.get(0).getToken().equals("Elif") | tokens.get(0).getToken().equals("elif")){
+        else if (tokens.get(0).getToken().equals("elseif")){
             tokens.remove(0);
             elif = true;
         }

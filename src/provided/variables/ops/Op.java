@@ -1,9 +1,28 @@
 package provided.variables.ops;
 
-import provided.JottTree;
+import java.util.ArrayList;
 
-public enum Op implements JottTree {
-    ;
+import provided.JottTree;
+import provided.Token;
+
+public class Op implements JottTree {
+    
+    public String opType;
+    public Op(String opType) {
+        this.opType = opType;
+    }
+
+    public static Op parseOp(ArrayList<Token> tokens) {
+        Token currToken = tokens.get(0);
+        if (currToken.equals("+") || currToken.equals("*") ||
+        currToken.equals("/") || currToken.equals("-")
+        ) {
+            tokens.remove(0);
+            return new Op(currToken.getToken());
+        }
+        return null;
+    }
+
 
 
     /**

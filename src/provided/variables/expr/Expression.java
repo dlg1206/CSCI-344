@@ -9,6 +9,8 @@ import provided.variables.basics.Constant;
 import provided.variables.basics.Id;
 import provided.Token;
 import provided.TokenType;
+import provided.variables.ops.Op;
+import provided.variables.ops.RelOp;
 
 public class Expression implements JottTree {
     JottTree lnode;
@@ -32,19 +34,62 @@ public class Expression implements JottTree {
     
     
     static Token currToken;
+    static String id;
+    static RelOp relOp;
+    static NumExp numExp2;
+
     public static Expression createExpression(ArrayList<Token> tokens) {
         currToken = tokens.get(0);
-        
+        if (currToken.getTokenType() == TokenType.STRING) {
+            strExp = StrExp.parseStrExp(tokens);
+        } else if (currToken.getToken().equals("True") ||
+                   currToken.getToken().equals("True")) { 
+            boolExp = BoolExp.parseBoolExp(tokens);    
+        } else {
+            numExp = NumExp.parseNumExp(tokens);
+            relOp = RelOp.parseRelOp(tokens);
+            if (relOp != null) {
+                numExp2 = NumExp.parseNumExp(tokens);
+            }
+
+        }
+
+        strExp = StrExp.parseStrExp(tokens);
+
+
+
+
+
         if (currToken.getTokenType() == TokenType.NUMBER) {
             numExp = NumExp.parseNumExp(tokens);
         } else if (currToken.getTokenType() == TokenType.STRING) {
             strExp = StrExp.parseStrExp(tokens);
         } else if (currToken.getToken().equals("True") ||
                    currToken.getToken().equals("True")) {
-            boolExp = BoolExp.parseBool(tokens);
-        } else {
+            boolExp = BoolExp.parseBoolExp(tokens);
+        } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             // current is an id and we need more investigation
-            
+            tokens.remove(0);
+            currToken = tokens.get(0);
+            if (currToken.getToken().equals(";") || 
+                currToken.getToken().equals(",") ||
+                (Op.parseOp(tokens) != null)
+            ) {
+                // Only an id or id <op>
+                numExp = NumExp.parseNumExp(tokens);
+                currToken = tokens.get(0);
+            }
+            if (numExp != null) {
+                if (RelOp.parseRelOp(tokens) != null) {
+                    // We know that numExp is no longer correct so we destruct it.
+                    numExp = null;
+                    boolExp = BoolExp.parseBoolExp(tokens);
+                }
+            } else if (currToken.getToken().equals("[")) {
+                // function call 
+                numExp = NumExp.parseNumExp(tokens);
+            }
+
         }   
 
         return new Expression();
