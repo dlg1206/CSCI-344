@@ -22,10 +22,10 @@ public class BodyStmt implements provided.JottTree {
 
             Token currToken = tokens.get(0);
             //process while token
-            if(currToken.getToken().equals("while") | currToken.getToken().equals("While")){
+            if(currToken.getToken().equals("while")){
                 return new BodyStmt((JottTree) WhileStmt.parseWhileStmt(tokens));
             }
-            else if(currToken.getToken().equals("if") | currToken.getToken().equals("If")){
+            else if(currToken.getToken().equals("if")) {
                 return new BodyStmt((JottTree) IfStmt.parseIfStmt(tokens));
             }
             else{

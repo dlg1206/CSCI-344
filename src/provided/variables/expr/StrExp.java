@@ -1,10 +1,16 @@
-package provided.variables.basics;
-
+package provided.variables.expr;
+import java.util.ArrayList;
+import provided.Token;
 import provided.JottTree;
+public class StrExp implements JottTree{
+    
 
-public enum Bool implements JottTree {
-    ;
+    public StrExp() {}
 
+
+    public static StrExp parseStrExp(ArrayList<Token> tokens) {
+
+    }
 
     /**
      * Will output a string of this tree in Jott

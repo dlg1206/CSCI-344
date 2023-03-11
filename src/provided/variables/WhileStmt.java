@@ -7,7 +7,6 @@ import java.util.ArrayList;
 
 public class WhileStmt implements JottTree {
 
-    // TODO uncomment w/ implementation
 //    ArrayList<bExpr> boolstmts;
     JottTree body;
 
@@ -15,26 +14,23 @@ public class WhileStmt implements JottTree {
         // TODO uncomment w/ implementation
 //        boolstmts = new ArrayList<bExpr>();
     }
-
+    static Token currToken;
     public static WhileStmt parseWhileStmt(ArrayList<Token> tokens){
-
-        WhileStmt wloop = new WhileStmt();
-
-        if (tokens.get(0).getToken().equals("while") | tokens.get(0).getToken().equals("While")){
-            tokens.remove(0);
+        // We checked while outside of this call so we remove the currToken
+        tokens.remove(0);
+        currToken = tokens.get(0);
+        if (!currToken.getToken().equals("(")){
+            // Throw error
+            return null;
         }
-
-        if (tokens.get(0).getToken().equals("(")){
-            tokens.remove(0);
-            // TODO uncomment w/ implementation
-//            while (!tokens.get(0).getToken().equals(")")){
-//                wloop.boolstmts.add(bExpr.parseBExpr(tokens));
-//            }
-            tokens.remove(0);
-        }
+        tokens.remove(0);
+        // Check boolean
+        currToken.get(0);
+        
+        if ()
         wloop.body = Body.parseBody(tokens);
 
-        return null;
+        return new WhileStmt();
     }
 
     @Override
