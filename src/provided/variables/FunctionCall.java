@@ -2,17 +2,16 @@ package provided.variables;
 
 import provided.Token;
 import provided.TokenType;
+import provided.variables.function.FunctionDefParams;
 
 import java.util.ArrayList;
 
 public class FunctionCall extends Stmt {
-    //TODO Need to change ID to the id class
     Token funcName;
-    ArrayList<Token> parameters;
+    FunctionDefParams parameters;
 
     public FunctionCall(){
         funcName = null;
-        parameters = new ArrayList<Token>();
     }
 
     public static FunctionCall parseFuncCall(ArrayList<Token> tokens){
@@ -23,13 +22,11 @@ public class FunctionCall extends Stmt {
             tokens.remove(0);
         }
 
-        if (tokens.get(0).getToken().equals("(")) {
+        if (tokens.get(0).getToken().equals("[")) {
             tokens.remove(0);
             // might need to change this to use the parameters class?
-            while (!tokens.get(0).getToken().equals(")")) {
-                func.parameters.add(tokens.get(0));
-                tokens.remove(0);
-            }
+            func.parameters = FunctionDefParams.parseFunctionDefParams(tokens);
+            tokens.remove(0);
         }
 
         return func;

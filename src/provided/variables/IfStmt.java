@@ -34,16 +34,16 @@ public class IfStmt implements JottTree { // will need to extend body statement
             tokens.remove(0);
             elif = true;
         }
-        if (tokens.get(0).getToken().equals("(")){
+        if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
             // TODO uncomment w/ implementation
-//            while (!tokens.get(0).getToken().equals(")")){
+//            while (!tokens.get(0).getToken().equals("]")){
 //                IfStmt.boolstmts.add(bExpr.parseBExpr(tokens));
 //            }
             tokens.remove(0);
         }
         else {
-            new ParsingError("Syntax", "(", tokens.get(0));
+            new ParsingError("Syntax", "[", tokens.get(0));
             // error, no open parenthesis after if
             return null;
         }
