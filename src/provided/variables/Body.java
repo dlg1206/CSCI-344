@@ -28,7 +28,7 @@ public class Body implements JottTree{
         currToken = tokens.get(0);
         ArrayList<BodyStmt> bodyStmts = new ArrayList<>();
         ReturnStmt returnStmt = null;
-
+        System.out.println("CURRENT PARSE BODY: " + currToken);
         if (currToken.getToken().equals("return")) {
             returnStmt = ReturnStmt.parseReturnStmt(tokens);
         } else if (

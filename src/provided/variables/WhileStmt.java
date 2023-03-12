@@ -26,19 +26,34 @@ public class WhileStmt implements JottTree {
         tokens.remove(0);
         // Check boolean
         wloop.conditions = BoolExp.parseBoolExp(tokens);
-        if (!tokens.get(0).getToken().equals("]")){
-            throw new ParsingError("Syntax", "]", tokens.get(0));
+        
+        currToken = tokens.get(0);
+        if (!currToken.getToken().equals("]")){
+            throw new ParsingError("Syntax", "3]", tokens.get(0));
         }
         tokens.remove(0);
         currToken = tokens.get(0);
+        if (!currToken.getToken().equals("{")) {
+            new ParsingError("Syntax Error", "{", currToken);
+        }
+        tokens.remove(0);
+
         wloop.body = Body.parseBody(tokens);
+
+        currToken = tokens.get(0);
+
+        if (!currToken.getToken().equals("}")) {
+            new ParsingError("Syntax Error", "}", currToken);
+        }
+        tokens.remove(0);
+        System.out.println("CURRENTAFTERWHILE: " + tokens.get(0));
 
         return wloop;
     }
 
     @Override
     public String convertToJott() {
-        return "while[" + conditions.convertToJott() + "]{" + body.convertToJott() + "}";
+        return "while[" + conditions.convertToJott() + "] {\n" + body.convertToJott() + "\t}";
     }
 
     @Override

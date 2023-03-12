@@ -51,25 +51,34 @@ public class BoolExp implements JottTree {
             // ID or N_EXP or Func Call
             // , ; ]
             Token lookAhead = tokens.get(1);
-            if (!lookAhead.getToken().equals("[")) {
-                String id = currToken.getToken();
-                tokens.remove(0);
-                return new BoolExp(id);
-            }
-            
             NumExp numExp1 = NumExp.parseNumExp(tokens);
-            RelOp relOp = RelOp.parseRelOp(tokens);
-            if (relOp != null) {
-                IS_NEXPR = true;
-                NumExp numExp2 = NumExp.parseNumExp(tokens);
-                return new BoolExp(numExp1, relOp, numExp2);
-            } else if (numExp1.functionCall != null && numExp1.nextNumExp == null) {
-                return new BoolExp(numExp1.functionCall);
+            System.out.println("NUM: " + numExp1.convertToJott());
+            if (numExp1.functionCall != null) {
+                RelOp relOp = RelOp.parseRelOp(tokens);
+                System.out.println("RELOP: " + relOp);
+                if (relOp != null) {
+                    IS_NEXPR = true;
+                    NumExp numExp2 = NumExp.parseNumExp(tokens);
+                    return new BoolExp(numExp1, relOp, numExp2);
+                } else if (numExp1.nextNumExp == null){
+                    return new BoolExp(numExp1.functionCall);
+                } else {
+                    throw new ParsingError("Syntax", "2Boolean Expression", currToken);
+                }
+            } else if (numExp1.idOrNum != null && numExp1.nextNumExp == null) {
+                RelOp relOp = RelOp.parseRelOp(tokens);
+                System.out.println("RELOP: " + relOp.convertToJott());
+                if (relOp != null) {
+                    IS_NEXPR = true;
+                    NumExp numExp2 = NumExp.parseNumExp(tokens);
+                    return new BoolExp(numExp1, relOp, numExp2);
+                }
+                return new BoolExp(numExp1.idOrNum);
             } else {
-                throw new ParsingError("Syntax Error", "", currToken);
+                throw new ParsingError("Syntax", "1Boolean Expression", currToken);
             }
         } else {
-            throw new ParsingError("Syntax", "Boolean Expression", currToken);
+            throw new ParsingError("Syntax", "0Boolean Expression", currToken);
         }
     } 
     /**

@@ -72,7 +72,6 @@ public class JottTokenizer {
      * @return Index of last character in a token, -1 if error parsing
      */
     private static int handleRelOpToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-        System.out.println("Current Char: " + currLine[i]);
         // Attempt to index array successfully
         char  first = currLine[i]; 
         if (first == '<' || first == '>' || first == '!' ) {
@@ -87,7 +86,7 @@ public class JottTokenizer {
                 fullLexeme = Character.toString(first);
             }
             tokenList.add(new Token(fullLexeme, globalFileName, lineNum, TokenType.REL_OP));
-            return i;
+            return i-1;
         } else if (first == '=' && currLine[i+1] == '=') {
             // Check for ==
             i++;
@@ -102,40 +101,6 @@ public class JottTokenizer {
     }
 
     /**
-     * Handles index token
-     * @param index     current index in string
-     * @param currLine  char array representing of the current line
-     * @param tokenList list of tokens
-     * @param lineNum   current line number of input file
-     * @return  Index of last character in a token, -1 if error parsing
-     */
-    private static int handleDecimal(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
-        //need to go through and replace all checks for token type w/ getTokenType()
-        int i = index;
-        String tokString = "";
-        if (i == currLine.length - 1) {
-            tokString = new String(tokString + currLine[i]);
-            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-            return -1; //invalid token
-        }
-        if (!((int) currLine[i + 1] > 37 && (int) currLine[i + 1] < 58)) {
-            //if the next char is not a digit
-            tokString = new String(tokString + currLine[i]);
-            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-            return -1;
-        } else {
-            while (i < currLine.length && (int) currLine[i] > 37 && (int) currLine[i] < 58) {
-                //while we're still getting a number
-                tokString = new String(tokString + currLine[i]);
-                i += 1;
-            }
-        }
-        tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-        return i - 1;
-
-    }
-
-    /**
      * Handles number token
      * @param index     current index in string
      * @param currLine  char array representing of the current line
@@ -143,33 +108,29 @@ public class JottTokenizer {
      * @param lineNum   current line number of input file
      * @return  Index of last character in a token, -1 if error parsing
      */
-    private static int handleNumberToken(int index, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
+    private static int handleNumberToken(int i, char[] currLine, ArrayList<Token> tokenList, int lineNum) {
         //need to go through and replace all checks for token type w/ getTokenType()
-        char currChar = currLine[index];
-        String tokString = "";
-        int i = index; //current index
-        Boolean decimalFlag = false;
-        if (currChar == '.') {
-            return handleDecimal(index, currLine, tokenList, lineNum);
-        } else {
-            //know that the first char was a digit
-            while (i < currLine.length && (currLine[i] == '.' || ((int) currLine[i] > 37 && (int) currLine[i] < 58))) {
-                if (currLine[i] == '.') {
-                    if (!decimalFlag) {
-                        //haven't got a decimal before, means token is still valid
-                        decimalFlag = true;
-                    } else {
-                        //got a decimal before, token is now done
-                        tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-                        return i - 1;
-                    }
-                }
-                tokString = new String(tokString + currLine[i]);
-                i += 1;
-            }
-            tokenList.add(new Token(tokString, globalFileName, lineNum, TokenType.NUMBER));
-            return i - 1;
+        char currChar = currLine[i];
+        String currLexeme = "";
+        while (currChar >= '0' && currChar <= '9') {
+            currLexeme += Character.toString(currChar);
+            i++;
+            currChar = currLine[i];
         }
+        if (currChar == '.') {
+            currLexeme += ".";
+            currChar = currLine[++i];
+            while (currChar >= '0' && currChar <= '9') {
+                currLexeme += Character.toString(currChar);
+                i++;
+                currChar = currLine[i];
+            }
+            // currLexeme += handleDecimal(i, currLine, tokenList, lineNum);
+        }
+
+        tokenList.add(new Token(currLexeme, globalFileName, lineNum, TokenType.NUMBER));
+
+        return i-1;
     }
 
     /**

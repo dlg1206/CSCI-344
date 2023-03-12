@@ -43,8 +43,9 @@ public class FunctionDefParams implements JottTree {
     if (type == null) {
       throw new ParsingError("Syntax Error", "Type", currToken);
     }
-
     currToken = tokens.get(0);
+    
+
     FunctionDefParams_t funcParams_t = null;
     if (currToken.getToken().equals(",")) {
       funcParams_t = FunctionDefParams_t.parseFunctionDefParams_t(tokens);

@@ -26,7 +26,7 @@ public class FunctionCall extends Stmt {
         tokens.remove(0);
         currToken = tokens.get(0);
         if (!tokens.get(0).getToken().equals("[")) {
-            throw new ParsingError("Syntax Error", "", currToken);
+            throw new ParsingError("Syntax Error", "[", currToken);
         }
         tokens.remove(0);
         
@@ -34,7 +34,7 @@ public class FunctionCall extends Stmt {
         Parameter parameters = Parameter.parseParams(tokens);
         
         if (!tokens.get(0).getToken().equals("]")) {
-            throw new ParsingError("Syntax Error", "]", tokens.get(0));
+            throw new ParsingError("Syntax Error", "1]", tokens.get(0));
         }
         tokens.remove(0);
         return new FunctionCall(id, parameters);
