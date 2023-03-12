@@ -34,7 +34,7 @@ public class Op implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return null;
+        return opType;
     }
 
     /**

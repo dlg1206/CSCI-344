@@ -41,7 +41,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
                 tokens.remove(0);
             }
             else{
-                throw new ParsingError("Syntax", "]", tokens.get(0));
+                throw new ParsingError("Syntax", "2]", tokens.get(0));
             }
         }
         else {

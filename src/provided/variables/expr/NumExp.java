@@ -63,9 +63,10 @@ public class NumExp implements JottTree{
                     NumExp nextNumExp = parseNumExp(tokens);
                     return new NumExp(id, op, nextNumExp);
                 }
+                
+                return new NumExp(currToken.getToken());
             }
             // Id
-            return new NumExp(currToken.getToken());
         } else if (currToken.getTokenType() == TokenType.NUMBER) {
             String num = currToken.getToken();
             tokens.remove(0);

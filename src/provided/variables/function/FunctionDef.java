@@ -48,15 +48,18 @@ class FunctionDef implements JottTree {
     // Check Function_def_params
     currToken=tokens.get(0);
     FunctionDefParams params = null;
+    
+    
+    
     if (!currToken.getToken().equals("]"))  {
       params = FunctionDefParams.parseFunctionDefParams(tokens);
-
       
     }
     currToken = tokens.get(0);
     // Check ]
+    currToken = tokens.get(0);
     if(!currToken.getToken().equals("]")){
-      throw new ParsingError("Syntax Error", "]", currToken);
+      throw new ParsingError("Syntax Error", "4]", currToken);
     }
     tokens.remove(0);
     // Check :
@@ -65,6 +68,8 @@ class FunctionDef implements JottTree {
       throw new ParsingError("Syntax Error", ":", currToken);
     }
     tokens.remove(0);
+    
+    currToken = tokens.get(0);
     // Check FunctionReturn
     FunctionReturn returnRef = FunctionReturn.parseFunctionReturn(tokens); // I changed this, not sure if it's correct - Josh
     if (returnRef == null) {
@@ -80,6 +85,7 @@ class FunctionDef implements JottTree {
     Body body = Body.parseBody(tokens);
     // Check }
     currToken = tokens.get(0);
+    System.out.println("DEF: " + currToken);
     if(!currToken.getToken().equals("}")){
       throw new ParsingError("Syntax Error", "}", currToken);
     }

@@ -19,7 +19,7 @@ public class BodyStmt implements provided.JottTree {
 
     public static BodyStmt parseBodyStmt(ArrayList<Token> tokens){
         //ArrayList<JottTree> bodyStmts = new ArrayList<JottTree>();
-
+            
             Token currToken = tokens.get(0);
             //process while token
             if(currToken.getToken().equals("while")){

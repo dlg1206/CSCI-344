@@ -11,12 +11,17 @@ public class RelOp implements JottTree {
         this.relOpType = relOpType;
     }
 
+    public static boolean isRelOp(Token token) {
+        return token.getToken().equals(">") || token.getToken().equals(">=") ||
+        token.getToken().equals("<") || token.getToken().equals("<=") ||
+        token.getToken().equals("==") || token.getToken().equals("!=");
+    }
+
     public static RelOp parseRelOp(ArrayList<Token> tokens) {
         Token currToken = tokens.get(0);
-        if (currToken.getToken().equals(">") || currToken.getToken().equals(">=") ||
-            currToken.getToken().equals("<") || currToken.getToken().equals("<=") ||
-            currToken.getToken().equals("==") || currToken.getToken().equals("!=")
-        ) {
+        System.out.println("CURRENTRELOP: " + currToken);
+        System.out.println("EQUAL? " + isRelOp(currToken));
+        if (isRelOp(currToken)) {
             tokens.remove(0);
             return new RelOp(currToken.getToken());
         }
@@ -30,7 +35,7 @@ public class RelOp implements JottTree {
      */
     @Override
     public String convertToJott() {
-        return null;
+        return relOpType;
     }
 
     /**

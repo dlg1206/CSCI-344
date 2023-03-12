@@ -35,8 +35,6 @@ public class Expression implements JottTree {
         } else {
             NumExp numExp = NumExp.parseNumExp(tokens);
             RelOp relOp = RelOp.parseRelOp(tokens);
-            
-            
             if (relOp != null) {
                 NumExp numExp2 = NumExp.parseNumExp(tokens);
                 return new Expression(numExp, relOp, numExp2);
