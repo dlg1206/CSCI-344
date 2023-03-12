@@ -19,9 +19,9 @@ public class ReturnStmt implements JottTree {
         tokens.remove(0);
         //start feeding in the token string as an expression till we get ;
         
-        System.out.println("CURRENT1: " + tokens.get(0));
+        
         Expression expression = Expression.parseExpression(tokens);
-        System.out.println("CURRENT2: " + tokens.get(0));
+        
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
         return new ReturnStmt(expression, endStmt);
     }

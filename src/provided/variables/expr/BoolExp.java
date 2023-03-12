@@ -52,10 +52,10 @@ public class BoolExp implements JottTree {
             // , ; ]
             Token lookAhead = tokens.get(1);
             NumExp numExp1 = NumExp.parseNumExp(tokens);
-            System.out.println("NUM: " + numExp1.convertToJott());
+            
             if (numExp1.functionCall != null) {
                 RelOp relOp = RelOp.parseRelOp(tokens);
-                System.out.println("RELOP: " + relOp);
+                
                 if (relOp != null) {
                     IS_NEXPR = true;
                     NumExp numExp2 = NumExp.parseNumExp(tokens);
@@ -67,7 +67,7 @@ public class BoolExp implements JottTree {
                 }
             } else if (numExp1.idOrNum != null && numExp1.nextNumExp == null) {
                 RelOp relOp = RelOp.parseRelOp(tokens);
-                System.out.println("RELOP: " + relOp.convertToJott());
+                
                 if (relOp != null) {
                     IS_NEXPR = true;
                     NumExp numExp2 = NumExp.parseNumExp(tokens);

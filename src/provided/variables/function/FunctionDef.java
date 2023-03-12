@@ -85,7 +85,7 @@ class FunctionDef implements JottTree {
     Body body = Body.parseBody(tokens);
     // Check }
     currToken = tokens.get(0);
-    System.out.println("DEF: " + currToken);
+    
     if(!currToken.getToken().equals("}")){
       throw new ParsingError("Syntax Error", "}", currToken);
     }

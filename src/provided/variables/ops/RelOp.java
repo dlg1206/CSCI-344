@@ -19,8 +19,8 @@ public class RelOp implements JottTree {
 
     public static RelOp parseRelOp(ArrayList<Token> tokens) {
         Token currToken = tokens.get(0);
-        System.out.println("CURRENTRELOP: " + currToken);
-        System.out.println("EQUAL? " + isRelOp(currToken));
+        
+        
         if (isRelOp(currToken)) {
             tokens.remove(0);
             return new RelOp(currToken.getToken());
