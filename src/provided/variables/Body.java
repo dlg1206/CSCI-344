@@ -28,14 +28,14 @@ public class Body implements JottTree{
         currToken = tokens.get(0);
         ArrayList<BodyStmt> bodyStmts = new ArrayList<>();
         ReturnStmt returnStmt = null;
-        System.out.println("CURRENT PARSE BODY: " + currToken);
+        
         if (currToken.getToken().equals("return")) {
             returnStmt = ReturnStmt.parseReturnStmt(tokens);
         } else if (
             Type.isType(currToken) || currToken.getTokenType() == TokenType.ID_KEYWORD || 
             currToken.getToken().equals("if") || currToken.getToken().equals("while")) {
             BodyStmt bodyStmt = BodyStmt.parseBodyStmt(tokens);
-
+            currToken = tokens.get(0);
             if ( isBodyStmt(currToken) ) {
                 Body recurBody = parseBody(tokens);
                 bodyStmts = recurBody.bodyStmts;

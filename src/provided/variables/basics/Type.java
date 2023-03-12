@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class Type implements JottTree {
     
-    public static String type;
+    String type;
 
     public Type(String type) {
         this.type = type;

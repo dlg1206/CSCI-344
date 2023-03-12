@@ -46,7 +46,7 @@ public class WhileStmt implements JottTree {
             new ParsingError("Syntax Error", "}", currToken);
         }
         tokens.remove(0);
-        System.out.println("CURRENTAFTERWHILE: " + tokens.get(0));
+        
 
         return wloop;
     }
