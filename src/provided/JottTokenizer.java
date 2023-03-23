@@ -119,7 +119,7 @@ public class JottTokenizer {
         }
         if (currChar == '.') {
             currLexeme += ".";
-            currChar = currLine[++i];
+            currChar = currLine[++i];   // todo breaks number test
             while (currChar >= '0' && currChar <= '9') {
                 currLexeme += Character.toString(currChar);
                 i++;
