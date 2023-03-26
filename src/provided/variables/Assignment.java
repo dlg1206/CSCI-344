@@ -5,7 +5,7 @@ import provided.Token;
 import provided.TokenType;
 import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
-
+import provided.symtable.SymTable;
 import java.util.ArrayList;
 
 /**
@@ -41,15 +41,21 @@ public class Assignment extends Stmt {
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
         Type type = Type.parseType(tokens);
-        String id = tokens.remove(0).getToken();
-
+        Token idToken = tokens.remove(0);
+        
+        String id = idToken.getToken();
+        
         // Validate
         if(!tokens.get(0).getToken().equals("="))
-            throw new ParsingError("Syntax Error", "=", tokens.get(0));
+        throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
         Expression expr = Expression.parseExpression(tokens);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
-
+        // Adding to Symbol Table
+        if (type != null) {
+            System.out.println(SymTable.staticToString());
+            SymTable.addVar(id, type.type, idToken.getFilename(), idToken.getLineNum());
+        }
         return new Assignment(type, id, expr, endStmt);
     }
 

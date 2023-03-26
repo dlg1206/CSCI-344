@@ -16,12 +16,9 @@ public class ReturnStmt implements JottTree {
     }
 
     public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens){
+        // Use symTable for check if the return 
         tokens.remove(0);
-        //start feeding in the token string as an expression till we get ;
-        
-        
         Expression expression = Expression.parseExpression(tokens);
-        
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
         return new ReturnStmt(expression, endStmt);
     }

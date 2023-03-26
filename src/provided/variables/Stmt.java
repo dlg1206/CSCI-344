@@ -2,9 +2,7 @@ package provided.variables;
 
 import provided.*;
 import provided.variables.basics.Type;
-
 import java.util.ArrayList;
-import java.util.Stack;
 
 public class Stmt implements JottTree {
 
@@ -19,7 +17,6 @@ public class Stmt implements JottTree {
     }
 
     static Stmt parseStmt(ArrayList<Token> tokens){
-        
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
                 Stmt statement = Assignment.parseAsmt(tokens);

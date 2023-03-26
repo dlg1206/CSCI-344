@@ -2,7 +2,7 @@ package provided.variables;
 
 import provided.Token;
 import provided.variables.basics.Type;
-
+import provided.symtable.SymTable;
 import java.util.ArrayList;
 
 /**
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 public class VariableDeclaration extends Stmt {
 
     private final Type type;
-     private final String id;
-     private final EndStmt end_statement;
+    private final String id;
+    private final EndStmt end_statement;
 
     /**
      * Creates new var_dec object
@@ -28,7 +28,7 @@ public class VariableDeclaration extends Stmt {
         this.id = id;
         this.end_statement = end_statement;
     }
-
+    
     /**
      * Parse var_dec
      *
@@ -36,10 +36,17 @@ public class VariableDeclaration extends Stmt {
      * @return new var_dec object
      */
     public static VariableDeclaration parseVar_dec(ArrayList<Token> tokens){
-         String id = tokens.remove(0).getToken();
-         Type type = Type.parseType(tokens);
-         EndStmt end_statement = EndStmt.parseEndStmt(tokens);
-         return new VariableDeclaration(type, id, end_statement);
+        // Get Type
+        Type type = Type.parseType(tokens);
+        // Get Id
+        Token idToken = tokens.remove(0);
+        String id = idToken.getToken();
+        
+        EndStmt end_statement = EndStmt.parseEndStmt(tokens);
+        
+        System.out.println(SymTable.staticToString());
+        SymTable.addVar(id, type.type, idToken.getFilename(), idToken.getLineNum());
+        return new VariableDeclaration(type, id, end_statement);
     }
 
     /**
