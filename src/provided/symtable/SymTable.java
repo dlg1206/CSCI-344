@@ -23,13 +23,13 @@ public class SymTable {
         if (containsName && withSameParamsType && withSameReturnType) {
             System.err.println("Semantic Error: \nDuplicate function declaration: " + name + "\n" + fileName + ".jott:" + lineNumber);
         } else {
-            symTable.put((name + "." + returnType), new Function(name, paramsType, returnType, currScope));
+            symTable.put((name  + ".Function"), new Function(name, paramsType, returnType, currScope));
         }
     }
 
-    static public Function getFunction(String name, String returnType) {
-        if (symTable.containsKey(name + "." + returnType)) {
-            return (Function) symTable.get(name + "." + returnType);
+    static public Function getFunction(String name) {
+        if (symTable.containsKey(name + ".Function")) {
+            return (Function) symTable.get(name + ".Function");
         }
         return null;
     }
@@ -42,13 +42,15 @@ public class SymTable {
         if (containsName && withSameScope && withSameType) {
             System.err.println("Semantic Error: \nDuplicate local variable: " + name + "\n" + fileName + ".jott:" + lineNumber);
         } else {
-            symTable.put(name, new Var(name, type, currScope));
+            String id = name + '.' + currScope;
+            symTable.put(id, new Var(name, type, currScope));
         }
     } 
 
-    static public Var getVar(String name, String type) {
-        if (symTable.containsKey(name + "." + type)) {
-            return (Var) symTable.get(name + "." + type);
+    static public Var getVar(String name) {
+        if (symTable.containsKey(name + '.' + currScope)) {
+            return (Var) symTable.get(name + '.' + currScope);
+
         }
         return null;
     }
