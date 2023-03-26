@@ -50,6 +50,7 @@ public class SymTable {
     static public Var getVar(String name) {
         if (symTable.containsKey(name + '.' + currScope)) {
             return (Var) symTable.get(name + '.' + currScope);
+
         }
         return null;
     }
