@@ -1,7 +1,6 @@
 package provided.variables.function;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
@@ -10,12 +9,15 @@ import provided.variables.basics.Type;
 
 public class FunctionDefParams_t implements JottTree {
   ArrayList<String> ids;
-  ArrayList<Type> types;
-  public FunctionDefParams_t(ArrayList<String> ids, ArrayList<Type> types) {
+  ArrayList<String> types;
+  public FunctionDefParams_t(ArrayList<String> ids, ArrayList<String> types) {
     this.ids = ids;
     this.types = types;
   }
 
+  public ArrayList<String> getParamsList() {
+    return this.types;
+  }
 
   static Token currToken;
   static String currKey;
@@ -23,7 +25,7 @@ public class FunctionDefParams_t implements JottTree {
   public static FunctionDefParams_t parseFunctionDefParams_t(ArrayList<Token> tokens) {
     currToken = tokens.get(0);
     ArrayList<String> ids = new ArrayList<>();
-    ArrayList<Type> types = new ArrayList<>();
+    ArrayList<String> types = new ArrayList<>();
     while (currToken.getToken().equals(",")) {
       // We have checked for , in previous no need for error throwing
       tokens.remove(0);
@@ -49,7 +51,7 @@ public class FunctionDefParams_t implements JottTree {
       }
       
       ids.add(id);
-      types.add(type);
+      types.add(type.type);
     }
 
     return new FunctionDefParams_t(ids, types);
