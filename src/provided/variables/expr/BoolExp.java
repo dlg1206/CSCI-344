@@ -132,6 +132,14 @@ public class BoolExp implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        return false;
+        if(idOrBool != null) {
+            return true;    // TODO: type check here with symbol table?
+        } else if (numExp1 != null && relOp != null && numExp2 != null ) {
+            return numExp1.validateTree() && relOp.validateTree() && numExp2.validateTree();
+        } else if (functionCall != null) {
+            return functionCall.validateTree();
+        } else {
+           return false; 
+        }
     }
 }
