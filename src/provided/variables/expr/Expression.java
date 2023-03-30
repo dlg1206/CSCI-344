@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
-import provided.variables.ops.Op;
 import provided.variables.ops.RelOp;
 
 public class Expression implements JottTree {
@@ -15,6 +14,7 @@ public class Expression implements JottTree {
     public Expression(JottTree exp) {
         this.exp1 = exp;
     }
+
     public Expression(JottTree exp1, JottTree exp2, JottTree exp3) {
         this.exp1 = exp1;
         this.exp2 = exp2;
