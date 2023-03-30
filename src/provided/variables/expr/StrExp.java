@@ -91,6 +91,12 @@ public class StrExp implements JottTree{
      */
     @Override
     public boolean validateTree() {
-        return false;
+        if (strOrId != null) {
+            return true;    // TODO: validate this with symbol table?
+        } else if (functionCall != null) {
+            return functionCall.validateTree();
+        } else {
+            return false;
+        }
     }
 }

@@ -135,6 +135,20 @@ public class NumExp implements JottTree{
      */
     @Override
     public boolean validateTree() {
-        return false;
+         if (op != null && nextNumExp != null) {
+            if (functionCall != null) {
+                return functionCall.validateTree();
+            } else if (idOrNum != null) {
+                return true;    //  TODO: implement this check
+            } else {
+                return false;
+            }
+        } else if (functionCall != null) {
+            return functionCall.validateTree();
+        } else if (idOrNum != null) {
+            return true;    //  TODO: implement this check
+        } else {
+            return false;
+        }
     }
 }
