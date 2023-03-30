@@ -104,16 +104,23 @@ public class Expression implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        // < n_expr > | < b_expr > | < s_expr >
+        /*
+        Case 1: expr1 = boolExp, expr2 = null, expr3 = null
+        Case 2: expr1 = numExp, expr2 = null, expr3 = null
+        Case 3: expr1 = strExp, expr2 = null, expr3 = null
+        Case 4: expr1 = numExp, expr2 = relOp, expr3 = numExp
+         */
+        // all cases need to have exp1
         if (exp1 != null) {
-            if (exp2 != null && exp3 != null) {
-                // 
-                return exp1.validateTree() && exp2.validateTree() && exp3.validateTree();
+            if (exp2 == null && exp3 == null) {
+                // Case 1, 2, 3. bool/num/str have own validate functs
+                return exp1.validateTree();
             } else {
-                // s_expr
-                return true; // TODO: check is this is b_expr or s_expr and validate types
+                // Case 4
+                return exp1.validateTree() && exp2.validateTree() && exp3.validateTree();
             }
         } else {
+            // exp1 is null, there's a problem
             return false;    
         }   
     }
