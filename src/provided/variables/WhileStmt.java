@@ -73,6 +73,9 @@ public class WhileStmt implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if(conditions.validateTree() && body.validateTree()){
+            return true;
+        }
         return false;
     }
 }

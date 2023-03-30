@@ -2,6 +2,7 @@ package provided.variables;
 
 import provided.JottTree;
 import provided.*;
+import provided.variables.BodyStmt.StmtType;
 import provided.variables.basics.Type;
 
 import java.text.ParseException;
@@ -11,6 +12,8 @@ public class Body implements JottTree{
 
     ReturnStmt returnStmt;
     ArrayList<BodyStmt> bodyStmts;
+    private boolean hasReturn;
+    public boolean isRoot; //is this the main body in a function 
 
     public Body(ArrayList<BodyStmt> bodies, ReturnStmt returnStmt) {
         this.bodyStmts = bodies;
@@ -78,6 +81,22 @@ public class Body implements JottTree{
 
     @Override
     public boolean validateTree() {
-        return false;
+        boolean allIfElse = true;
+        
+        for(BodyStmt b : bodyStmts){
+            if(b.type != StmtType.IF){
+                allIfElse = false;
+            }
+        }
+        if(allIfElse){
+            //check that the if/else all have returns 
+        }
+        
+        if(hasReturn){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

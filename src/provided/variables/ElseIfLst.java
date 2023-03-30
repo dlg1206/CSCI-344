@@ -2,12 +2,15 @@ package provided.variables;
 
 import provided.JottTree;
 import provided.Token;
+import provided.variables.expr.BoolExp;
 
 import java.util.ArrayList;
 
 public class ElseIfLst implements JottTree {
 
     ArrayList<IfStmt> ifLst;
+    BoolExp boolExp;
+    Body body;
 
     public ElseIfLst(){
         ifLst = null;
@@ -57,6 +60,13 @@ public class ElseIfLst implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if(!boolExp.validateTree()){return false;}
+        if(!body.validateTree()){return false;}
+        for(IfStmt i : ifLst){
+            if(i.validateTree() == false){
+                return false;
+            }
+        }
+        return true;
     }
 }

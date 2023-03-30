@@ -49,6 +49,9 @@ public class ReturnStmt implements JottTree {
 
     @Override
     public boolean validateTree() {
+        if(expression.validateTree() && endStmt.validateTree()){
+            return true;
+        }
         return false;
     }
 }

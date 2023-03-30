@@ -47,6 +47,6 @@ public class Else implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return body.validateTree();
     }
 }

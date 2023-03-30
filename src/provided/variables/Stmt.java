@@ -5,16 +5,22 @@ import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 import java.util.Stack;
+import java.util.function.Function;
 
 public class Stmt implements JottTree {
 
     EndStmt endStmt;
-    Stmt stmt;
+    Assignment assignment;
+    VariableDeclaration variableDeclaration;
+    FunctionCall functionCall;
+    
 
     public Stmt() {}
 
-    public Stmt(Stmt stmt, EndStmt endStmt){
-        this.stmt = stmt;
+    public Stmt(Assignment assignment, VariableDeclaration variableDeclaration, FunctionCall functionCall, EndStmt endStmt){
+        this.assignment = assignment;
+        this.variableDeclaration = variableDeclaration;
+        this.functionCall = functionCall;
         this.endStmt = endStmt;
     }
 
@@ -22,21 +28,20 @@ public class Stmt implements JottTree {
         
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
-                Stmt statement = Assignment.parseAsmt(tokens);
-                return new Stmt(statement, null);
+                Assignment assignment = Assignment.parseAsmt(tokens);
+                return new Stmt(assignment, null, null, null);
             } else {
-                Stmt statement = VariableDeclaration.parseVar_dec(tokens);
-                return new Stmt(statement, null);
+                VariableDeclaration variableDeclaration = VariableDeclaration.parseVar_dec(tokens);
+                return new Stmt(null, variableDeclaration, null, null);
             }
         } else if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             if (tokens.get(1).getToken().equals("=")){
-                Stmt statement = Assignment.parseAsmt(tokens);
-                return new Stmt(statement, null);
+                Assignment assignment = Assignment.parseAsmt(tokens);
+                return new Stmt(assignment, null, null, null);
             } else {
-                
-                Stmt statement = FunctionCall.parseFuncCall(tokens);
+                FunctionCall functionCall = FunctionCall.parseFuncCall(tokens);
                 EndStmt endStmt = EndStmt.parseEndStmt(tokens);
-                return new Stmt(statement, endStmt);
+                return new Stmt(null, null, functionCall, endStmt);
             }
         }
         else {
@@ -46,8 +51,20 @@ public class Stmt implements JottTree {
 
     @Override
     public String convertToJott() {
-        if (endStmt != null) return stmt.convertToJott() + endStmt.convertToJott(); 
-        return stmt.convertToJott();
+        if (endStmt != null){
+            return functionCall.convertToJott() + endStmt.convertToJott(); 
+        }
+        else{
+            if(assignment != null){
+                return assignment.convertToJott();
+            }
+            else if(variableDeclaration != null){
+                return variableDeclaration.convertToJott();
+            }
+            else{
+                return "";
+            }
+        }
     }
 
     @Override
@@ -67,6 +84,24 @@ public class Stmt implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if (endStmt != null){
+            if(functionCall.validateTree() && endStmt.validateTree()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            if(assignment != null){
+                return assignment.validateTree();
+            }
+            else if(variableDeclaration != null){
+                return variableDeclaration.validateTree();
+            }
+            else{
+                return false;
+            }
+        }    
     }
 }

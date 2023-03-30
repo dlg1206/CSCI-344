@@ -20,6 +20,7 @@ class FunctionDef implements JottTree {
   public FunctionDef(FunctionDefParams defParams, Body body, FunctionReturn funcReturn, String funcId) {
     this.defParams = defParams;
     this.body = body;
+    body.isRoot = true;
     this.funcReturn = funcReturn;
     this.funcId = funcId;
     
@@ -83,6 +84,7 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check Body
     Body body = Body.parseBody(tokens);
+    body.isRoot = true;
     // Check }
     currToken = tokens.get(0);
     

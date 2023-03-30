@@ -180,7 +180,7 @@ public class JottParserTester {
             return false;
         }
         return parserTest(test, orginalJottCode);
-
+        
     }
 
     public static void main(String[] args) {
