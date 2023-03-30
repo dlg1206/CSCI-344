@@ -3,6 +3,7 @@ package provided.variables.expr;
 import provided.JottTree;
 import provided.Token;
 import provided.TokenType;
+import provided.symtable.SymTable;
 import provided.variables.FunctionCall;
 import provided.variables.ops.RelOp;
 
@@ -11,7 +12,7 @@ import provided.ParsingError;
 
 public class BoolExp implements JottTree {
     
-    static boolean IS_ID = false;
+    static boolean IS_ID = false;   // todo always false?
     static boolean IS_BOOL = false;
     static boolean IS_NEXPR = false;
     static boolean IS_FUNCCALL = false;
@@ -132,14 +133,33 @@ public class BoolExp implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        if(numExp1 != null && relOp != null && numExp2 != null) {
+        /*
+        1: <id>
+        2: <bool>
+        3: <func_call>
+        4: <n_expr> <op> <n_expr>
+         */
+
+        // 4: <n_expr> <op> <n_expr>
+        if(numExp1 != null && relOp != null && numExp2 != null)
             return numExp1.validateTree() && relOp.validateTree() && numExp2.validateTree();
-        } else if (idOrBool != null) {
-            return true;    // TODO: type check here with symbol table?
-        } else if (functionCall != null) {
-            return functionCall.validateTree();
-        } else {
-           return false; 
+
+        // case 1 or 2
+        if (idOrBool != null) {
+            // 1: <id>
+            if(SymTable.getVar(idOrBool) != null)   // check sym table
+                return true;
+
+            // 2: <bool>
+            if(IS_BOOL)
+                return true;
         }
+
+        // 3: <func_call>
+        if (functionCall != null)
+            return functionCall.validateTree();
+
+        // something went wrong
+        return false;
     }
 }
