@@ -20,7 +20,9 @@ public class Expression implements JottTree {
         this.exp2 = exp2;
         this.exp3 = exp3;
     }
+
     public static Token currToken;
+
     public static Expression parseExpression(ArrayList<Token> tokens) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
@@ -95,6 +97,15 @@ public class Expression implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        return false;
+        // < n_expr > | < b_expr > | < s_expr >
+        if (exp1 != null) {
+            if (exp2 != null && exp3 != null) {
+                return exp1.validateTree() && exp2.validateTree() && exp3.validateTree();
+            } else {
+                return true; // TODO: check is this is b_expr or s_expr and validate types
+            }
+        } else {
+            return false;    
+        }   
     }
 }

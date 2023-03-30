@@ -137,9 +137,9 @@ public class NumExp implements JottTree{
     public boolean validateTree() {
          if (op != null && nextNumExp != null) {
             if (functionCall != null) {
-                return functionCall.validateTree();
+                return op.validateTree() && nextNumExp.validateTree() && functionCall.validateTree();
             } else if (idOrNum != null) {
-                return true;    //  TODO: implement this check
+                return op.validateTree() && nextNumExp.validateTree() && true;    //  TODO: true is a placeholder for isOrNum validation implement this check
             } else {
                 return false;
             }
