@@ -1,7 +1,11 @@
 package provided.variables.expr;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 import provided.Token;
 import provided.TokenType;
+import provided.symtable.SymTable;
 import provided.variables.FunctionCall;
 import provided.JottTree;
 import provided.ParsingError;
@@ -91,8 +95,16 @@ public class StrExp implements JottTree{
      */
     @Override
     public boolean validateTree() {
+
         if (strOrId != null) {
-            return true;    // TODO: validate this with symbol table?
+            // test if keyword
+            HashSet<String> keywords = new HashSet<>(Arrays.asList("Boolean", "print", "String", "Integer"));
+            if(keywords.contains(strOrId))
+                return true;
+
+            // else test if in symbol table todo check function needed?
+            return SymTable.getVar(strOrId) != null || SymTable.getFunction(strOrId) != null;
+
         } else if (functionCall != null) {
             return functionCall.validateTree();
         } else {
