@@ -9,7 +9,7 @@ import provided.TokenType;
 import provided.variables.Body;
 import provided.variables.ReturnStmt;
 
-class FunctionDef implements JottTree {
+public class FunctionDef implements JottTree {
 
   //missing the func name id? 
   FunctionDefParams defParams;
