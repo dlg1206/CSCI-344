@@ -30,17 +30,22 @@ public class Expression implements JottTree {
         if (currToken.getTokenType() == TokenType.STRING) {
             
             StrExp strExp = StrExp.parseStrExp(tokens);
-            type = Type.parseType(tokens);
+            type = new Type("String");
             return new Expression(strExp);
         } else if (currToken.getToken().equals("True") ||
                    currToken.getToken().equals("False")) {
             BoolExp boolExp = BoolExp.parseBoolExp(tokens); 
-            type = Type.parseType(tokens);   
+            type = new Type("Boolean");
             return new Expression(boolExp);
         } else {
             NumExp numExp = NumExp.parseNumExp(tokens);
             RelOp relOp = RelOp.parseRelOp(tokens);
-            type = Type.parseType(tokens); // TODO: check is it is an integer or double
+            if(numExp.idOrNum.contains(".")){
+                type = new Type("Double");
+            }
+            else{
+                type = new Type("Integer");
+            }
             if (relOp != null) {
                 NumExp numExp2 = NumExp.parseNumExp(tokens);
                 return new Expression(numExp, relOp, numExp2);

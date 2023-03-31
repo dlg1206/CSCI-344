@@ -3,6 +3,7 @@ package provided.variables;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
+import provided.variables.basics.Type;
 import provided.variables.expr.BoolExp;
 
 import java.util.ArrayList;
@@ -72,7 +73,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
                 tokens.remove(0);
                 IfStmt.elseStmt = Else.ParseElse(tokens);
             }
-        }
+        } 
         // check token after the end of the body, check for an else/else if loop until no more or an else
         return IfStmt; // return a new instance of ifstmt with all parts added to it
     }
@@ -104,6 +105,19 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public boolean validateTree() {
-        return false;
+        if(body != null){
+            if(!body.validateTree()){return false;}
+        }
+        if(elifLst != null){
+            if(!elifLst.validateTree()){return false;}
+        }
+        if(elseStmt != null){
+            if(!elseStmt.validateTree()){return false;}
+        }
+        return boolexp.validateTree();
+    }
+
+    public Type isReturnable(){
+        return body.isReturnable();
     }
 }
