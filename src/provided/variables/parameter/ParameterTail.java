@@ -85,7 +85,7 @@ public class ParameterTail implements JottTree {
     public ArrayList<String> getTypes(){
         ArrayList<String> types = new ArrayList<>();
         if (params_t == null){
-            types.add(expr.getType());
+            types.add(expr.getType().type);
         }
         else {
             types.addAll(params_t.getTypes());
