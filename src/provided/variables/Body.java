@@ -114,7 +114,7 @@ public class Body implements JottTree{
         }
         //check for return statement contained in if/else
         boolean allIfElse = true;
-        boolean ifHasReturn = true;
+        boolean ifHasReturn = false;
         Type ifReturnType = null; //return type in if stmts 
         for(BodyStmt b : bodyStmts){
             if(b.type != StmtType.IF){
@@ -124,23 +124,18 @@ public class Body implements JottTree{
                 Type t = b.ifStmt.isReturnable(); //if stmt return type
                 if(t == null){
                     ifHasReturn = false; //one of the if stmts doesn't have a return 
-                }
-                if(ifReturnType == null){ //return type not set yet
-                    ifReturnType = new Type(t.type);
-                }
-                else{ //if return type has been set 
-                    if(!ifReturnType.equals(t)){
-                        ifHasReturn = false; //if/else statements w/ diff return types, syntax error 
+                    if(ifReturnType == null){
+
                     }
                 }
             }
         }
-        if(allIfElse){ //body is made 100% of if/else
+        if(allIfElse){
             if(ifHasReturn){
-                return ifReturnType; //all if/else has return 
+                return ifReturnType;
             }
             else{
-                return null; //one of the if/else is missing return or diff type, invalid 
+                return null;
             }
         } 
         return null;

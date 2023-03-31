@@ -48,16 +48,6 @@ public class Type implements JottTree {
 
     @Override
     public boolean validateTree() {
-        if(type.equals("Boolean") || type.equals("String") || type.equals("Integer") || type.equals("Double") || type.equals("Void")){
-            return true;
-        }
-        return false;
-    }
-
-    public boolean equals(Type t2){
-        if(this.type.equals(t2.type)){
-            return true;
-        }
         return false;
     }
 }
