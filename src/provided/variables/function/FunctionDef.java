@@ -1,7 +1,7 @@
 package provided.variables.function;
 
 import java.util.ArrayList;
-
+import provided.symtable.SymTable;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
@@ -35,10 +35,12 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check <id>
     currToken=tokens.get(0);
+    Token idToken = currToken;
     if(currToken.getTokenType()!= TokenType.ID_KEYWORD){
       throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
     }
     String funcId = currToken.getToken();
+    SymTable.updateScope(funcId);
     tokens.remove(0);
     // Check [
     currToken=tokens.get(0);
@@ -54,7 +56,6 @@ class FunctionDef implements JottTree {
     
     if (!currToken.getToken().equals("]"))  {
       params = FunctionDefParams.parseFunctionDefParams(tokens);
-      
     }
     currToken = tokens.get(0);
     // Check ]
@@ -92,6 +93,10 @@ class FunctionDef implements JottTree {
       throw new ParsingError("Syntax Error", "}", currToken);
     }
     tokens.remove(0);
+    ArrayList<String> paramsList = params != null ? params.getParamsList() : null;
+    String returnType = returnRef.returnType;    
+    SymTable.removeScopeLayer();
+    SymTable.addFunc(funcId, paramsList, returnType, idToken.getFilename(), idToken.getLineNum());
 
     return new FunctionDef(params, body, returnRef, funcId);
   }
@@ -122,6 +127,6 @@ class FunctionDef implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    return defParams.validateTree() && body.validateTree() && funcReturn.validateTree();
   }
 }

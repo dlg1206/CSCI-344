@@ -11,6 +11,7 @@ import provided.variables.basics.Type;
 
 public class FunctionDefParams implements JottTree {
 
+
   FunctionDefParams_t functionDefs_t;
   String firstId;
   Type firstType;
@@ -19,6 +20,18 @@ public class FunctionDefParams implements JottTree {
     this.functionDefs_t = functionDefs_t;
     this.firstId = firstId;
     this.firstType = firstType;
+  }
+
+  public ArrayList<String> getParamsList() {
+    ArrayList<String> paramsTypes;
+    if (this.functionDefs_t != null) {
+      paramsTypes = this.functionDefs_t.getParamsList();
+    } else {
+      paramsTypes = new ArrayList<>();
+    }
+    paramsTypes.add(this.firstType.type);
+
+    return paramsTypes;
   }
 
 
@@ -79,6 +92,6 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    return functionDefs_t.validateTree() && firstType.validateTree();
   }
 }

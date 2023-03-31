@@ -3,6 +3,7 @@ package provided.variables;
 import java.util.ArrayList;
 import provided.JottTree;
 import provided.Token;
+import provided.symtable.SymTable;
 import provided.variables.function.FunctionList;
 
 public class Program implements JottTree {
@@ -16,7 +17,9 @@ public class Program implements JottTree {
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
+    SymTable.getNewSymTable();
     FunctionList funcList = FunctionList.parseFunctionList(tokens);
+    System.out.println(SymTable.staticToString());
     return new Program(funcList);
   }
 
@@ -42,7 +45,7 @@ public class Program implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    return funcList.validateTree();
   }
 }
 

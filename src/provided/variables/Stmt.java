@@ -2,7 +2,6 @@ package provided.variables;
 
 import provided.*;
 import provided.variables.basics.Type;
-
 import java.util.ArrayList;
 import java.util.Stack;
 import java.util.function.Function;
@@ -25,7 +24,6 @@ public class Stmt implements JottTree {
     }
 
     static Stmt parseStmt(ArrayList<Token> tokens){
-        
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
                 Assignment assignment = Assignment.parseAsmt(tokens);

@@ -81,4 +81,15 @@ public class ParameterTail implements JottTree {
     public boolean validateTree() {
         return false;
     }
+
+    public ArrayList<String> getTypes(){
+        ArrayList<String> types = new ArrayList<>();
+        if (params_t == null){
+            types.add(expr.getType());
+        }
+        else {
+            types.addAll(params_t.getTypes());
+        }
+        return types;
+    }
 }
