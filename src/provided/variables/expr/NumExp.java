@@ -135,6 +135,32 @@ public class NumExp implements JottTree{
      */
     @Override
     public boolean validateTree() {
-        return false;
+        /*
+        x1: <id>
+        x2: <num>
+        x3: <func_call>
+        x4: <id> <op> <n_expr>
+        x5: <num> <op> <n_expr>
+        x6: <func_call> <op> <n_expr>
+         */
+
+        // check if op and num_exp exist (for 4, 5, 6)
+         if (op != null && nextNumExp != null) {
+            // 6: <func_call> <op> <n_expr>
+            if (functionCall != null) {
+                return op.validateTree() && nextNumExp.validateTree() && functionCall.validateTree();
+                // 4: <id> <op> <n_expr> AND 5: <num> <op> <n_expr>
+            } else if (idOrNum != null) {
+                    return op.validateTree() && nextNumExp.validateTree();
+            } else {
+                // something went wrong
+                return false;
+            }
+        // 3: <func_call>
+         } else if (functionCall != null) {
+            return functionCall.validateTree();
+
+        // 1: <id> 2: <num>
+        } else return idOrNum != null;
     }
 }

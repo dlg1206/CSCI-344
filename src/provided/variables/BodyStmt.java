@@ -5,15 +5,26 @@ import provided.JottTree;
 import provided.Token;
 
 import java.lang.reflect.Array;
+import java.sql.Struct;
 import java.util.ArrayList;
 
 public class BodyStmt implements provided.JottTree {
 
 
     //not sure if this is a functional way to deal w/ this and casting is ok
-    private final JottTree stmt;
+    public IfStmt ifStmt;
+    private WhileStmt whileStmt;
+    private Stmt stmt; 
+    public enum StmtType{
+        WHILE, 
+        IF,
+        OTHER
+    }
+    public StmtType type;
 
-    public BodyStmt(JottTree stmt){
+    public BodyStmt(IfStmt ifStmt, WhileStmt whileStmt, Stmt stmt){
+        this.ifStmt = ifStmt;
+        this.whileStmt = whileStmt;
         this.stmt = stmt;
     }
 
@@ -22,23 +33,40 @@ public class BodyStmt implements provided.JottTree {
             
             Token currToken = tokens.get(0);
             //process while token
+            
             if(currToken.getToken().equals("while")){
-                return new BodyStmt(WhileStmt.parseWhileStmt(tokens));
+                BodyStmt bStmt = new BodyStmt(null, WhileStmt.parseWhileStmt(tokens), null);
+                bStmt.type = StmtType.WHILE;
+                return bStmt;
             }
             else if(currToken.getToken().equals("if")) {
-                return new BodyStmt(IfStmt.parseIfStmt(tokens));
+                BodyStmt bStmt = new BodyStmt(IfStmt.parseIfStmt(tokens), null, null);
+                bStmt.type = StmtType.IF;
+                return bStmt;
             }
             else {
-                
-                return new BodyStmt(Stmt.parseStmt(tokens));
+                BodyStmt bStmt = new BodyStmt(null, null, Stmt.parseStmt(tokens));
+                bStmt.type = StmtType.OTHER;
+                return bStmt;
             } 
 
     }
 
     @Override
     public String convertToJott() {
-        return stmt.convertToJott();
-    }
+        if(whileStmt != null){
+            return whileStmt.convertToJott();
+        }
+        else if(ifStmt != null){
+            return ifStmt.convertToJott();
+        }
+        else if(stmt != null){
+            return stmt.convertToJott();
+        }
+        else{
+            return null;
+        } 
+   }
 
     @Override
     public String convertToJava(String className) {
@@ -57,6 +85,17 @@ public class BodyStmt implements provided.JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if(whileStmt != null){
+            return whileStmt.validateTree();
+        }
+        else if(ifStmt != null){
+            return ifStmt.validateTree();
+        }
+        else if(stmt != null){
+            return stmt.validateTree();
+        }
+        else{
+            return false;
+        }
     }
 }

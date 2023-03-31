@@ -1,6 +1,7 @@
 package provided.variables.ops;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import provided.Token;
 import provided.JottTree;
 
@@ -77,6 +78,7 @@ public class RelOp implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        return false;
+        HashSet<String> relOps = new HashSet<>(Arrays.asList(">", ">=", "<", "<=", "==", "!="));
+        return relOps.contains(relOpType); // throw error?
     }
 }

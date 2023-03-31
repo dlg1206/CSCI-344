@@ -83,6 +83,6 @@ public class FunctionDefParams_t implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+      return true;
   }
 }

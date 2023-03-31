@@ -45,7 +45,7 @@ public class Program implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    return funcList.validateTree();
   }
 }
 

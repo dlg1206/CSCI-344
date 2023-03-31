@@ -22,10 +22,18 @@ public class JottParser {
     public static JottTree parse(ArrayList<Token> tokens){
         // Attempt to parse the jott tree
         try {
-            return Program.parseProgram(tokens);
+            JottTree jottTree =  Program.parseProgram(tokens);
+
+            // todo handle if false / not valid
+            if(jottTree.validateTree()){
+                System.out.println("Valid tree");
+                return jottTree;
+            }
+            System.out.println("Invalid tree");
+            return null;
         } catch (ParsingError e){
             // Parse error, print message and return null
-            System.err.println(e.toString());
+            System.err.println(e);
             return null;
         } catch (IndexOutOfBoundsException e){
             // debug output

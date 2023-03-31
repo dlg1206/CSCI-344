@@ -1,6 +1,7 @@
 #this is an example
-def 123foo[]:Integer{
-    print[5];
-    #this is a comment
-    print[ "foo bar" ]
+def main[]:Double{
+    while[True]{
+        
+    }
+    return 56.0;
 }

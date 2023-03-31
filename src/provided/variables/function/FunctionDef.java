@@ -8,8 +8,9 @@ import provided.Token;
 import provided.TokenType;
 import provided.variables.Body;
 import provided.variables.ReturnStmt;
+import provided.variables.basics.Type;
 
-class FunctionDef implements JottTree {
+public class FunctionDef implements JottTree {
 
   //missing the func name id? 
   FunctionDefParams defParams;
@@ -20,6 +21,7 @@ class FunctionDef implements JottTree {
   public FunctionDef(FunctionDefParams defParams, Body body, FunctionReturn funcReturn, String funcId) {
     this.defParams = defParams;
     this.body = body;
+    body.isRoot = true;
     this.funcReturn = funcReturn;
     this.funcId = funcId;
     
@@ -84,6 +86,7 @@ class FunctionDef implements JottTree {
     tokens.remove(0);
     // Check Body
     Body body = Body.parseBody(tokens);
+    body.isRoot = true;
     // Check }
     currToken = tokens.get(0);
     
@@ -96,6 +99,7 @@ class FunctionDef implements JottTree {
     SymTable.removeScopeLayer();
     SymTable.addFunc(funcId, paramsList, returnType, idToken.getFilename(), idToken.getLineNum());
 
+    body.isRoot = true;
     return new FunctionDef(params, body, returnRef, funcId);
   }
 
@@ -125,6 +129,24 @@ class FunctionDef implements JottTree {
 
   @Override
   public boolean validateTree() {
+    if(body.validateTree() && funcReturn.validateTree()){
+      //check the return type matches the func return type
+      Type bodyReturnType = body.isReturnable();
+      if(bodyReturnType == null){
+        //System.out.println("body return error1");
+        return false;
+      }
+      Type funcReturnType = new Type(funcReturn.returnType);
+      if(!bodyReturnType.equals(funcReturnType)){
+        //System.out.println("body return error2");
+        return false;
+      }
+
+      if(defParams != null){
+        return defParams.validateTree();
+      }
+      return true;
+    }
     return false;
   }
 }
