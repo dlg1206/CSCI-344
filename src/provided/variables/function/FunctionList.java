@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
+import provided.symtable.SymTable;
 
 public class FunctionList implements JottTree {
   ArrayList<FunctionDef> funcList;
@@ -53,6 +54,15 @@ public class FunctionList implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    if (SymTable.getFunction("main") == null){
+      return false;
+    }
+
+    for (FunctionDef func : funcList) {
+      if (!func.validateTree()){
+        return false;
+      }
+    }
+    return true;
   }
 }

@@ -92,6 +92,6 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return false;
+    return functionDefs_t.validateTree() && firstType.validateTree();
   }
 }

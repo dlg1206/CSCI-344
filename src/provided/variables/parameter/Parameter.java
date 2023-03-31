@@ -5,6 +5,7 @@ import provided.ParsingError;
 import provided.Token;
 import provided.variables.expr.Expression;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 
 /**
@@ -80,5 +81,16 @@ public class Parameter implements JottTree {
     @Override
     public boolean validateTree() {
         return false;
+    }
+
+    public ArrayList<String> getTypes(){
+
+        ArrayList<String> types = new ArrayList<>();
+        types.add(expr.getType());
+        for (String type : params_t.getTypes()){
+            types.add(type);
+        }
+
+        return types;
     }
 }

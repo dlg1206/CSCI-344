@@ -3,6 +3,8 @@ package provided.variables;
 import provided.ParsingError;
 import provided.Token;
 import provided.TokenType;
+import provided.symtable.Function;
+import provided.symtable.SymTable;
 import provided.variables.parameter.Parameter;
 
 import java.util.ArrayList;
@@ -63,6 +65,19 @@ public class FunctionCall extends Stmt {
 
     @Override
     public boolean validateTree() {
-        return false;
+
+       Function func = SymTable.getFunction(this.id);
+       if (func == null){
+           return false;
+       }
+
+       if (!params.validateTree()){
+           return false;
+       }
+
+       ArrayList<String> thisFuncParams = params.getTypes();
+       ArrayList<String> funcDefParams = func.getParamsType();
+
+       return thisFuncParams.equals(funcDefParams);
     }
 }
