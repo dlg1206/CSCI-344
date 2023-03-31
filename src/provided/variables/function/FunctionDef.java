@@ -8,6 +8,7 @@ import provided.Token;
 import provided.TokenType;
 import provided.variables.Body;
 import provided.variables.ReturnStmt;
+import provided.variables.basics.Type;
 
 public class FunctionDef implements JottTree {
 
@@ -128,6 +129,18 @@ public class FunctionDef implements JottTree {
   @Override
   public boolean validateTree() {
     if(body.validateTree() && funcReturn.validateTree()){
+      //check the return type matches the func return type
+      Type bodyReturnType = body.isReturnable();
+      if(bodyReturnType == null){
+        System.out.println("body return error");
+        return false;
+      }
+      Type funcReturnType = new Type(funcReturn.returnType);
+      if(!bodyReturnType.equals(funcReturnType)){
+        System.out.println("body return error");
+        return false;
+      }
+
       if(defParams != null){
         return defParams.validateTree();
       }

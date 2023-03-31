@@ -4,6 +4,7 @@ import provided.JottTree;
 import provided.ParsingError;
 import provided.Token;
 import provided.variables.basics.Type;
+import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 
@@ -12,9 +13,10 @@ import java.util.ArrayList;
  * Implementation of FunctionReturn of the Jott Grammar
  *
  * @author Derek Garcia
+ * @author Zoe Wheatcroft
  **/
 public class FunctionReturn implements JottTree {
-    String returnType;
+    public String returnType;
 
     /**
      * Creates new function_return object
@@ -74,6 +76,11 @@ public class FunctionReturn implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        //make the string object into a type 
+        Type type = new Type(returnType);
+        //check that the return type is valid
+        if(!type.validateTree()){return false;}
+
+        return true;
     }
 }
