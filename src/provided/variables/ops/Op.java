@@ -1,6 +1,6 @@
 package provided.variables.ops;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import provided.JottTree;
 import provided.Token;
@@ -76,6 +76,7 @@ public class Op implements JottTree {
      */
     @Override
     public boolean validateTree() {
-        return false;
+        HashSet<String> operators = new HashSet<>(Arrays.asList("+", "*", "/", "-"));
+        return operators.contains(opType); // throw error?
     }
 }
