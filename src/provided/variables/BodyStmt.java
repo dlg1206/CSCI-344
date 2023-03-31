@@ -12,7 +12,7 @@ public class BodyStmt implements provided.JottTree {
 
 
     //not sure if this is a functional way to deal w/ this and casting is ok
-    private IfStmt ifStmt;
+    public IfStmt ifStmt;
     private WhileStmt whileStmt;
     private Stmt stmt; 
     public enum StmtType{

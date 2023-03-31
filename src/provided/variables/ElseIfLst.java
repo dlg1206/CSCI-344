@@ -2,6 +2,7 @@ package provided.variables;
 
 import provided.JottTree;
 import provided.Token;
+import provided.variables.basics.Type;
 import provided.variables.expr.BoolExp;
 
 import java.util.ArrayList;
@@ -68,5 +69,9 @@ public class ElseIfLst implements JottTree {
             }
         }
         return true;
+    }
+
+    public Type isReturnable(){
+        return body.isReturnable();
     }
 }

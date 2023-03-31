@@ -127,6 +127,12 @@ class FunctionDef implements JottTree {
 
   @Override
   public boolean validateTree() {
-    return defParams.validateTree() && body.validateTree() && funcReturn.validateTree();
+    if(body.validateTree() && funcReturn.validateTree()){
+      if(defParams != null){
+        return defParams.validateTree();
+      }
+      return true;
+    }
+    return false;
   }
 }

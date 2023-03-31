@@ -1,6 +1,7 @@
  package provided.variables;
 
 import provided.*;
+import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 
 import java.util.ArrayList;
@@ -50,5 +51,9 @@ public class ReturnStmt implements JottTree {
             return true;
         }
         return false;
+    }
+
+    public Type isReturnable(){
+        return expression.getType();
     }
 }

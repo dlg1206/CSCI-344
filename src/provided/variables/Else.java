@@ -2,6 +2,7 @@ package provided.variables;
 
 import provided.JottTree;
 import provided.Token;
+import provided.variables.basics.Type;
 
 import java.util.ArrayList;
 
@@ -48,5 +49,9 @@ public class Else implements JottTree {
     @Override
     public boolean validateTree() {
         return body.validateTree();
+    }
+
+    public Type isReturnable(){
+        return body.isReturnable();
     }
 }

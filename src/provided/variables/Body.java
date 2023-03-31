@@ -13,7 +13,7 @@ public class Body implements JottTree{
     ReturnStmt returnStmt;
     ArrayList<BodyStmt> bodyStmts;
     private boolean hasReturn;
-    public boolean isRoot; //is this the main body in a function 
+    public boolean isRoot = false; //is this the main body in a function 
 
     public Body(ArrayList<BodyStmt> bodies, ReturnStmt returnStmt) {
         this.bodyStmts = bodies;
@@ -81,22 +81,100 @@ public class Body implements JottTree{
 
     @Override
     public boolean validateTree() {
+        boolean functionReturns;
+        for(BodyStmt b : bodyStmts){
+            if(b.validateTree() == false){
+                return false;
+            }
+        }
+
+        if(isRoot){
+            if(isReturnable() != null){
+                return returnStmt.validateTree();
+            }
+            else{
+                return false;
+            }
+        }
+        return true;
+
+    }
+
+    /**
+     * 
+     * check if a statement is returnable and the return type
+     * @return
+     */
+    public Type isReturnable(){
+        if(hasReturn){
+            return returnStmt.isReturnable();
+        }
+        //check for return statement contained in if/else
         boolean allIfElse = true;
-        
+        boolean ifHasReturn = false;
+        Type ifReturnType = null; //return type in if stmts 
         for(BodyStmt b : bodyStmts){
             if(b.type != StmtType.IF){
                 allIfElse = false;
             }
+            else{
+                Type t = b.ifStmt.isReturnable(); //if stmt return type
+                if(t == null){
+                    ifHasReturn = false; //one of the if stmts doesn't have a return 
+                    if(ifReturnType == null){
+
+                    }
+                }
+            }
         }
         if(allIfElse){
-            //check that the if/else all have returns 
-        }
-        
+            if(ifHasReturn){
+                return ifReturnType;
+            }
+            else{
+                return null;
+            }
+        } 
+        return null;
+    }
+
+    /**
+     * called if this is the root body in a function
+     * go through children and look to check that we're returning 
+     * @return
+     */
+    private boolean checkForReturn(){
         if(hasReturn){
             return true;
         }
-        else{
-            return false;
+        //check for return statement contained in if/else
+        boolean allIfElse = true;
+        boolean ifHasReturn = false;
+        for(BodyStmt b : bodyStmts){
+            if(b.type != StmtType.IF){
+                allIfElse = false;
+            }
+            else{
+                if(b.ifStmt.isReturnable() == null){
+                    ifHasReturn = false;
+                }
+            }
         }
+        if(allIfElse){
+            if(ifHasReturn){
+                return true;
+            }
+            else{
+                return false;
+            }
+        } 
+        return false;
+    }
+
+    /**
+     * set this body to be the root of the function
+     */
+    public void setRoot(){
+        isRoot = true;
     }
 }
