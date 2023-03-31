@@ -99,6 +99,7 @@ public class FunctionDef implements JottTree {
     SymTable.removeScopeLayer();
     SymTable.addFunc(funcId, paramsList, returnType, idToken.getFilename(), idToken.getLineNum());
 
+    body.isRoot = true;
     return new FunctionDef(params, body, returnRef, funcId);
   }
 
