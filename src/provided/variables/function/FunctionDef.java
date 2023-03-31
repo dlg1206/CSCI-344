@@ -132,12 +132,12 @@ public class FunctionDef implements JottTree {
       //check the return type matches the func return type
       Type bodyReturnType = body.isReturnable();
       if(bodyReturnType == null){
-        System.out.println("body return error");
+        //System.out.println("body return error1");
         return false;
       }
       Type funcReturnType = new Type(funcReturn.returnType);
       if(!bodyReturnType.equals(funcReturnType)){
-        System.out.println("body return error");
+        //System.out.println("body return error2");
         return false;
       }
 

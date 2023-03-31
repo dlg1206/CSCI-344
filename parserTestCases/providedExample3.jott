@@ -1,4 +1,7 @@
 #this is an example
-def foo[]:Integer{
-    return 5;
+def main[]:Double{
+    while[True]{
+        
+    }
+    return 56.0;
 }

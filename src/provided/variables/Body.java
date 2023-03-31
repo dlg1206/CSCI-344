@@ -12,7 +12,6 @@ public class Body implements JottTree{
 
     ReturnStmt returnStmt;
     ArrayList<BodyStmt> bodyStmts;
-    private boolean hasReturn;
     public boolean isRoot = false; //is this the main body in a function 
 
     public Body(ArrayList<BodyStmt> bodies, ReturnStmt returnStmt) {
@@ -96,8 +95,8 @@ public class Body implements JottTree{
             }
         }
          */
-        if(!returnStmt.validateTree()){
-            return false;
+        if(returnStmt != null){
+            return returnStmt.validateTree();
         }
         return true;
 
@@ -109,7 +108,7 @@ public class Body implements JottTree{
      * @return the return type
      */
     public Type isReturnable(){
-        if(hasReturn){
+        if(returnStmt != null){
             return returnStmt.isReturnable();
         }
         //check for return statement contained in if/else
@@ -152,7 +151,7 @@ public class Body implements JottTree{
      * @return
      */
     private boolean checkForReturn(){
-        if(hasReturn){
+        if(returnStmt != null){
             return true;
         }
         //check for return statement contained in if/else
