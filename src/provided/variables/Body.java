@@ -81,14 +81,13 @@ public class Body implements JottTree{
 
     @Override
     public boolean validateTree() {
-        boolean functionReturns;
         for(BodyStmt b : bodyStmts){
             if(b.validateTree() == false){
                 return false;
             }
         }
-
-        if(isRoot){
+        /**
+         *  if(isRoot){
             if(isReturnable() != null){
                 return returnStmt.validateTree();
             }
@@ -96,14 +95,18 @@ public class Body implements JottTree{
                 return false;
             }
         }
+         */
+        if(!returnStmt.validateTree()){
+            return false;
+        }
         return true;
 
     }
 
     /**
      * 
-     * check if a statement is returnable and the return type
-     * @return
+     * check if body has a return and the return type
+     * @return the return type
      */
     public Type isReturnable(){
         if(hasReturn){
