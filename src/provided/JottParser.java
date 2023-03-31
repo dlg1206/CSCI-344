@@ -25,8 +25,11 @@ public class JottParser {
             JottTree jottTree =  Program.parseProgram(tokens);
 
             // todo handle if false / not valid
-            if(jottTree.validateTree())
+            if(jottTree.validateTree()){
+                System.out.println("Valid tree");
                 return jottTree;
+            }
+            System.out.println("Invalid tree");
             return null;
         } catch (ParsingError e){
             // Parse error, print message and return null
