@@ -102,7 +102,7 @@ public class JottTokenizer {
 
     /**
      * Handles number token
-     * @param index     current index in string
+     * @param i     current index in string
      * @param currLine  char array representing of the current line
      * @param tokenList list of tokens
      * @param lineNum   current line number of input file
@@ -112,25 +112,36 @@ public class JottTokenizer {
         //need to go through and replace all checks for token type w/ getTokenType()
         char currChar = currLine[i];
         String currLexeme = "";
+
+        // while character is number, repeat
         while (currChar >= '0' && currChar <= '9') {
             currLexeme += Character.toString(currChar);
             i++;
             currChar = currLine[i];
         }
+
+        // If '.' character, change state
         if (currChar == '.') {
             currLexeme += ".";
-            currChar = currLine[++i];   // todo breaks number test
+            i++;
+
+            // test if at eol
+            if(i > currLine.length - 1){
+                tokenList.add(new Token(currLexeme, globalFileName, lineNum, TokenType.NUMBER));
+                return i;
+            }
+            currChar = currLine[i];
+            // else while character is number, repeat
             while (currChar >= '0' && currChar <= '9') {
                 currLexeme += Character.toString(currChar);
                 i++;
                 currChar = currLine[i];
             }
-            // currLexeme += handleDecimal(i, currLine, tokenList, lineNum);
         }
 
         tokenList.add(new Token(currLexeme, globalFileName, lineNum, TokenType.NUMBER));
 
-        return i-1;
+        return i - 1;
     }
 
     /**
