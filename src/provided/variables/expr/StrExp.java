@@ -98,12 +98,13 @@ public class StrExp implements JottTree{
 
         if (strOrId != null) {
             // test if keyword
-            HashSet<String> keywords = new HashSet<>(Arrays.asList("Boolean", "print", "String", "Integer"));
-            if(keywords.contains(strOrId))
-                return true;
-
-            // else test if in symbol table todo check function needed?
-            return SymTable.getVar(strOrId) != null || SymTable.getFunction(strOrId) != null;
+//            HashSet<String> keywords = new HashSet<>(Arrays.asList("Boolean", "print", "String", "Integer"));
+//            if(keywords.contains(strOrId))
+//                return true;
+//
+//            // else test if in symbol table todo check function needed?
+//            return SymTable.getVar(strOrId) != null || SymTable.getFunction(strOrId) != null;
+            return true;    // string value stored
 
         } else if (functionCall != null) {
             return functionCall.validateTree();
