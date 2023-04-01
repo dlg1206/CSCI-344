@@ -129,6 +129,7 @@ public class FunctionDef implements JottTree {
 
   @Override
   public boolean validateTree() {
+    SymTable.updateScope(this.funcId);
     if(body.validateTree() && funcReturn.validateTree()){
       //check the return type matches the func return type
       Type bodyReturnType = body.isReturnable();
@@ -142,11 +143,15 @@ public class FunctionDef implements JottTree {
         return false;
       }
 
-      if(defParams != null){
+      if(defParams != null) {
+        SymTable.removeScopeLayer();
         return defParams.validateTree();
       }
+      
+      SymTable.removeScopeLayer();
       return true;
     }
+    SymTable.removeScopeLayer();
     return false;
   }
 }

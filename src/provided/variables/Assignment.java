@@ -21,7 +21,8 @@ public class Assignment extends Stmt {
     String id;
     Expression expr;
     EndStmt endStmt;
-
+    static int lineNum;
+    static String fileName;
     /**
      * Creates new asmt object
      *
@@ -41,6 +42,9 @@ public class Assignment extends Stmt {
      * @return new asmt object
      */
     public static Assignment parseAsmt(ArrayList<Token> tokens) {
+        fileName = tokens.get(0).getFilename();
+        lineNum = tokens.get(0).getLineNum();
+        
         Type type = Type.parseType(tokens);
         Token idToken = tokens.remove(0);
         
@@ -54,7 +58,6 @@ public class Assignment extends Stmt {
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
         // Adding to Symbol Table
         if (type != null) {
-            System.out.println(SymTable.staticToString());
             SymTable.addVar(id, type.type, idToken.getFilename(), idToken.getLineNum());
         }
         return new Assignment(type, id, expr, endStmt);
@@ -92,12 +95,15 @@ public class Assignment extends Stmt {
     public boolean validateTree() {
         Var var = SymTable.getVar(id);
         if (var == null) {
+            String message = "Variable: " + id + " accessed prior to declaration";
+            new ParsingError("Semantic Error", message, fileName, lineNum);
             return false;
         }
         String varType = var.getType();
         String exprType = expr.getType().type;
-
-        if (varType != exprType) {
+        if (!varType.equals(exprType)) {
+            String message = "varType: " + varType + " := " + exprType + " is not a valid assignment";
+            new ParsingError("Semantic Error", message, fileName, lineNum);
             return false;
         }
         return true;

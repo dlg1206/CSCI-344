@@ -82,6 +82,13 @@ public class JottParserTester {
             System.out.println(tokenListString(tokens));
             ArrayList<Token> cpyTokens = new ArrayList<>(tokens);
             JottTree root = JottParser.parse(tokens);
+            
+            if (root != null) {
+                boolean isValid = root.validateTree();
+                if (!isValid) {
+                    System.out.println("ERROR VALIDATING PARSE TREE");
+                }
+            }
 
             if (!test.error && root == null) {
                 System.err.println("\tFailed Test: " + test.testName);
@@ -95,7 +102,7 @@ public class JottParserTester {
                 return false;
             }
 
-            System.out.println("Orginal Jott Code:\n");
+            System.out.println("Original Jott Code:\n");
             System.out.println(orginalJottCode);
             System.out.println();
 

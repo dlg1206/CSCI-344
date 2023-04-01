@@ -44,7 +44,6 @@ public class VariableDeclaration extends Stmt {
         
         EndStmt end_statement = EndStmt.parseEndStmt(tokens);
         
-        System.out.println(SymTable.staticToString());
         SymTable.addVar(id, type.type, idToken.getFilename(), idToken.getLineNum());
         return new VariableDeclaration(type, id, end_statement);
     }
