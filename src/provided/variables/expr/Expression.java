@@ -40,7 +40,7 @@ public class Expression implements JottTree {
         } else {
             NumExp numExp = NumExp.parseNumExp(tokens);
             RelOp relOp = RelOp.parseRelOp(tokens);
-            if(numExp.idOrNum.contains(".")){
+            if(numExp.idOrNum != null && numExp.idOrNum.contains(".")) {
                 type = new Type("Double");
             }
             else{
