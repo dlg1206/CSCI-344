@@ -75,6 +75,6 @@ public class VariableDeclaration extends Stmt {
 
     @Override
     public boolean validateTree() {
-        return false;
+        return true;
     }
 }

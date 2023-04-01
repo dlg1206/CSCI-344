@@ -11,6 +11,9 @@ public class Var extends Symbol{
         this.scope = scope;
     }
 
+    public String getType(){
+        return this.type;
+    }
     @Override
     public String toString() {
         return "Name: " + this.name + " Type: " + this.type + " Scope: " + this.scope; 

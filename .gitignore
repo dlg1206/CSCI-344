@@ -6,6 +6,7 @@
 .idea/modules.xml
 *.xml
 *.iml
+*.class
 .vscode/settings.json
 
 src/.DS_Store

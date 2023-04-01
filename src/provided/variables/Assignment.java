@@ -7,6 +7,7 @@ import provided.variables.basics.Type;
 import provided.variables.expr.Expression;
 import provided.symtable.SymTable;
 import java.util.ArrayList;
+import provided.symtable.Var;
 
 /**
  * File: Assignment.java
@@ -89,6 +90,16 @@ public class Assignment extends Stmt {
 
     @Override
     public boolean validateTree() {
-        return false;
+        Var var = SymTable.getVar(id);
+        if (var == null) {
+            return false;
+        }
+        String varType = var.getType();
+        String exprType = expr.getType().type;
+
+        if (varType != exprType) {
+            return false;
+        }
+        return true;
     }
 }
