@@ -128,6 +128,10 @@ public class JottTokenizer {
             // test if at eol
             if(i > currLine.length - 1){
                 tokenList.add(new Token(currLexeme, globalFileName, lineNum, TokenType.NUMBER));
+                // test to make sure not just '.'
+                if (currLexeme.equals("."))
+                    return -1;
+                // else return eol
                 return i;
             }
             currChar = currLine[i];
