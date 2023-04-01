@@ -75,7 +75,7 @@ public class SymTable {
     static public String staticToString() {
         String result = "";
         for (String name: symTable.keySet()) {
-            result += symTable.get(name).toString() + "\n";
+            result += name + ":" + symTable.get(name).toString() + "\n";
         }
         return result;
     }

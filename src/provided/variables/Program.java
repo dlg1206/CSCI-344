@@ -2,6 +2,7 @@ package provided.variables;
 
 import java.util.ArrayList;
 import provided.JottTree;
+import provided.ParsingError;
 import provided.Token;
 import provided.symtable.SymTable;
 import provided.variables.function.FunctionList;
@@ -10,6 +11,7 @@ public class Program implements JottTree {
 
 
   FunctionList funcList;
+  static String fileName;
 
   public Program(FunctionList funcList) {
     this.funcList = funcList;
@@ -17,6 +19,7 @@ public class Program implements JottTree {
 
 
   public static Program parseProgram(ArrayList<Token> tokens) {
+    fileName = tokens.get(0).getFilename();
     SymTable.getNewSymTable();
     FunctionList funcList = FunctionList.parseFunctionList(tokens);
     System.out.println(SymTable.staticToString());
@@ -45,6 +48,10 @@ public class Program implements JottTree {
 
   @Override
   public boolean validateTree() {
+    if (SymTable.getFunction("main") == null) {
+      new ParsingError("Semantic Error", "no main function.", fileName, 0);
+      return false;
+    }
     return funcList.validateTree();
   }
 }
