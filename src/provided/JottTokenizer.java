@@ -77,6 +77,12 @@ public class JottTokenizer {
         if (first == '<' || first == '>' || first == '!' ) {
             // check for following =
             i++;
+            // check if "!" has require "="
+            if(i >= currLine.length && currLine[i - 1] == '!'){
+                tokenList.add(new Token("!", globalFileName, lineNum, TokenType.REL_OP));
+                return -1;
+            }
+
             char follow = currLine[i];
             String fullLexeme;
             if (follow == '=') {
