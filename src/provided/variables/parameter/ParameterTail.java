@@ -79,7 +79,10 @@ public class ParameterTail implements JottTree {
 
     @Override
     public boolean validateTree() {
-        return false;
+        if (params_t == null){
+            return expr.validateTree();
+        }
+        return expr.validateTree() && params_t.validateTree();
     }
 
     public ArrayList<String> getTypes(){
