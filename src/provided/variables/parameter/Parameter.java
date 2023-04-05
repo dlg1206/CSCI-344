@@ -81,6 +81,7 @@ public class Parameter implements JottTree {
     @Override
     public boolean validateTree() {
 
+
         // Check tail if needed exists
         if(this.params_t != null)
             return this.expr.validateTree() && this.params_t.validateTree();

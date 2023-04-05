@@ -57,7 +57,6 @@ public class FunctionList implements JottTree {
     if (SymTable.getFunction("main") == null){
       return false;
     }
-
     for (FunctionDef func : funcList) {
       if (!func.validateTree()){
         return false;
