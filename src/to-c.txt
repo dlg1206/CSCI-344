@@ -1,0 +1,13 @@
+Jott functs: print, concat, length
+
+print
+- #include <stdio.h>
+- printf()
+
+concat
+- #include <string.h>
+- strcat(destination,source)
+
+length
+- #include <string.h>
+- strlen()
