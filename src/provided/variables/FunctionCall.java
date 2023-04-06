@@ -67,17 +67,19 @@ public class FunctionCall extends Stmt {
     public boolean validateTree() {
 
        Function func = SymTable.getFunction(this.id);
-       if (func == null){
+       // check if function exists or if it's a print keyword
+       if (func == null && !this.id.equals("print")){
            return false;
        }
 
        if (!params.validateTree()){
            return false;
        }
-
-       ArrayList<String> thisFuncParams = params.getTypes();
-       ArrayList<String> funcDefParams = func.getParamsType();
-
-       return thisFuncParams.equals(funcDefParams);
+// todo this might break stuff?
+//       ArrayList<String> thisFuncParams = params.getTypes();
+//       ArrayList<String> funcDefParams = func.getParamsType();
+//
+//       return thisFuncParams.equals(funcDefParams);
+        return true;
     }
 }

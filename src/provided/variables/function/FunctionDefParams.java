@@ -92,9 +92,9 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public boolean validateTree() {
-    if (functionDefs_t == null){
-      return firstType.validateTree();
-    }
-    return functionDefs_t.validateTree() && firstType.validateTree();
+    // check tail if not null
+    if(this.functionDefs_t != null)
+      return functionDefs_t.validateTree() && firstType.validateTree();
+    return firstType.validateTree();
   }
 }

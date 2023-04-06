@@ -80,10 +80,14 @@ public class Parameter implements JottTree {
 
     @Override
     public boolean validateTree() {
-        if (params_t == null){
-            return expr.validateTree();
-        }
-        return expr.validateTree() && params_t.validateTree();
+
+
+        // Check tail if needed exists
+        if(this.params_t != null)
+            return this.expr.validateTree() && this.params_t.validateTree();
+
+        // else just test the expression
+        return this.expr.validateTree();
     }
 
     public ArrayList<String> getTypes(){
