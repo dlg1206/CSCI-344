@@ -33,11 +33,15 @@ public class FunctionCall extends Stmt {
         tokens.remove(0);
         
         // might need to change this to use the parameters class?
-        Parameter parameters = Parameter.parseParams(tokens);
-        
+        Parameter parameters = null;
+        if (!tokens.get(0).getToken().equals("]")) {
+            parameters = Parameter.parseParams(tokens);
+        }
+
         if (!tokens.get(0).getToken().equals("]")) {
             throw new ParsingError("Syntax Error", "1]", tokens.get(0));
         }
+
         tokens.remove(0);
         return new FunctionCall(id, parameters);
     }
@@ -72,7 +76,7 @@ public class FunctionCall extends Stmt {
            return false;
        }
 
-       if (!params.validateTree()){
+       if (params != null && !params.validateTree()){
            return false;
        }
 // todo this might break stuff?
