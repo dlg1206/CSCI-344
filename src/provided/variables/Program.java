@@ -22,7 +22,7 @@ public class Program implements JottTree {
     fileName = tokens.get(0).getFilename();
     SymTable.getNewSymTable();
     FunctionList funcList = FunctionList.parseFunctionList(tokens);
-    System.out.println(SymTable.staticToString());
+    //System.out.println(SymTable.staticToString());
     return new Program(funcList);
   }
 

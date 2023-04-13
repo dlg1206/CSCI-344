@@ -12,10 +12,10 @@ import provided.ParsingError;
 
 public class BoolExp implements JottTree {
     
-    static boolean IS_ID = false;   // todo always false?
-    static boolean IS_BOOL = false;
-    static boolean IS_NEXPR = false;
-    static boolean IS_FUNCCALL = false;
+    boolean IS_ID = false;   // todo always false?
+    boolean IS_BOOL = false;
+    boolean IS_NEXPR = false;
+    boolean IS_FUNCCALL = false;
     
 
     String idOrBool;
@@ -24,15 +24,20 @@ public class BoolExp implements JottTree {
     NumExp numExp2;
     FunctionCall functionCall;
     
-    public BoolExp(String idOrBool) {
+    public BoolExp(String idOrBool, boolean isId) {
+        
+        this.IS_ID = isId;
+        this.IS_BOOL = !isId;
         this.idOrBool = idOrBool;
     }
 
     public BoolExp(FunctionCall funcCall) {
+        this.IS_FUNCCALL = true;
         this.functionCall = funcCall;
     }
 
     public BoolExp(NumExp numExp, RelOp relOp, NumExp numExp2) {
+        this.IS_NEXPR = true;
         this.numExp1 = numExp;
         this.relOp = relOp;
         this.numExp2 = numExp2;
@@ -44,10 +49,9 @@ public class BoolExp implements JottTree {
         currToken = tokens.get(0);
         if (currToken.getToken().equals("True") || currToken.getToken().equals("False")) {
             // is Bool
-            IS_BOOL = true;
             String bool = currToken.getToken();
             tokens.remove(0);
-            return new BoolExp(bool);
+            return new BoolExp(bool, false);
         } else if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
             // ID or N_EXP or Func Call
             // , ; ]
@@ -58,7 +62,6 @@ public class BoolExp implements JottTree {
                 RelOp relOp = RelOp.parseRelOp(tokens);
                 
                 if (relOp != null) {
-                    IS_NEXPR = true;
                     NumExp numExp2 = NumExp.parseNumExp(tokens);
                     return new BoolExp(numExp1, relOp, numExp2);
                 } else if (numExp1.nextNumExp == null){
@@ -70,11 +73,10 @@ public class BoolExp implements JottTree {
                 RelOp relOp = RelOp.parseRelOp(tokens);
                 
                 if (relOp != null) {
-                    IS_NEXPR = true;
                     NumExp numExp2 = NumExp.parseNumExp(tokens);
                     return new BoolExp(numExp1, relOp, numExp2);
                 }
-                return new BoolExp(numExp1.idOrNum);
+                return new BoolExp(numExp1.idOrNum, true);
             } else {
                 throw new ParsingError("Syntax", "1Boolean Expression", currToken);
             }
