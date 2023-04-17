@@ -80,7 +80,18 @@ public class BodyStmt implements provided.JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        if(whileStmt != null){
+            return whileStmt.convertToPython();
+        }
+        else if(ifStmt != null){
+            return ifStmt.convertToPython();
+        }
+        else if(stmt != null){
+            return stmt.convertToPython();
+        }
+        else{
+            return null;
+        } 
     }
 
     @Override
