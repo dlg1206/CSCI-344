@@ -84,7 +84,8 @@ public class StrExp implements JottTree{
      */
     @Override
     public String convertToPython() {
-        return null;
+        if (strOrId != null) return strOrId;
+        return functionCall.convertToPython();
     }
 
     /**

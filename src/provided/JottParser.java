@@ -8,7 +8,6 @@ package provided;
  */
 
 import java.util.ArrayList;
-import provided.*;
 import provided.variables.Program;
 
 public class JottParser {

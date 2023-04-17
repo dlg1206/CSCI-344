@@ -65,7 +65,7 @@ public class Op implements JottTree {
      */
     @Override
     public String convertToPython() {
-        return null;
+        return opType;
     }
 
     /**

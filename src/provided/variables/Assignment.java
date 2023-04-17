@@ -52,7 +52,7 @@ public class Assignment extends Stmt {
         
         // Validate
         if(!tokens.get(0).getToken().equals("="))
-        throw new ParsingError("Syntax Error", "=", tokens.get(0));
+            throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
         Expression expr = Expression.parseExpression(tokens);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
@@ -88,7 +88,7 @@ public class Assignment extends Stmt {
 
     @Override
     public java.lang.String convertToPython() {
-        return null;
+        return id + " = " + this.expr.convertToPython() + this.endStmt.convertToPython();
     }
 
     @Override

@@ -124,7 +124,9 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    return (defParams != null)
+      ? funcId + "(" + defParams.convertToPython() + "):" + "\n\t" + body.convertToPython() + "\n" + funcId + "(" + defParams.convertToPython() + ")"
+      : funcId + "():" + "\n\t" + body.convertToPython() +  "\n" + funcId + "()";
   }
 
   @Override
