@@ -67,7 +67,7 @@ public class RelOp implements JottTree {
      */
     @Override
     public String convertToPython() {
-        return null;
+        return relOpType;
     }
 
     /**

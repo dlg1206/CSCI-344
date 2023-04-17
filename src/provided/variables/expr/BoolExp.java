@@ -124,7 +124,9 @@ public class BoolExp implements JottTree {
      */
     @Override
     public String convertToPython() {
-        return null;
+        if (IS_ID || IS_BOOL) return idOrBool;
+        if (IS_NEXPR) return numExp1.convertToPython() + relOp.convertToPython() + numExp2.convertToPython();
+        return numExp1.convertToPython();
     }
 
     /**

@@ -71,8 +71,8 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToJott() {
-    if (functionDefs_t != null) return firstId + ":" + firstType.convertToJott() + functionDefs_t.convertToJott();
-    return firstId + ":" + firstType.convertToJott();  
+    if (functionDefs_t != null) return firstId + functionDefs_t.convertToPython();
+    return firstId;  
   }
 
   @Override
@@ -87,7 +87,8 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    if (functionDefs_t != null) return firstId + ":" + firstType.convertToJott() + functionDefs_t.convertToJott();
+    return firstId + ":" + firstType.convertToJott();  
   }
 
   @Override

@@ -42,7 +42,8 @@ public class ReturnStmt implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        if (expression != null) return "return " + expression.convertToPython() + endStmt.convertToPython();
+        return "return" + endStmt.convertToPython();
     }
 
     @Override

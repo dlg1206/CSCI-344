@@ -124,7 +124,11 @@ public class NumExp implements JottTree{
      */
     @Override
     public String convertToPython() {
-        return null;
+        if (functionCall != null && nextNumExp != null) return functionCall.convertToPython() + op.convertToPython() + nextNumExp.convertToPython();
+        if (functionCall != null) return functionCall.convertToPython();
+        if (idOrNum != null && nextNumExp != null) return idOrNum + op.convertToPython() + nextNumExp.convertToPython();
+         
+        return idOrNum; 
     }
 
     /**

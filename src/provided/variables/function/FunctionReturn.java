@@ -71,7 +71,7 @@ public class FunctionReturn implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return returnType;
     }
 
     @Override
