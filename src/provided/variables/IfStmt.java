@@ -100,7 +100,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToPython() {
-        return null;
+        if (!elif) {
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + elseStmt.convertToPython();
+        }
+        else {
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+        }
     }
 
     @Override

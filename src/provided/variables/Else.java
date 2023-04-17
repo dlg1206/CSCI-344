@@ -43,7 +43,7 @@ public class Else implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return "else:\n" + body.convertToPython();
     }
 
     @Override

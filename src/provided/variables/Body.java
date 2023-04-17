@@ -75,7 +75,15 @@ public class Body implements JottTree{
 
     @Override
     public String convertToPython() {
-        return null;
+        String result = "";
+        for (BodyStmt body: bodyStmts) {
+            result += "\t" + body.convertToPython() + "\n";
+        }
+
+        if (returnStmt != null){
+            result += "\t" + returnStmt.convertToPython();
+        } 
+        return result;
     }
 
     @Override
