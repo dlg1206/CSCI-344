@@ -56,8 +56,6 @@ public class Parameter implements JottTree {
      */
     @Override
     public String convertToJott() {
-    
-    
         if (this.params_t != null)
             return this.expr.convertToJott() + this.params_t.convertToJott();
         return this.expr.convertToJott();
@@ -75,7 +73,9 @@ public class Parameter implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        if (this.params_t != null)
+            return this.expr.convertToPython() + this.params_t.convertToPython();
+        return this.expr.convertToPython();
     }
 
     @Override
