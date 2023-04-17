@@ -56,7 +56,11 @@ public class ElseIfLst implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        String converted = "";
+        for (IfStmt ifstmt : ifLst){
+            converted = converted + "el" + ifstmt.convertToPython();
+        }
+        return converted;
     }
 
     @Override
