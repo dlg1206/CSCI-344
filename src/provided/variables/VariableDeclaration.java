@@ -69,7 +69,7 @@ public class VariableDeclaration extends Stmt {
 
     @Override
     public java.lang.String convertToPython() {
-        return null;
+        return this.type.convertToJott() + " " + this.id + this.end_statement.convertToPython();
     }
 
     @Override
