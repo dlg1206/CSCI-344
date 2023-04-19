@@ -38,7 +38,7 @@ public class Else implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        return "else {\n" + body.convertToC() + "\n}\n";
     }
 
     @Override
