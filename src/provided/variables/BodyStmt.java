@@ -85,7 +85,20 @@ public class BodyStmt implements provided.JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+
+        // Parse while
+        if(whileStmt != null)
+            return getIndents() + whileStmt.convertToC();
+
+        // Parse if
+        if(ifStmt != null)
+            return getIndents() + ifStmt.convertToC();
+
+        // Parse statement
+        if(stmt != null)
+            return getIndents() + stmt.convertToC();
+
+        return null;    // prob error
     }
 
     @Override
