@@ -54,7 +54,8 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (params != null) return id + "( " + params.convertToJott() + " )";
+        return id + "()";
     }
 
     @Override

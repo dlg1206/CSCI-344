@@ -45,7 +45,7 @@ public class Op implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
-        return null;
+        return opType;
     }
 
     /**

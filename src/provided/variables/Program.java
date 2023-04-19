@@ -33,7 +33,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return null;
+    return funcList.convertToJava(className);
   }
 
   @Override
@@ -43,7 +43,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToPython() {
-    
+
     return funcList.convertToPython();
   }
 

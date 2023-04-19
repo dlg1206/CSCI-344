@@ -61,7 +61,7 @@ public class FunctionReturn implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return returnType;
     }
 
     @Override

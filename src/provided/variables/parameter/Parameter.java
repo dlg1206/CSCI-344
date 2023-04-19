@@ -63,7 +63,9 @@ public class Parameter implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (this.params_t != null)
+            return this.expr.convertToJava(className) + this.params_t.convertToJava(className);
+        return this.expr.convertToJava(className);
     }
 
     @Override

@@ -64,7 +64,7 @@ public class ParameterTail implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "," + this.expr.convertToJava(className);
     }
 
     @Override
