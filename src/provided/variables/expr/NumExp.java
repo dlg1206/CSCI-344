@@ -104,7 +104,11 @@ public class NumExp implements JottTree{
      */
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (functionCall != null && nextNumExp != null) return functionCall.convertToJava(className) + op.convertToJava(className) + nextNumExp.convertToJava(className);
+        if (functionCall != null) return functionCall.convertToJava(className);
+        if (idOrNum != null && nextNumExp != null) return idOrNum + op.convertToJava(className) + nextNumExp.convertToJava(className);
+         
+        return idOrNum; 
     }
 
     /**
