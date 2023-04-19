@@ -60,7 +60,8 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToC() {
-        return this.id + "( " + (params != null ? params.convertToC() : "") + " ){\n";
+        // todo check for special function calls
+        return this.id + "( " + (params != null ? params.convertToC() : "") + " )";
     }
 
     @Override
