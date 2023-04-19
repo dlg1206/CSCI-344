@@ -70,7 +70,9 @@ public class Parameter implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.params_t != null)
+            return this.expr.convertToC() + this.params_t.convertToC();
+        return this.expr.convertToC();
     }
 
     @Override

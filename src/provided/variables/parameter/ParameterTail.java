@@ -69,7 +69,7 @@ public class ParameterTail implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+            return ", " + this.expr.convertToC();
     }
 
     @Override
