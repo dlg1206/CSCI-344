@@ -10,18 +10,28 @@ public class ReturnStmt implements JottTree {
 
     EndStmt endStmt;
     Expression expression;
+    int numIndents;
 
-    public ReturnStmt(Expression expression, EndStmt endStmt){
+    public ReturnStmt(Expression expression, EndStmt endStmt, int numIndent){
         this.endStmt = endStmt;
         this.expression = expression;
+        this.numIndents = numIndent;
     }
 
-    public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens){
+    public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens, int numIndent){
         // Use symTable for check if the return 
         tokens.remove(0);
         Expression expression = Expression.parseExpression(tokens);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
-        return new ReturnStmt(expression, endStmt);
+        return new ReturnStmt(expression, endStmt, numIndent);
+    }
+
+    public String getIndents() {
+        String indents = "";
+        for (int i=0; i<this.numIndents; i++) {
+            indents += "\t";
+        }
+        return indents;
     }
 
     @Override
@@ -42,8 +52,8 @@ public class ReturnStmt implements JottTree {
 
     @Override
     public String convertToPython() {
-        if (expression != null) return "return " + expression.convertToPython() + endStmt.convertToPython();
-        return "return" + endStmt.convertToPython();
+        if (expression != null) return getIndents() + "return " + expression.convertToPython() + endStmt.convertToPython();
+        return getIndents() + "return" + endStmt.convertToPython();
     }
 
     @Override
