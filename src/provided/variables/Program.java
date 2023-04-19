@@ -38,7 +38,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToC() {
-    return null;
+    return funcList.convertToC();
   }
 
   @Override
