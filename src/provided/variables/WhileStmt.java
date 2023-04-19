@@ -15,7 +15,7 @@ public class WhileStmt implements JottTree {
     public WhileStmt(){ }
 
     static Token currToken;
-    public static WhileStmt parseWhileStmt(ArrayList<Token> tokens){
+    public static WhileStmt parseWhileStmt(ArrayList<Token> tokens, int numIndent){
         // We checked while outside of this call so we remove the currToken
         WhileStmt wloop = new WhileStmt();
         tokens.remove(0);
@@ -38,7 +38,7 @@ public class WhileStmt implements JottTree {
         }
         tokens.remove(0);
 
-        wloop.body = Body.parseBody(tokens);
+        wloop.body = Body.parseBody(tokens, numIndent);
 
         currToken = tokens.get(0);
 
@@ -68,7 +68,7 @@ public class WhileStmt implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return "while " + conditions.convertToPython() + ":\n" + body.convertToPython() + "\n";
     }
 
     @Override

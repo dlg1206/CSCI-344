@@ -85,7 +85,7 @@ public class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check Body
-    Body body = Body.parseBody(tokens);
+    Body body = Body.parseBody(tokens, 0);
     body.isRoot = true;
     // Check }
     currToken = tokens.get(0);
