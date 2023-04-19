@@ -48,7 +48,7 @@ public class ReturnStmt implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        return "return " + (expression != null ? expression.convertToC() : "") + endStmt.convertToC();
     }
 
     @Override
