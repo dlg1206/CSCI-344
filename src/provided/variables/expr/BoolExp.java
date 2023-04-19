@@ -116,7 +116,20 @@ public class BoolExp implements JottTree {
      */
     @Override
     public String convertToC() {
-        return null;
+        // return id
+        if (this.IS_ID) return this.idOrBool;
+
+        // if bool, convert to 1/0 b/c C has no native bool
+        if(this.IS_BOOL){
+            if(this.idOrBool.equalsIgnoreCase("true"))
+                return "1";
+            return "0";
+        }
+        // if number expr, covert all parts
+        if (this.IS_NEXPR) return this.numExp1.convertToC() + this.relOp.convertToC() + this.numExp2.convertToC();
+
+        // else eval term
+        return this.numExp1.convertToC();
     }
 
     /**
