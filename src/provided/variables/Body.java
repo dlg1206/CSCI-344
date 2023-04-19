@@ -68,7 +68,15 @@ public class Body implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String result = "";
+        for (BodyStmt body: bodyStmts) {
+            result += body.convertToJava(className);
+        }
+
+        if (returnStmt != null){
+            result += returnStmt.convertToJava(className);
+        }
+        return result;
     }
 
     @Override

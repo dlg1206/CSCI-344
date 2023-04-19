@@ -78,7 +78,10 @@ public class Assignment extends Stmt {
 
     @Override
     public String convertToJava(java.lang.String className) {
-        return null;
+        if (type != null) {
+            return this.type.convertToJava(className) + " " + id + " = " + this.expr.convertToJava(className) + this.endStmt.convertToJava(className);
+        }
+        return id + " = " + this.expr.convertToJava(className) + this.endStmt.convertToJava(className);
     }
 
     @Override

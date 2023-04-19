@@ -90,7 +90,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (!elif) {
+            return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}" + elifLst.convertToJava(className) + elseStmt.convertToJava(className);
+        }
+        else {
+            return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+        }
     }
 
     @Override

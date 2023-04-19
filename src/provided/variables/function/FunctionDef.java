@@ -114,7 +114,11 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return null;
+    if (defParams != null) {
+      return "public " + funcReturn.convertToJava(className) + " " + funcId + "(" + defParams.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+    } else {
+      return "public " + funcReturn.convertToJava(className) + " " + funcId + "(){" + body.convertToJava(className) + "}";
+    }
   }
 
   @Override

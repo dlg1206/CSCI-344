@@ -39,7 +39,11 @@ public class FunctionList implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return null;
+    String result = "";
+    for (FunctionDef func : funcList) {
+      result += func.convertToJava(className);
+    }
+    return result;
   }
 
   @Override

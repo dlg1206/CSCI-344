@@ -33,7 +33,7 @@ public class Else implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "else{" + body.convertToJava(className) + "}";
     }
 
     @Override

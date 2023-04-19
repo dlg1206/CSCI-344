@@ -80,7 +80,18 @@ public class BodyStmt implements provided.JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        if(whileStmt != null){
+            return whileStmt.convertToJava(className);
+        }
+        else if(ifStmt != null){
+            return ifStmt.convertToJava(className);
+        }
+        else if(stmt != null){
+            return stmt.convertToJava(className);
+        }
+        else{
+            return null;
+        }
     }
 
     @Override
