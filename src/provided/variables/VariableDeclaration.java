@@ -64,7 +64,7 @@ public class VariableDeclaration extends Stmt {
 
     @Override
     public java.lang.String convertToC() {
-        return null;
+        return this.type.convertToC() + " " + this.id + " = " + this.end_statement.convertToC();
     }
 
     @Override
