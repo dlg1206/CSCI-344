@@ -51,7 +51,13 @@ public class ElseIfLst implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        StringBuilder sb = new StringBuilder();
+
+        // Append chain of else ifs
+        for (IfStmt ifstmt : ifLst)
+            sb.append("} else if (").append(ifstmt.convertToC()).append("){\n");
+
+        return sb.toString();
     }
 
     @Override
