@@ -86,7 +86,19 @@ public class Stmt implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+
+        // convert function call and satement
+        if (endStmt != null)
+            return functionCall.convertToC() + endStmt.convertToC();
+
+        if(assignment != null)
+            return assignment.convertToC();
+
+
+        if(variableDeclaration != null)
+            return variableDeclaration.convertToC();
+
+        return null;    // prob err
     }
 
     @Override
