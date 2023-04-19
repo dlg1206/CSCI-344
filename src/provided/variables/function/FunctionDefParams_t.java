@@ -78,7 +78,11 @@ public class FunctionDefParams_t implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    String result = "";
+    for (int i=0; i<ids.size();i++) {
+      result += ", " + ids.get(i);
+    }
+    return result;
   }
 
   @Override

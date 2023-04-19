@@ -23,7 +23,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         elif = true;
     }
 
-    public static IfStmt parseIfStmt(ArrayList<Token> tokens) {
+    public static IfStmt parseIfStmt(ArrayList<Token> tokens, int numIndent) {
         
         boolean elif = false;
         if (tokens.get(0).getToken().equals("if")){
@@ -51,7 +51,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
-            IfStmt.body = Body.parseBody(tokens);
+            IfStmt.body = Body.parseBody(tokens, numIndent);
             if (tokens.get(0).getToken().equals("}")) {
                 tokens.remove(0);
             }
@@ -66,12 +66,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
         if (!elif) {
             if (tokens.get(0).getToken().equals("elseif")) {
                 tokens.remove(0);
-                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens);
+                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens, numIndent);
             }
 
             if (tokens.get(0).getToken().equals("else")) {
                 tokens.remove(0);
-                IfStmt.elseStmt = Else.ParseElse(tokens);
+                IfStmt.elseStmt = Else.ParseElse(tokens, numIndent);
             }
         } 
         // check token after the end of the body, check for an else/else if loop until no more or an else
@@ -100,7 +100,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToPython() {
-        return null;
+        if (!elif) {
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + elseStmt.convertToPython();
+        }
+        else {
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+        }
     }
 
     @Override

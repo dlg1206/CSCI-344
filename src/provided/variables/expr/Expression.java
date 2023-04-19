@@ -98,7 +98,8 @@ public class Expression implements JottTree {
      */
     @Override
     public String convertToPython() {
-        return null;
+        if (exp3 != null && exp2 != null) return exp1.convertToPython() + exp2.convertToPython() + exp3.convertToPython();
+        return exp1.convertToPython();
     }
 
     /**

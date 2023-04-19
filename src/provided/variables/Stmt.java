@@ -65,6 +65,7 @@ public class Stmt implements JottTree {
         }
     }
 
+
     @Override
     public String convertToJava(String className) {
         return null;
@@ -77,7 +78,20 @@ public class Stmt implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        if (endStmt != null){
+            return functionCall.convertToPython() + endStmt.convertToPython(); 
+        }
+        else{
+            if(assignment != null){
+                return assignment.convertToPython();
+            }
+            else if(variableDeclaration != null){
+                return variableDeclaration.convertToPython();
+            }
+            else{
+                return "";
+            }
+        }
     }
 
     @Override

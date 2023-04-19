@@ -87,7 +87,8 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    if (functionDefs_t != null) return firstId + functionDefs_t.convertToPython();
+    return firstId;
   }
 
   @Override

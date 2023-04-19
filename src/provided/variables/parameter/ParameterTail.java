@@ -74,7 +74,7 @@ public class ParameterTail implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return ", " + this.expr.convertToPython();
     }
 
     @Override

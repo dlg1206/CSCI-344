@@ -52,7 +52,7 @@ public class Assignment extends Stmt {
         
         // Validate
         if(!tokens.get(0).getToken().equals("="))
-        throw new ParsingError("Syntax Error", "=", tokens.get(0));
+            throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
         Expression expr = Expression.parseExpression(tokens);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
@@ -69,7 +69,7 @@ public class Assignment extends Stmt {
      * @return a string representing the Jott code of this tree
      */
     @Override
-    public java.lang.String convertToJott() {
+    public String convertToJott() {
         if (type != null) {
             return this.type.convertToJott() + " " + id + " = " + this.expr.convertToJott() + this.endStmt.convertToJott();
         }
@@ -77,18 +77,18 @@ public class Assignment extends Stmt {
     }
 
     @Override
-    public java.lang.String convertToJava(java.lang.String className) {
+    public String convertToJava(java.lang.String className) {
         return null;
     }
 
     @Override
-    public java.lang.String convertToC() {
+    public String convertToC() {
         return null;
     }
 
     @Override
-    public java.lang.String convertToPython() {
-        return null;
+    public String convertToPython() {
+        return id + " = " + this.expr.convertToPython() + this.endStmt.convertToPython();
     }
 
     @Override

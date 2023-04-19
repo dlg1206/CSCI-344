@@ -14,12 +14,12 @@ public class Else implements JottTree {
         body = null;
     }
 
-    static Else ParseElse(ArrayList<Token> tokens){
+    static Else ParseElse(ArrayList<Token> tokens, int numIndent){
 
         Else elseStmt = new Else();
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
-            elseStmt.body = Body.parseBody(tokens);
+            elseStmt.body = Body.parseBody(tokens, numIndent);
             tokens.remove(0);
             // may need to remove an additional token if } was left in by body parse
         }
@@ -43,7 +43,7 @@ public class Else implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return "else:\n" + body.convertToPython();
     }
 
     @Override

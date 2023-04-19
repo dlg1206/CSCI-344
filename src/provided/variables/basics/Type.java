@@ -43,7 +43,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        return type;
     }
 
     @Override

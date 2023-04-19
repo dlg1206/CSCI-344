@@ -64,7 +64,8 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToPython() {
-        return null;
+        if (params != null) return id + "(" + params.convertToPython() + ")";
+        return id + "()";
     }
 
     @Override

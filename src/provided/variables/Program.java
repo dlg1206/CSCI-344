@@ -43,7 +43,8 @@ public class Program implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    
+    return funcList.convertToPython();
   }
 
   @Override

@@ -15,6 +15,7 @@ public class BodyStmt implements provided.JottTree {
     public IfStmt ifStmt;
     private WhileStmt whileStmt;
     private Stmt stmt; 
+    private int numIndents;
     public enum StmtType{
         WHILE, 
         IF,
@@ -22,34 +23,43 @@ public class BodyStmt implements provided.JottTree {
     }
     public StmtType type;
 
-    public BodyStmt(IfStmt ifStmt, WhileStmt whileStmt, Stmt stmt){
+    public BodyStmt(IfStmt ifStmt, WhileStmt whileStmt, Stmt stmt, int numIndents){
         this.ifStmt = ifStmt;
         this.whileStmt = whileStmt;
         this.stmt = stmt;
+        this.numIndents = numIndents;
     }
 
-    public static BodyStmt parseBodyStmt(ArrayList<Token> tokens){
+    public static BodyStmt parseBodyStmt(ArrayList<Token> tokens, int numIndent){
         //ArrayList<JottTree> bodyStmts = new ArrayList<JottTree>();
             
             Token currToken = tokens.get(0);
             //process while token
             
             if(currToken.getToken().equals("while")){
-                BodyStmt bStmt = new BodyStmt(null, WhileStmt.parseWhileStmt(tokens), null);
+                BodyStmt bStmt = new BodyStmt(null, WhileStmt.parseWhileStmt(tokens, numIndent), null, numIndent);
                 bStmt.type = StmtType.WHILE;
                 return bStmt;
             }
             else if(currToken.getToken().equals("if")) {
-                BodyStmt bStmt = new BodyStmt(IfStmt.parseIfStmt(tokens), null, null);
+                BodyStmt bStmt = new BodyStmt(IfStmt.parseIfStmt(tokens, numIndent), null, null, numIndent);
                 bStmt.type = StmtType.IF;
                 return bStmt;
             }
             else {
-                BodyStmt bStmt = new BodyStmt(null, null, Stmt.parseStmt(tokens));
+                BodyStmt bStmt = new BodyStmt(null, null, Stmt.parseStmt(tokens), numIndent);
                 bStmt.type = StmtType.OTHER;
                 return bStmt;
             } 
 
+    }
+
+    public String getIndents() {
+        String indents = "";
+        for (int i=0; i<this.numIndents; i++) {
+            indents += "\t";
+        }
+        return indents;
     }
 
     @Override
@@ -80,7 +90,18 @@ public class BodyStmt implements provided.JottTree {
 
     @Override
     public String convertToPython() {
-        return null;
+        if(whileStmt != null){
+            return getIndents() + whileStmt.convertToPython();
+        }
+        else if(ifStmt != null){
+            return getIndents() + ifStmt.convertToPython();
+        }
+        else if(stmt != null){
+            return getIndents() + stmt.convertToPython();
+        }
+        else{
+            return null;
+        } 
     }
 
     @Override

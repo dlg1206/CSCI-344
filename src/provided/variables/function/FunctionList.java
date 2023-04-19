@@ -49,7 +49,11 @@ public class FunctionList implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    String result = "";
+    for (FunctionDef func : funcList) {
+      result += func.convertToPython();
+    }
+    return result;
   }
 
   @Override

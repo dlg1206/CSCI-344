@@ -13,10 +13,12 @@ public class Body implements JottTree{
     ReturnStmt returnStmt;
     ArrayList<BodyStmt> bodyStmts;
     public boolean isRoot = false; //is this the main body in a function 
+    int numIndent;
 
-    public Body(ArrayList<BodyStmt> bodies, ReturnStmt returnStmt) {
+    public Body(ArrayList<BodyStmt> bodies, ReturnStmt returnStmt, int numIndent) {
         this.bodyStmts = bodies;
         this.returnStmt = returnStmt;
+        this.numIndent = numIndent;
     } 
 
     static boolean isBodyStmt(Token currToken) {
@@ -26,20 +28,21 @@ public class Body implements JottTree{
     }
 
     static Token currToken;
-    public static Body parseBody(ArrayList<Token> tokens){
+
+    public static Body parseBody(ArrayList<Token> tokens, int numIndent){
         currToken = tokens.get(0);
         ArrayList<BodyStmt> bodyStmts = new ArrayList<>();
         ReturnStmt returnStmt = null;
         
         if (currToken.getToken().equals("return")) {
-            returnStmt = ReturnStmt.parseReturnStmt(tokens);
+            returnStmt = ReturnStmt.parseReturnStmt(tokens, numIndent + 1);
         } else if (
             Type.isType(currToken) || currToken.getTokenType() == TokenType.ID_KEYWORD || 
             currToken.getToken().equals("if") || currToken.getToken().equals("while")) {
-            BodyStmt bodyStmt = BodyStmt.parseBodyStmt(tokens);
+            BodyStmt bodyStmt = BodyStmt.parseBodyStmt(tokens, numIndent + 1);
             currToken = tokens.get(0);
             if ( isBodyStmt(currToken) ) {
-                Body recurBody = parseBody(tokens);
+                Body recurBody = parseBody(tokens, numIndent);
                 bodyStmts = recurBody.bodyStmts;
                 returnStmt = recurBody.returnStmt;
             } 
@@ -47,18 +50,18 @@ public class Body implements JottTree{
         } else if (!currToken.getToken().equals("}")) {
             throw new ParsingError("Syntax Error", "id, type, if, while, or return", currToken);
         }
-        return new Body(bodyStmts, returnStmt);
+        return new Body(bodyStmts, returnStmt, numIndent);
     }
 
     @Override
     public String convertToJott() {
         String result = "";
         for (BodyStmt body: bodyStmts) {
-            result += "\t" + body.convertToJott() + "\n";
+            result += body.convertToJott() + "\n";
         }
 
         if (returnStmt != null){
-            result += "\t" + returnStmt.convertToJott();
+            result += returnStmt.convertToJott();
         } 
         return result;
     }
@@ -75,7 +78,18 @@ public class Body implements JottTree{
 
     @Override
     public String convertToPython() {
-        return null;
+
+        String result = "";
+        for (BodyStmt body: bodyStmts) {
+            result += body.convertToPython() + "\n";
+        }
+
+        if (returnStmt != null){
+            result += returnStmt.convertToPython();
+        } else if (this.numIndent == 0 && bodyStmts.isEmpty()) {
+            result += new ReturnStmt(null, new EndStmt(), 1).convertToPython();
+        }
+        return result;
     }
 
     @Override

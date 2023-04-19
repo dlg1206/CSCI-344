@@ -85,7 +85,7 @@ public class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check Body
-    Body body = Body.parseBody(tokens);
+    Body body = Body.parseBody(tokens, 0);
     body.isRoot = true;
     // Check }
     currToken = tokens.get(0);
@@ -124,7 +124,9 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToPython() {
-    return null;
+    return (defParams != null)
+      ? "def " + funcId + "(" + defParams.convertToPython() + "):" + "\n" + body.convertToPython() + "\n\n"
+      : "def " + funcId + "():\n" + body.convertToPython() + "\n\n";
   }
 
   @Override
