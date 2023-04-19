@@ -44,7 +44,12 @@ public class FunctionList implements JottTree {
 
   @Override
   public String convertToC() {
-    return null;
+    StringBuilder result = new StringBuilder();
+    // append all functions
+    for (FunctionDef func : this.funcList)
+      result.append(func.convertToC());
+
+    return result.toString();
   }
 
   @Override
