@@ -33,7 +33,7 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return type;
     }
 
     @Override

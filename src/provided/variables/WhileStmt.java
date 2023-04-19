@@ -58,7 +58,7 @@ public class WhileStmt implements JottTree {
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        return "while( " + conditions.convertToJava(className) + " ) {\n" + body.convertToJava(className) + "\t}";
     }
 
     @Override

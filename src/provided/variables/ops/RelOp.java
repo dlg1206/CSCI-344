@@ -47,7 +47,7 @@ public class RelOp implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
-        return null;
+        return relOpType;
     }
 
     /**

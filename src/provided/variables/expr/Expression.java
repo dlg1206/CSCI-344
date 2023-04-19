@@ -78,7 +78,8 @@ public class Expression implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (exp3 != null && exp2 != null) return exp1.convertToJava(className) + exp2.convertToJava(className) + exp3.convertToJava(className);
+        return exp1.convertToJava(className);
     }
 
     /**
