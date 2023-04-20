@@ -60,6 +60,10 @@ public class FunctionCall extends Stmt {
             return id + "System.out.println()";
         }
         if (params != null) return id + "( " + params.convertToJava(className) + " )";
+            id = "System.out.println";
+            
+        if (params != null) return id + "(" + params.convertToJott() + ")";
+
         return id + "()";
     }
 
