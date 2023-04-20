@@ -88,7 +88,7 @@ public class BodyStmt implements provided.JottTree {
 
         // Parse while
         if(whileStmt != null)
-            return getIndents() + whileStmt.convertToC() +  getIndents() + "}\n";
+            return getIndents() + whileStmt.convertToC() +  getIndents() + "}";
 
         // Parse if
         if(ifStmt != null)
