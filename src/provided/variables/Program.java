@@ -33,7 +33,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return funcList.convertToJava(className);
+    return "public class" + className + "{" + funcList.convertToJava(className) + "}";
   }
 
   @Override
