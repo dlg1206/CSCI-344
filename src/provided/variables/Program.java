@@ -38,7 +38,7 @@ public class Program implements JottTree {
 
   @Override
   public String convertToC() {
-    return funcList.convertToC();
+    return "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n\n" + funcList.convertToC();
   }
 
   @Override
