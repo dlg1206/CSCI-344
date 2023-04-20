@@ -63,7 +63,7 @@ public class WhileStmt implements JottTree {
 
     @Override
     public String convertToC() {
-        return "while( " + conditions.convertToC() + " ) {\n" + body.convertToC() + "}";
+        return "while( " + conditions.convertToC() + " ) {\n" + body.convertToC();
     }
 
     @Override

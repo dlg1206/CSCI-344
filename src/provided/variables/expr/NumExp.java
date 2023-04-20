@@ -118,11 +118,13 @@ public class NumExp implements JottTree{
      */
     @Override
     public String convertToC() {
-        if (functionCall != null && nextNumExp != null) return functionCall.convertToC() + op.convertToC() + nextNumExp.convertToC();
-        if (functionCall != null) return functionCall.convertToC();
-        if (idOrNum != null && nextNumExp != null) return idOrNum + op.convertToC() + nextNumExp.convertToC();
+        if (functionCall != null)
+            return functionCall.convertToC();
 
-        return null;    // will prob err
+        if (idOrNum != null && nextNumExp != null)
+            return idOrNum + " " + op.convertToC() + " " + nextNumExp.convertToC();
+
+        return idOrNum;    // will prob err
     }
 
     /**

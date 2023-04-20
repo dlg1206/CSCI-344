@@ -51,6 +51,9 @@ public class Type implements JottTree {
             case "Double" -> {
                 return "double";
             }
+            case "Void" -> {
+                return "void";
+            }
         }
         return null;    // prob cause error
     }

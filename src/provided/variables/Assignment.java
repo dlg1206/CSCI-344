@@ -83,7 +83,7 @@ public class Assignment extends Stmt {
 
     @Override
     public String convertToC() {
-        return this.type + " " + id + " = " + this.expr.convertToC() + this.endStmt.convertToC();
+        return this.type.convertToC() + " " + id + " = " + this.expr.convertToC() + this.endStmt.convertToC();
     }
 
     @Override

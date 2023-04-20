@@ -126,7 +126,7 @@ public class BoolExp implements JottTree {
             return "0";
         }
         // if number expr, covert all parts
-        if (this.IS_NEXPR) return this.numExp1.convertToC() + this.relOp.convertToC() + this.numExp2.convertToC();
+        if (this.IS_NEXPR) return this.numExp1.convertToC() + " " + this.relOp.convertToC() + " " + this.numExp2.convertToC();
 
         // else eval term
         return this.numExp1.convertToC();
