@@ -91,7 +91,7 @@ public class NumExp implements JottTree{
     public String convertToJott() {
         if (functionCall != null && nextNumExp != null) return functionCall.convertToJott() + op.convertToJott() + nextNumExp.convertToJott();
         if (functionCall != null) return functionCall.convertToJott();
-        if (idOrNum != null && nextNumExp != null) return idOrNum + op.convertToJott() + nextNumExp.convertToJott();
+        if (idOrNum != null && nextNumExp != null) return idOrNum + " " + op.convertToJott() + " " + nextNumExp.convertToJott();
          
         return idOrNum; 
     }

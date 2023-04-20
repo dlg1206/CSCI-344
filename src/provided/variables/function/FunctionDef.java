@@ -130,7 +130,7 @@ public class FunctionDef implements JottTree {
     if (this.defParams != null) sb.append(this.defParams.convertToC());
 
     // get body and return
-    sb.append(") {\n").append(this.body.convertToC()).append("}");
+    sb.append(") {\n").append(this.body.convertToC()).append("}\n");
     return sb.toString();
   }
 
