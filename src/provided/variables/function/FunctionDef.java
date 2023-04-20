@@ -114,6 +114,13 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToJava(String className) {
+    if (funcId.equals("main")){
+      if (defParams != null) {
+        return "public static" + funcReturn.convertToJava(className) + " " + funcId + "(String args[], " + defParams.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+      } else {
+        return "public static" + funcReturn.convertToJava(className) + " " + funcId + "(String args[]){" + body.convertToJava(className) + "}";
+      }
+    }
     if (defParams != null) {
       return "public " + funcReturn.convertToJava(className) + " " + funcId + "(" + defParams.convertToJava(className) + "){" + body.convertToJava(className) + "}";
     } else {
