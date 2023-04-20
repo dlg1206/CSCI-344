@@ -54,6 +54,10 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToJava(String className) {
+
+        if (id.equals("print")){
+            id = "System.out.print()";
+        }
         if (params != null) return id + "( " + params.convertToJott() + " )";
         return id + "()";
     }
