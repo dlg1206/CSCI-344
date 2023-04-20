@@ -56,7 +56,7 @@ public class FunctionCall extends Stmt {
     public String convertToJava(String className) {
 
         if (id.equals("print")){
-            id = "System.out.print()";
+            id = "System.out.println()";
         }
         if (params != null) return id + "( " + params.convertToJott() + " )";
         return id + "()";
