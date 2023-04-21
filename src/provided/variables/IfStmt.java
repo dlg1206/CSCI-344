@@ -95,10 +95,10 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToC() {
-        String str = "if ( " + boolexp.convertToPython() + " ){\n" + body.convertToC();
+        String str = "if ( " + boolexp.convertToC() + " ){\n" + body.convertToC();
 
         // append elif details if needed
-        if (!elif)
+        if (elif)
             str += elifLst.convertToC() + elseStmt.convertToC();
 
         return str;

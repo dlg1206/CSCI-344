@@ -85,8 +85,8 @@ public class Parameter implements JottTree {
     @Override
     public boolean validateTree() {
 
-        System.out.println("GETTING TO PARAM");
-        System.out.println(this.expr.convertToJott());
+        //System.out.println("GETTING TO PARAM");
+        //System.out.println(this.expr.convertToJott());
         // Check tail if needed exists
         if(this.params_t != null)
             return this.expr.validateTree() && this.params_t.validateTree();

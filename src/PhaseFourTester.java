@@ -13,6 +13,8 @@ public class PhaseFourTester {
         add("parserTestCases/helloWorld.jott");
         add("parserTestCases/providedExample1.jott");
         add("parserTestCases/validLoop.jott");
+        add("phase3testcases/ifStmtReturns.jott");
+        add("phase3testcases/largerValid.jott");
     }};
 
     static private String test(String sourceFilePath, String targetLanguage) throws Exception {
