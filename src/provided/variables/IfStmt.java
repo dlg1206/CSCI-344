@@ -81,6 +81,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToJott() {
         if (!elif) {
+            if (elifLst == null){
+                return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}" + elseStmt.convertToJott();
+            }
+            else if (elseStmt == null){
+                return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}";
+            }
             return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}" + elifLst.convertToJott() + elseStmt.convertToJott();
         }
         else {
@@ -91,6 +97,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToJava(String className) {
         if (!elif) {
+            if (elifLst == null){
+                return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}" + elseStmt.convertToJava(className);
+            }
+            else if (elseStmt == null){
+                return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+            }
             return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}" + elifLst.convertToJava(className) + elseStmt.convertToJava(className);
         }
         else {
@@ -106,10 +118,16 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToPython() {
         if (!elif) {
-            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + elseStmt.convertToPython();
+            if (elifLst == null){
+                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\t" + elseStmt.convertToPython();
+            }
+            else if (elseStmt == null){
+                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+            }
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + "\t\t" + elseStmt.convertToPython();
         }
         else {
-            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+            return "elif " + boolexp.convertToPython() + ":\n" + body.convertToPython();
         }
     }
 

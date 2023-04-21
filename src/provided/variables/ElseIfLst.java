@@ -14,7 +14,7 @@ public class ElseIfLst implements JottTree {
     Body body;
 
     public ElseIfLst(){
-        ifLst = null;
+        ifLst = new ArrayList<>();
     }
 
     static ElseIfLst ParseElseIfLst(ArrayList<Token> tokens, int numIndent){

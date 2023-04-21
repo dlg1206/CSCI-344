@@ -104,7 +104,15 @@ public class BoolExp implements JottTree {
      */
     @Override
     public String convertToJava(String className) {
-        if (IS_ID || IS_BOOL) return idOrBool;
+        if (IS_ID || IS_BOOL) {
+            if (idOrBool.equals("True")){
+                return "true";
+            }
+            if (idOrBool.equals("False")){
+                return "false";
+            }
+            return idOrBool;
+        }
         if (IS_NEXPR) return numExp1.convertToJava(className) + relOp.convertToJava(className) + numExp2.convertToJava(className);
         return numExp1.convertToJava(className);
     }

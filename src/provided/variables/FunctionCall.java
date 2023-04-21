@@ -59,10 +59,13 @@ public class FunctionCall extends Stmt {
             if (params != null) return "System.out.println( " + params.convertToJava(className) + " )";
             return id + "System.out.println()";
         }
+        if (id.equals("concat")){
+            return params.getFirstParameter().convertToJava(className) + ".concat(" + params.getParams_t().convertToJava(className).substring(1) + ")";
+        }
+        if (id.equals("length")){
+            return params.convertToJava(className) + ".length()";
+        }
         if (params != null) return id + "( " + params.convertToJava(className) + " )";
-            id = "System.out.println";
-            
-        if (params != null) return id + "(" + params.convertToJott() + ")";
 
         return id + "()";
     }

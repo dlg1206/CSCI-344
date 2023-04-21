@@ -93,6 +93,14 @@ public class Parameter implements JottTree {
         return this.expr.validateTree();
     }
 
+    public Expression getFirstParameter(){
+        return expr;
+    }
+
+    public ParameterTail getParams_t(){
+        return params_t;
+    }
+
     public ArrayList<String> getTypes(){
 
         ArrayList<String> types = new ArrayList<>();
