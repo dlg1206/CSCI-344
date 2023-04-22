@@ -33,6 +33,9 @@ public class Type implements JottTree {
 
     @Override
     public String convertToJava(String className) {
+        if (type.equals("Void")){
+            return "void";
+        }
         return type;
     }
 

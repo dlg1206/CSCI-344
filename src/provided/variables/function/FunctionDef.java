@@ -85,7 +85,7 @@ public class FunctionDef implements JottTree {
     }
     tokens.remove(0);
     // Check Body
-    Body body = Body.parseBody(tokens, 0);
+    Body body = Body.parseBody(tokens, 0, funcId);
     body.isRoot = true;
     // Check }
     currToken = tokens.get(0);
@@ -114,7 +114,18 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return null;
+    if (funcId.equals("main")){
+      if (defParams != null) {
+        return "public static " + funcReturn.convertToJava(className) + " " + funcId + "(String args[], " + defParams.convertToJava(className) + "){" + className + " " + className.toUpperCase() + " = new " + className + "();"  + body.convertToJava(className) + "}";
+      } else {
+        return "public static " + funcReturn.convertToJava(className) + " " + funcId + "(String args[]){" + className + " " + className.toUpperCase() + " = new " + className + "();" + body.convertToJava(className) + "}";
+      }
+    }
+    if (defParams != null) {
+      return "public " + funcReturn.convertToJava(className) + " " + funcId + "(" + defParams.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+    } else {
+      return "public " + funcReturn.convertToJava(className) + " " + funcId + "(){" + body.convertToJava(className) + "}";
+    }
   }
 
   @Override

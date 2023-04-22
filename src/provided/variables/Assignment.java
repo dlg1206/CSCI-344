@@ -41,7 +41,7 @@ public class Assignment extends Stmt {
      * @param tokens Tokens to parse
      * @return new asmt object
      */
-    public static Assignment parseAsmt(ArrayList<Token> tokens) {
+    public static Assignment parseAsmt(ArrayList<Token> tokens, String functionCalling) {
         fileName = tokens.get(0).getFilename();
         lineNum = tokens.get(0).getLineNum();
         
@@ -54,7 +54,7 @@ public class Assignment extends Stmt {
         if(!tokens.get(0).getToken().equals("="))
             throw new ParsingError("Syntax Error", "=", tokens.get(0));
         tokens.remove(0);   // pop '='
-        Expression expr = Expression.parseExpression(tokens);
+        Expression expr = Expression.parseExpression(tokens, functionCalling);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
         // Adding to Symbol Table
         if (type != null) {
@@ -78,8 +78,13 @@ public class Assignment extends Stmt {
 
     @Override
     public String convertToJava(java.lang.String className) {
-        return null;
+        if (type != null) {
+            return this.type.convertToJava(className) + " " + id + " = " + this.expr.convertToJava(className) + this.endStmt.convertToJava(className);
+        }
+        return id + " = " + this.expr.convertToJava(className) + this.endStmt.convertToJava(className);
     }
+
+
 
     @Override
     public String convertToC() {

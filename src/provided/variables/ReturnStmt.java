@@ -18,10 +18,10 @@ public class ReturnStmt implements JottTree {
         this.numIndents = numIndent;
     }
 
-    public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens, int numIndent){
+    public static ReturnStmt parseReturnStmt(ArrayList<Token> tokens, int numIndent, String functionCalling){
         // Use symTable for check if the return 
         tokens.remove(0);
-        Expression expression = Expression.parseExpression(tokens);
+        Expression expression = Expression.parseExpression(tokens, functionCalling);
         EndStmt endStmt = EndStmt.parseEndStmt(tokens);
         return new ReturnStmt(expression, endStmt, numIndent);
     }

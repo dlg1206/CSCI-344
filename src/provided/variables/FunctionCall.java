@@ -8,18 +8,21 @@ import provided.symtable.SymTable;
 import provided.variables.parameter.Parameter;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class FunctionCall extends Stmt {
     String id;
     Parameter params;
+    String functionCalling;
 
-    public FunctionCall(String id, Parameter params) {
+    public FunctionCall(String id, Parameter params, String functionCalling) {
         this.id = id;
         this.params = params;
+        this.functionCalling = functionCalling;
     }
 
     public static Token currToken;
-    public static FunctionCall parseFuncCall(ArrayList<Token> tokens){
+    public static FunctionCall parseFuncCall(ArrayList<Token> tokens, String functionCalling){
         currToken = tokens.get(0); 
         if (currToken.getTokenType() != TokenType.ID_KEYWORD){
             throw new ParsingError("Syntax Error", "Id or Keyword", currToken);
@@ -35,7 +38,7 @@ public class FunctionCall extends Stmt {
         // might need to change this to use the parameters class?
         Parameter parameters = null;
         if (!tokens.get(0).getToken().equals("]")) {
-            parameters = Parameter.parseParams(tokens);
+            parameters = Parameter.parseParams(tokens, functionCalling);
         }
 
         if (!tokens.get(0).getToken().equals("]")) {
@@ -43,7 +46,7 @@ public class FunctionCall extends Stmt {
         }
 
         tokens.remove(0);
-        return new FunctionCall(id, parameters);
+        return new FunctionCall(id, parameters, functionCalling);
     }
 
     @Override
@@ -54,8 +57,24 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToJava(String className) {
-        if (params != null) return id + "( " + params.convertToJott() + " )";
-        return id + "()";
+
+        String returnString = "";
+        if (this.functionCalling.equals("main")){
+            returnString = returnString + className.toUpperCase(Locale.ROOT) + ".";
+        }
+        if (id.equals("print")){
+            if (params != null) return "System.out.println( " + params.convertToJava(className) + " )";
+            return "System.out.println()";
+        }
+        if (id.equals("concat")){
+            return params.getFirstParameter().convertToJava(className) + ".concat(" + params.getParams_t().convertToJava(className).substring(1) + ")";
+        }
+        if (id.equals("length")){
+            return params.convertToJava(className) + ".length()";
+        }
+        if (params != null) return returnString + id + "( " + params.convertToJava(className) + " )";
+
+        return returnString + id + "()";
     }
 
     @Override

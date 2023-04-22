@@ -23,10 +23,10 @@ public class Stmt implements JottTree {
         this.endStmt = endStmt;
     }
 
-    static Stmt parseStmt(ArrayList<Token> tokens){
+    static Stmt parseStmt(ArrayList<Token> tokens, String functionCalling){
         if (Type.isType(tokens.get(0))){
             if (tokens.get(2).getToken().equals("=")){
-                Assignment assignment = Assignment.parseAsmt(tokens);
+                Assignment assignment = Assignment.parseAsmt(tokens, functionCalling);
                 return new Stmt(assignment, null, null, null);
             } else {
                 VariableDeclaration variableDeclaration = VariableDeclaration.parseVar_dec(tokens);
@@ -34,10 +34,10 @@ public class Stmt implements JottTree {
             }
         } else if (tokens.get(0).getTokenType() == TokenType.ID_KEYWORD){
             if (tokens.get(1).getToken().equals("=")){
-                Assignment assignment = Assignment.parseAsmt(tokens);
+                Assignment assignment = Assignment.parseAsmt(tokens, functionCalling);
                 return new Stmt(assignment, null, null, null);
             } else {
-                FunctionCall functionCall = FunctionCall.parseFuncCall(tokens);
+                FunctionCall functionCall = FunctionCall.parseFuncCall(tokens, functionCalling);
                 EndStmt endStmt = EndStmt.parseEndStmt(tokens);
                 return new Stmt(null, null, functionCall, endStmt);
             }

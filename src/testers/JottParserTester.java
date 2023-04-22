@@ -105,6 +105,14 @@ public class JottParserTester {
             System.out.println("Resulting Jott Code:\n");
             System.out.println(jottCode);
 
+            String pythonCode = root.convertToPython();
+            System.out.println("Resulting Python Code:\n");
+            System.out.println(pythonCode);
+
+            String javaCode = root.convertToJava("Test");
+            System.out.println("Resulting Java Code:\n");
+            System.out.println(javaCode);
+
             // try {
             //     FileWriter writer = new FileWriter("parserTestCases/parserTestTemp.jott");
             //     if (jottCode == null) {

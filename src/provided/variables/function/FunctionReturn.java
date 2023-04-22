@@ -61,6 +61,9 @@ public class FunctionReturn implements JottTree {
 
     @Override
     public String convertToJava(String className) {
+        if (returnType.equals("Void")){
+            return "void";
+        }
         return returnType;
     }
 

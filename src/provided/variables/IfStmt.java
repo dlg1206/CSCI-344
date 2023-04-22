@@ -23,7 +23,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         elif = true;
     }
 
-    public static IfStmt parseIfStmt(ArrayList<Token> tokens, int numIndent) {
+    public static IfStmt parseIfStmt(ArrayList<Token> tokens, int numIndent, String functionCalling) {
         
         boolean elif = false;
         if (tokens.get(0).getToken().equals("if")){
@@ -37,7 +37,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         IfStmt IfStmt = new IfStmt(elif);
         if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
-            IfStmt.boolexp = BoolExp.parseBoolExp(tokens);
+            IfStmt.boolexp = BoolExp.parseBoolExp(tokens, functionCalling);
             if (tokens.get(0).getToken().equals("]")){
                 tokens.remove(0);
             }
@@ -51,7 +51,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
-            IfStmt.body = Body.parseBody(tokens, numIndent);
+            IfStmt.body = Body.parseBody(tokens, numIndent, functionCalling);
             if (tokens.get(0).getToken().equals("}")) {
                 tokens.remove(0);
             }
@@ -66,12 +66,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
         if (!elif) {
             if (tokens.get(0).getToken().equals("elseif")) {
                 tokens.remove(0);
-                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens, numIndent);
+                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens, numIndent, functionCalling);
             }
 
             if (tokens.get(0).getToken().equals("else")) {
                 tokens.remove(0);
-                IfStmt.elseStmt = Else.ParseElse(tokens, numIndent);
+                IfStmt.elseStmt = Else.ParseElse(tokens, numIndent, functionCalling);
             }
         } 
         // check token after the end of the body, check for an else/else if loop until no more or an else
@@ -81,6 +81,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToJott() {
         if (!elif) {
+            if (elifLst == null){
+                return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}" + elseStmt.convertToJott();
+            }
+            else if (elseStmt == null){
+                return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}";
+            }
             return "if[" + boolexp.convertToJott() + "]{" + body.convertToJott() + "}" + elifLst.convertToJott() + elseStmt.convertToJott();
         }
         else {
@@ -90,7 +96,18 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        if (!elif) {
+            if (elifLst == null){
+                return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}" + elseStmt.convertToJava(className);
+            }
+            else if (elseStmt == null){
+                return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+            }
+            return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}" + elifLst.convertToJava(className) + elseStmt.convertToJava(className);
+        }
+        else {
+            return "if(" + boolexp.convertToJava(className) + "){" + body.convertToJava(className) + "}";
+        }
     }
 
     @Override
@@ -107,10 +124,20 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToPython() {
         if (!elif) {
-            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + elseStmt.convertToPython();
+            String indents = "";
+            for (int x = 0; x < body.numIndent; x++){
+                indents += "\t";
+            }
+            if (elifLst == null){
+                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + indents + elseStmt.convertToPython();
+            }
+            else if (elseStmt == null){
+                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+            }
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + indents + elseStmt.convertToPython();
         }
         else {
-            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
+            return "elif " + boolexp.convertToPython() + ":\n" + body.convertToPython();
         }
     }
 

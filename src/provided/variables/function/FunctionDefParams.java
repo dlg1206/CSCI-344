@@ -77,7 +77,8 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToJava(String className) {
-    return null;
+    if (functionDefs_t != null) return firstType.convertToJava(className) + " " +  firstId + functionDefs_t.convertToJava(className);
+    return firstType.convertToJava(className) + " " + firstId;
   }
 
   @Override

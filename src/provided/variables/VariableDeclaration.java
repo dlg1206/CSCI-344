@@ -59,7 +59,7 @@ public class VariableDeclaration extends Stmt {
 
     @Override
     public java.lang.String convertToJava(java.lang.String className) {
-        return null;
+        return this.type.convertToJava(className) + " " + this.id + this.end_statement.convertToJava(className);
     }
 
     @Override

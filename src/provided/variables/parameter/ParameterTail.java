@@ -34,7 +34,7 @@ public class ParameterTail implements JottTree {
      * @param tokens Tokens to parse
      * @return new params_t object
      */
-    public static ParameterTail parseParams_t(ArrayList<Token> tokens){
+    public static ParameterTail parseParams_t(ArrayList<Token> tokens, String functionCalling){
     
         // base case
         if(tokens.get(0).getToken().equals("]")) 
@@ -45,8 +45,8 @@ public class ParameterTail implements JottTree {
             throw new ParsingError("Syntax Error", ",", tokens.get(0));
         tokens.remove(0);   // pop ","
 
-        Expression expr = Expression.parseExpression(tokens);
-        ParameterTail params_t = ParameterTail.parseParams_t(tokens);
+        Expression expr = Expression.parseExpression(tokens, functionCalling);
+        ParameterTail params_t = ParameterTail.parseParams_t(tokens, functionCalling);
 
         return new ParameterTail(expr, params_t);
 

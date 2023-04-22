@@ -29,20 +29,20 @@ public class Body implements JottTree{
 
     static Token currToken;
 
-    public static Body parseBody(ArrayList<Token> tokens, int numIndent){
+    public static Body parseBody(ArrayList<Token> tokens, int numIndent, String functionCalling){
         currToken = tokens.get(0);
         ArrayList<BodyStmt> bodyStmts = new ArrayList<>();
         ReturnStmt returnStmt = null;
         
         if (currToken.getToken().equals("return")) {
-            returnStmt = ReturnStmt.parseReturnStmt(tokens, numIndent + 1);
+            returnStmt = ReturnStmt.parseReturnStmt(tokens, numIndent + 1, functionCalling);
         } else if (
             Type.isType(currToken) || currToken.getTokenType() == TokenType.ID_KEYWORD || 
             currToken.getToken().equals("if") || currToken.getToken().equals("while")) {
-            BodyStmt bodyStmt = BodyStmt.parseBodyStmt(tokens, numIndent + 1);
+            BodyStmt bodyStmt = BodyStmt.parseBodyStmt(tokens, numIndent + 1, functionCalling);
             currToken = tokens.get(0);
             if ( isBodyStmt(currToken) ) {
-                Body recurBody = parseBody(tokens, numIndent);
+                Body recurBody = parseBody(tokens, numIndent, functionCalling);
                 bodyStmts = recurBody.bodyStmts;
                 returnStmt = recurBody.returnStmt;
             } 
@@ -68,7 +68,15 @@ public class Body implements JottTree{
 
     @Override
     public String convertToJava(String className) {
-        return null;
+        String result = "";
+        for (BodyStmt body: bodyStmts) {
+            result += body.convertToJava(className);
+        }
+
+        if (returnStmt != null){
+            result += returnStmt.convertToJava(className);
+        }
+        return result;
     }
 
     @Override

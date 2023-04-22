@@ -7,7 +7,7 @@ import provided.JottTree;
 import provided.Token;
 import java.util.ArrayList;
 
-public class JottCompiler {
+public class Jott {
     
     private static String helpString = 
         "Usage: java JottCompiler <source> <target> [language]\n"
