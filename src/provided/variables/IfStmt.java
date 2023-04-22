@@ -115,8 +115,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
         String str = "if ( " + boolexp.convertToC() + " ){\n" + body.convertToC() + "}";
 
         // append elif details if needed
-        if (elif)
-            str += elifLst.convertToC() + elseStmt.convertToC();
+        if(elif){
+            str += elifLst.convertToC();
+        }
+        if(elseStmt != null){
+            str += elseStmt.convertToC();
+        }
 
         return str;
     }
