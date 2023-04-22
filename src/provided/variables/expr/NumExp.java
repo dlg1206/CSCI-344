@@ -38,7 +38,7 @@ public class NumExp implements JottTree{
     }
 
     static Token currToken;
-    public static NumExp parseNumExp(ArrayList<Token> tokens) {
+    public static NumExp parseNumExp(ArrayList<Token> tokens, String functionCalling) {
         currToken = tokens.get(0);
         
         if (currToken.getTokenType() == TokenType.ID_KEYWORD) {
@@ -48,10 +48,10 @@ public class NumExp implements JottTree{
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
                 id = null;
-                FunctionCall functionCall = FunctionCall.parseFuncCall(tokens);
+                FunctionCall functionCall = FunctionCall.parseFuncCall(tokens, functionCalling);
                 Op op = Op.parseOp(tokens);
                 if (op != null) {
-                    NumExp nextNumExp = parseNumExp(tokens);
+                    NumExp nextNumExp = parseNumExp(tokens, functionCalling);
                     return new NumExp(functionCall, op, nextNumExp);
                 } else {
                     return new NumExp(functionCall);
@@ -60,7 +60,7 @@ public class NumExp implements JottTree{
                 tokens.remove(0);
                 Op op = Op.parseOp(tokens);
                 if (op != null) {
-                    NumExp nextNumExp = parseNumExp(tokens);
+                    NumExp nextNumExp = parseNumExp(tokens, functionCalling);
                     return new NumExp(id, op, nextNumExp);
                 }
                 
@@ -73,7 +73,7 @@ public class NumExp implements JottTree{
             Op op = Op.parseOp(tokens);
             
             if (op != null) {
-                NumExp nextNumExp = parseNumExp(tokens);
+                NumExp nextNumExp = parseNumExp(tokens, functionCalling);
                 return new NumExp(num, op, nextNumExp);
             }
             return new NumExp(num);

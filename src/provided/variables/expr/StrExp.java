@@ -23,7 +23,7 @@ public class StrExp implements JottTree{
 
     static Token currToken;
 
-    public static StrExp parseStrExp(ArrayList<Token> tokens) {
+    public static StrExp parseStrExp(ArrayList<Token> tokens, String functionCalling) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
             
@@ -35,7 +35,7 @@ public class StrExp implements JottTree{
             tokens.remove(0);
             if (lookAhead.getToken().equals("[")) {
                 // Func Call
-                return new StrExp(FunctionCall.parseFuncCall(tokens));
+                return new StrExp(FunctionCall.parseFuncCall(tokens, functionCalling));
             } 
             String id = currToken.getToken(); 
             tokens.remove(0);

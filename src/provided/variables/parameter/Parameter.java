@@ -36,13 +36,13 @@ public class Parameter implements JottTree {
      * @param tokens Tokens to parse
      * @return new params object
      */
-    public static Parameter parseParams(ArrayList<Token> tokens) {
+    public static Parameter parseParams(ArrayList<Token> tokens, String functionCalling) {
         // parse expression
-        Expression expr = Expression.parseExpression(tokens);
+        Expression expr = Expression.parseExpression(tokens, functionCalling);
         
         // 
         // parse params_t
-        ParameterTail params_t = ParameterTail.parseParams_t(tokens);   // will throw error if missing ","
+        ParameterTail params_t = ParameterTail.parseParams_t(tokens, functionCalling);   // will throw error if missing ","
 
         // Success
         return new Parameter(expr, params_t);

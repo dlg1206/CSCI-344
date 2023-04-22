@@ -45,7 +45,7 @@ public class BoolExp implements JottTree {
 
     static Token currToken; 
 
-    static public BoolExp parseBoolExp (ArrayList<Token> tokens) {
+    static public BoolExp parseBoolExp (ArrayList<Token> tokens, String functionCalling) {
         currToken = tokens.get(0);
         if (currToken.getToken().equals("True") || currToken.getToken().equals("False")) {
             // is Bool
@@ -56,13 +56,13 @@ public class BoolExp implements JottTree {
             // ID or N_EXP or Func Call
             // , ; ]
             Token lookAhead = tokens.get(1);
-            NumExp numExp1 = NumExp.parseNumExp(tokens);
+            NumExp numExp1 = NumExp.parseNumExp(tokens, functionCalling);
             
             if (numExp1.functionCall != null) {
                 RelOp relOp = RelOp.parseRelOp(tokens);
                 
                 if (relOp != null) {
-                    NumExp numExp2 = NumExp.parseNumExp(tokens);
+                    NumExp numExp2 = NumExp.parseNumExp(tokens, functionCalling);
                     return new BoolExp(numExp1, relOp, numExp2);
                 } else if (numExp1.nextNumExp == null){
                     return new BoolExp(numExp1.functionCall);
@@ -73,7 +73,7 @@ public class BoolExp implements JottTree {
                 RelOp relOp = RelOp.parseRelOp(tokens);
                 
                 if (relOp != null) {
-                    NumExp numExp2 = NumExp.parseNumExp(tokens);
+                    NumExp numExp2 = NumExp.parseNumExp(tokens, functionCalling);
                     return new BoolExp(numExp1, relOp, numExp2);
                 }
                 return new BoolExp(numExp1.idOrNum, true);

@@ -30,24 +30,24 @@ public class BodyStmt implements provided.JottTree {
         this.numIndents = numIndents;
     }
 
-    public static BodyStmt parseBodyStmt(ArrayList<Token> tokens, int numIndent){
+    public static BodyStmt parseBodyStmt(ArrayList<Token> tokens, int numIndent, String functionCalling){
         //ArrayList<JottTree> bodyStmts = new ArrayList<JottTree>();
             
             Token currToken = tokens.get(0);
             //process while token
             
             if(currToken.getToken().equals("while")){
-                BodyStmt bStmt = new BodyStmt(null, WhileStmt.parseWhileStmt(tokens, numIndent), null, numIndent);
+                BodyStmt bStmt = new BodyStmt(null, WhileStmt.parseWhileStmt(tokens, numIndent, functionCalling), null, numIndent);
                 bStmt.type = StmtType.WHILE;
                 return bStmt;
             }
             else if(currToken.getToken().equals("if")) {
-                BodyStmt bStmt = new BodyStmt(IfStmt.parseIfStmt(tokens, numIndent), null, null, numIndent);
+                BodyStmt bStmt = new BodyStmt(IfStmt.parseIfStmt(tokens, numIndent, functionCalling), null, null, numIndent);
                 bStmt.type = StmtType.IF;
                 return bStmt;
             }
             else {
-                BodyStmt bStmt = new BodyStmt(null, null, Stmt.parseStmt(tokens), numIndent);
+                BodyStmt bStmt = new BodyStmt(null, null, Stmt.parseStmt(tokens, functionCalling), numIndent);
                 bStmt.type = StmtType.OTHER;
                 return bStmt;
             } 

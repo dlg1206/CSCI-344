@@ -17,13 +17,13 @@ public class ElseIfLst implements JottTree {
         ifLst = new ArrayList<>();
     }
 
-    static ElseIfLst ParseElseIfLst(ArrayList<Token> tokens, int numIndent){
+    static ElseIfLst ParseElseIfLst(ArrayList<Token> tokens, int numIndent, String functionCalling){
 
         ElseIfLst elifLst = new ElseIfLst();
         boolean moreElIfs = true;
         while (moreElIfs){
             
-            elifLst.ifLst.add(IfStmt.parseIfStmt(tokens, numIndent));
+            elifLst.ifLst.add(IfStmt.parseIfStmt(tokens, numIndent, functionCalling));
 
             if (tokens.get(0).getToken().equals("elseif")){
                 tokens.remove(0);

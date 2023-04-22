@@ -25,20 +25,20 @@ public class Expression implements JottTree {
 
     public static Token currToken;
 
-    public static Expression parseExpression(ArrayList<Token> tokens) {
+    public static Expression parseExpression(ArrayList<Token> tokens, String functionCalling) {
         currToken = tokens.get(0);
         if (currToken.getTokenType() == TokenType.STRING) {
             
-            StrExp strExp = StrExp.parseStrExp(tokens);
+            StrExp strExp = StrExp.parseStrExp(tokens, functionCalling);
             type = new Type("String");
             return new Expression(strExp);
         } else if (currToken.getToken().equals("True") ||
                    currToken.getToken().equals("False")) {
-            BoolExp boolExp = BoolExp.parseBoolExp(tokens); 
+            BoolExp boolExp = BoolExp.parseBoolExp(tokens, functionCalling);
             type = new Type("Boolean");
             return new Expression(boolExp);
         } else {
-            NumExp numExp = NumExp.parseNumExp(tokens);
+            NumExp numExp = NumExp.parseNumExp(tokens, functionCalling);
             RelOp relOp = RelOp.parseRelOp(tokens);
             if(numExp.idOrNum != null && numExp.idOrNum.contains(".")) {
                 type = new Type("Double");
@@ -47,7 +47,7 @@ public class Expression implements JottTree {
                 type = new Type("Integer");
             }
             if (relOp != null) {
-                NumExp numExp2 = NumExp.parseNumExp(tokens);
+                NumExp numExp2 = NumExp.parseNumExp(tokens, functionCalling);
                 return new Expression(numExp, relOp, numExp2);
             }
             return new Expression(numExp) ;

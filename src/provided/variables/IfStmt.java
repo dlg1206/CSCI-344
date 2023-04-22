@@ -23,7 +23,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         elif = true;
     }
 
-    public static IfStmt parseIfStmt(ArrayList<Token> tokens, int numIndent) {
+    public static IfStmt parseIfStmt(ArrayList<Token> tokens, int numIndent, String functionCalling) {
         
         boolean elif = false;
         if (tokens.get(0).getToken().equals("if")){
@@ -37,7 +37,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
         IfStmt IfStmt = new IfStmt(elif);
         if (tokens.get(0).getToken().equals("[")){
             tokens.remove(0);
-            IfStmt.boolexp = BoolExp.parseBoolExp(tokens);
+            IfStmt.boolexp = BoolExp.parseBoolExp(tokens, functionCalling);
             if (tokens.get(0).getToken().equals("]")){
                 tokens.remove(0);
             }
@@ -51,7 +51,7 @@ public class IfStmt implements JottTree { // will need to extend body statement
 
         if (tokens.get(0).getToken().equals("{")){
             tokens.remove(0);
-            IfStmt.body = Body.parseBody(tokens, numIndent);
+            IfStmt.body = Body.parseBody(tokens, numIndent, functionCalling);
             if (tokens.get(0).getToken().equals("}")) {
                 tokens.remove(0);
             }
@@ -66,12 +66,12 @@ public class IfStmt implements JottTree { // will need to extend body statement
         if (!elif) {
             if (tokens.get(0).getToken().equals("elseif")) {
                 tokens.remove(0);
-                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens, numIndent);
+                IfStmt.elifLst = ElseIfLst.ParseElseIfLst(tokens, numIndent, functionCalling);
             }
 
             if (tokens.get(0).getToken().equals("else")) {
                 tokens.remove(0);
-                IfStmt.elseStmt = Else.ParseElse(tokens, numIndent);
+                IfStmt.elseStmt = Else.ParseElse(tokens, numIndent, functionCalling);
             }
         } 
         // check token after the end of the body, check for an else/else if loop until no more or an else
