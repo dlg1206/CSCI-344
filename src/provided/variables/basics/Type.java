@@ -46,7 +46,7 @@ public class Type implements JottTree {
                 return "int";
             }
             case "String" -> {
-                return "char";  // to be used for char array
+                return "char*";  // to be used for char array
             }
             case "Double" -> {
                 return "double";
