@@ -118,13 +118,17 @@ public class IfStmt implements JottTree { // will need to extend body statement
     @Override
     public String convertToPython() {
         if (!elif) {
+            String indents = "";
+            for (int x = 0; x < body.numIndent; x++){
+                indents += "\t";
+            }
             if (elifLst == null){
-                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\t" + elseStmt.convertToPython();
+                return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + indents + elseStmt.convertToPython();
             }
             else if (elseStmt == null){
                 return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython();
             }
-            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + "\t\t" + elseStmt.convertToPython();
+            return "if " + boolexp.convertToPython() + ":\n" + body.convertToPython() + "\n" + elifLst.convertToPython() + indents + elseStmt.convertToPython();
         }
         else {
             return "elif " + boolexp.convertToPython() + ":\n" + body.convertToPython();
