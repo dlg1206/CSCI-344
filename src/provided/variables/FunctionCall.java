@@ -89,16 +89,16 @@ public class FunctionCall extends Stmt {
                 //printf + type 
                 String paramType = params.getTypes().get(0);
                 if(paramType.equals("Boolean")){
-                    paramType = "%i";
+                    paramType = "%i\\n";
                 }
                 else if(paramType.equals("String")){
-                    paramType = "%s";
+                    paramType = "%s\\n";
                 }
                 else if(paramType.equals("Double")){
-                    paramType = "%d";
+                    paramType = "%d\\n";
                 }
                 else if(paramType.equals("Integer")){
-                    paramType = "%s";
+                    paramType = "%s\\n";
                 }
                 return "printf(\"" + paramType + "\", " + params.convertToC() + ")";
             }
