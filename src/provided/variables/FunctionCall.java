@@ -79,7 +79,34 @@ public class FunctionCall extends Stmt {
 
     @Override
     public String convertToC() {
-        // todo check for special function calls
+        if(this.id.equals("concat")){
+            //concat -> strcat
+            return "strcat(" + params.convertToC() + ")";
+        }
+        if(this.id.equals("print")){
+            if(params != null){
+                    System.out.println(params.convertToJott());
+                //printf + type 
+                String paramType = params.getTypes().get(0);
+                if(paramType.equals("Boolean")){
+                    paramType = "%i";
+                }
+                else if(paramType.equals("String")){
+                    paramType = "%s";
+                }
+                else if(paramType.equals("Double")){
+                    paramType = "%d";
+                }
+                else if(paramType.equals("Integer")){
+                    paramType = "%s";
+                }
+                return "printf(\"" + paramType + "\", " + params.convertToC() + ")";
+            }
+            return "printf()";
+        }
+        if(this.id.equals("length")){
+            //strlen
+        }
         return this.id + "( " + (params != null ? params.convertToC() : "") + " )";
     }
 

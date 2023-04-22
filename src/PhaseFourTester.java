@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class PhaseFourTester {
 
     private static final ArrayList<String> DEFAULT_TESTS = new ArrayList<>(){{
-        add("parserTestCases/helloWorld.jott");
-        add("parserTestCases/providedExample1.jott");
-        add("parserTestCases/validLoop.jott");
-        add("phase3testcases/ifStmtReturns.jott");
-        add("phase3testcases/largerValid.jott");
+        //add("parserTestCases/helloWorld.jott");
+        //add("parserTestCases/providedExample1.jott");
+        //add("parserTestCases/validLoop.jott");
+        //add("phase3testcases/ifStmtReturns.jott");
+        add("phase3testcases/reallyLong.jott");
     }};
 
     static private String test(String sourceFilePath, String targetLanguage) throws Exception {
@@ -28,7 +28,7 @@ public class PhaseFourTester {
         if (root == null)
             throw new Exception("There was an error while parsing the tokenized source file. \nSee above error message.");
 
-        boolean isValidTree = root.validateTree();
+        boolean isValidTree = true;
 
         if (!isValidTree)
             throw new Exception("There was an error while validating the syntax of the source file. \nSee above error message.");

@@ -107,8 +107,10 @@ public class Parameter implements JottTree {
 
         ArrayList<String> types = new ArrayList<>();
         types.add(expr.getType().type);
-        for (String type : params_t.getTypes()){
-            types.add(type);
+        if(params_t != null){
+            for (String type : params_t.getTypes()){
+                types.add(type);
+            }
         }
 
         return types;

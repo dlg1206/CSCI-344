@@ -89,8 +89,8 @@ public class Expression implements JottTree {
      */
     @Override
     public String convertToC() {
-        if (exp3 != null && exp2 != null) return exp1.convertToJott() + exp2.convertToJott() + exp3.convertToJott();
-        return exp1.convertToJott();
+        if (exp3 != null && exp2 != null) return exp1.convertToC() + exp2.convertToC() + exp3.convertToC();
+        return exp1.convertToC();
     }
 
     /**
