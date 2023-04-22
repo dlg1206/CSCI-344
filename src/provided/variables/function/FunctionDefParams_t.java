@@ -77,7 +77,14 @@ public class FunctionDefParams_t implements JottTree {
 
   @Override
   public String convertToC() {
-    return null;
+    StringBuilder result = new StringBuilder();
+    for (int i = 0; i < this.ids.size(); i++) {
+      result.append(", ")
+              .append(new Type(this.types.get(i)).convertToC())   // convert to type object to get value
+              .append(" ")
+              .append(this.ids.get(i));
+    }
+    return result.toString();
   }
 
   @Override

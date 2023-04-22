@@ -41,7 +41,24 @@ public class Type implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        // Assign DT based on Type
+        switch (this.type) {
+            // No native boolean type in C, 1 or 0
+            // regular int
+            case "Boolean", "Integer" -> {
+                return "int";
+            }
+            case "String" -> {
+                return "char*";  // to be used for char array
+            }
+            case "Double" -> {
+                return "double";
+            }
+            case "Void" -> {
+                return "void";
+            }
+        }
+        return null;    // prob cause error
     }
 
     @Override

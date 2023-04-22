@@ -44,7 +44,7 @@ public class FunctionReturn implements JottTree {
                 throw new ParsingError("Syntax Error", "Return Type", tokens.get(0));
             }
         } else {
-            typeString = type.convertToJott();
+            typeString = type.convertToJott();  // todo are we converting to jott here?
         }
 
         return new FunctionReturn(typeString);
@@ -69,7 +69,7 @@ public class FunctionReturn implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        return new Type(this.returnType).convertToC();      // account for C types
     }
 
     @Override

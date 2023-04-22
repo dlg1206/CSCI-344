@@ -83,7 +83,7 @@ public class FunctionDefParams implements JottTree {
 
   @Override
   public String convertToC() {
-    return null;
+    return firstType.convertToC() + " " + firstId + (functionDefs_t != null ? functionDefs_t.convertToC() : "" );
   }
 
   @Override

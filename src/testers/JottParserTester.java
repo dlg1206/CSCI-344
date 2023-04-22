@@ -101,7 +101,7 @@ public class JottParserTester {
             System.out.println(orginalJottCode);
             System.out.println();
 
-            String jottCode = root.convertToJott();
+            String jottCode = root.convertToPython();
             System.out.println("Resulting Jott Code:\n");
             System.out.println(jottCode);
 

@@ -130,7 +130,19 @@ public class FunctionDef implements JottTree {
 
   @Override
   public String convertToC() {
-    return null;
+    StringBuilder sb = new StringBuilder();
+    // set up start of function def
+    sb.append(new Type(this.funcReturn.returnType).convertToC())
+            .append(" ")
+            .append(this.funcId)
+            .append("(");
+
+    // call params if present
+    if (this.defParams != null) sb.append(this.defParams.convertToC());
+
+    // get body and return
+    sb.append(") {\n").append(this.body.convertToC()).append("}\n");
+    return sb.toString();
   }
 
   @Override

@@ -70,7 +70,9 @@ public class Parameter implements JottTree {
 
     @Override
     public String convertToC() {
-        return null;
+        if (this.params_t != null)
+            return this.expr.convertToC() + this.params_t.convertToC();
+        return this.expr.convertToC();
     }
 
     @Override
@@ -83,8 +85,8 @@ public class Parameter implements JottTree {
     @Override
     public boolean validateTree() {
 
-        System.out.println("GETTING TO PARAM");
-        System.out.println(this.expr.convertToJott());
+        //System.out.println("GETTING TO PARAM");
+        //System.out.println(this.expr.convertToJott());
         // Check tail if needed exists
         if(this.params_t != null)
             return this.expr.validateTree() && this.params_t.validateTree();
@@ -105,8 +107,10 @@ public class Parameter implements JottTree {
 
         ArrayList<String> types = new ArrayList<>();
         types.add(expr.getType().type);
-        for (String type : params_t.getTypes()){
-            types.add(type);
+        if(params_t != null){
+            for (String type : params_t.getTypes()){
+                types.add(type);
+            }
         }
 
         return types;

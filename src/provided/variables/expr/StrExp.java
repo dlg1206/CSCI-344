@@ -75,7 +75,8 @@ public class StrExp implements JottTree{
      */
     @Override
     public String convertToC() {
-        return null;
+        if (strOrId != null) return strOrId;
+        return functionCall.convertToC();
     }
 
     /**

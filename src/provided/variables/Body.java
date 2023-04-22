@@ -81,7 +81,18 @@ public class Body implements JottTree{
 
     @Override
     public String convertToC() {
-        return null;
+
+        StringBuilder bodyString = new StringBuilder();
+
+        // append all body statements
+        for (BodyStmt body: bodyStmts)
+            bodyString.append(body.convertToC()).append("\n");
+
+        // add return if one exists
+        if (returnStmt != null)
+            bodyString.append(returnStmt.convertToC());
+
+        return bodyString.toString();
     }
 
     @Override

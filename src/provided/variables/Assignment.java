@@ -84,9 +84,14 @@ public class Assignment extends Stmt {
         return id + " = " + this.expr.convertToJava(className) + this.endStmt.convertToJava(className);
     }
 
+
+
     @Override
     public String convertToC() {
-        return null;
+        if(type != null){
+            return this.type.convertToC() + " " + id + " = " + this.expr.convertToC() + this.endStmt.convertToC();
+        }
+        return id + " = " + this.expr.convertToC() + this.endStmt.convertToC();
     }
 
     @Override
